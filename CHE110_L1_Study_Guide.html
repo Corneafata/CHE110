@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CHE110 L1 Study Guide</title>
+<style>
+:root{--bg:#fafaf7;--card:#fff;--ink:#1d2330;--mute:#5c6577;--line:#e3e4ea;--acc:#2f5fd0;--accbg:#e8efff;--ok:#1b7f4b;--okbg:#e3f5ea;--bad:#b3261e;--badbg:#fde8e6;--warn:#8a5a00;--warnbg:#fff3d6;--class:#6a3fc4;--classbg:#efe8fb;--code:#f1f2f6}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--ok:#5fd394;--okbg:#17301f;--bad:#ff8a80;--badbg:#3a1c1a;--warn:#f5c15a;--warnbg:#3a2e12;--class:#b79cff;--classbg:#2a2144;--code:#242837}}
+:root[data-theme=dark]{--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--ok:#5fd394;--okbg:#17301f;--bad:#ff8a80;--badbg:#3a1c1a;--warn:#f5c15a;--warnbg:#3a2e12;--class:#b79cff;--classbg:#2a2144;--code:#242837}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}
+.layout{display:flex;max-width:1200px;margin:0 auto}
+nav{position:sticky;top:0;align-self:flex-start;height:100vh;overflow:auto;width:255px;flex:none;padding:18px 14px;border-right:1px solid var(--line)}
+nav h1{font-size:17px;margin:0 0 4px}
+nav small{color:var(--mute)}
+nav a{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--ink);font-size:14px}
+nav a:hover,nav a.on{background:var(--accbg);color:var(--acc)}
+nav .grp{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:14px 8px 4px}
+main{flex:1;min-width:0;padding:20px 28px 80px}
+section{margin-bottom:46px;scroll-margin-top:12px}
+h2{font-size:25px;margin:0 0 6px;border-bottom:2px solid var(--line);padding-bottom:6px}
+h3{font-size:18px;margin:22px 0 6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:1px 8px;border-radius:99px;vertical-align:middle;margin-right:6px}
+.t-class{background:var(--classbg);color:var(--class)}
+.t-slide{background:var(--accbg);color:var(--acc)}
+.t-exam{background:var(--warnbg);color:var(--warn)}
+.callout{border-left:4px solid var(--acc);background:var(--accbg);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0}
+.callout.class{border-color:var(--class);background:var(--classbg)}
+.callout.warn{border-color:var(--warn);background:var(--warnbg)}
+.callout.ok{border-color:var(--ok);background:var(--okbg)}
+.eq{background:var(--code);border-radius:10px;padding:10px 14px;margin:10px 0;font-family:Cambria Math,Georgia,serif;font-size:19px;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left}
+th{background:var(--code)}
+ul,ol{padding-left:22px}li{margin:3px 0}
+button,select,input{font:inherit;color:inherit}
+button{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:7px 14px;cursor:pointer}
+button.ghost{background:var(--code);color:var(--ink);border:1px solid var(--line)}
+input,select{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+input[type=number]{width:90px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:820px){nav{display:none}main{padding:16px}.grid2{grid-template-columns:1fr}}
+.res{font-size:15px}
+.fc{perspective:900px;height:170px;cursor:pointer;margin:10px 0}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.fc.flip .in{transform:rotateY(180deg)}
+.fc .f,.fc .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;border:1px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;padding:18px;text-align:center;font-size:18px}
+.fc .b{transform:rotateY(180deg);background:var(--accbg);font-size:16px}
+.q{margin:14px 0}.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--line);margin:5px 0}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}.opt.bad{background:var(--badbg);border-color:var(--bad)}
+.exp{display:none;margin-top:6px;font-size:14.5px;color:var(--mute)}.exp.show{display:block}
+.pk{display:inline-block;background:var(--warnbg);color:var(--warn);border-radius:99px;padding:3px 12px;font-weight:600;margin:3px}
+.printonly{display:none}
+@media print{
+ nav,.noprint,.fc,.q button,#toolbar{display:none!important}
+ .printonly{display:block}
+ body{background:#fff;color:#000;font-size:11.5pt}
+ :root{--bg:#fff;--card:#fff;--ink:#000}
+ main{padding:0}.layout{display:block}
+ .card,.callout,table,.eq{break-inside:avoid}
+ h2{break-after:avoid}
+}
+svg text{fill:var(--ink);font-family:system-ui}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav id="nav">
+ <h1>CHE110 · L1</h1><small>Nucleus → Rutherford → Bohr → Rydberg</small>
+ <div class="grp">Start here</div>
+ <a href="#exam">What the exam wants</a>
+ <a href="#flow">What was taught</a>
+ <div class="grp">Class notes</div>
+ <a href="#nucleus">1 · The nucleus and its forces</a>
+ <a href="#ruth">2 · Rutherford</a>
+ <a href="#bohr">3 · Bohr's model</a>
+ <a href="#levels">4 · Energy levels &amp; packets</a>
+ <a href="#emit">5 · Emission and ΔE = hc/λ</a>
+ <a href="#ryd">6 · Rydberg formula</a>
+ <a href="#ngrow">7 · Energy vs n, E vs λ</a>
+ <a href="#spec">8 · Spectrum</a>
+ <a href="#series">9 · The five series</a>
+ <a href="#recap">10 · End-of-class recap</a>
+ <div class="grp">Practice</div>
+ <a href="#calc">Rydberg calculator</a>
+ <a href="#worked">Worked problems</a>
+ <a href="#cards">Flashcards</a>
+ <a href="#quiz">Quiz &amp; drills</a>
+ <div class="grp">Reference</div>
+ <a href="#cheat">One-page cheat sheet</a>
+ <a href="#later">Not yet taught</a>
+ <div class="grp">&nbsp;</div>
+ <button class="ghost" onclick="toggleTheme()">Light / dark</button>
+ <button class="ghost" style="margin-top:6px" onclick="window.print()">Print / save PDF</button>
+</nav>
+<main>
+
+<section id="exam">
+<h2>CHE110 · Lecture 1 study guide</h2>
+<p>Built from the full lecture transcripts (L1P1, L1P2, L1P3), with your slides used only for context. Tags:
+<span class="tag t-class">TAUGHT IN CLASS</span> said in the lecture ·
+<span class="tag t-exam">EXAM SIGNAL</span> the lecturer said it is or will be tested ·
+<span class="tag t-slide">NOT YET TAUGHT</span> on the slides but the lecturer said it comes in a later class.</p>
+
+<h3>What the lecturer said about the exam</h3>
+<div class="callout warn">
+<ol style="margin:4px 0">
+<li><b>"Follow the class."</b> Questions come from what was taught in class, not from every line of the slides. The slides are extra detail "to clear your basics", not for line-by-line memorising.</li>
+<li><b>Maths will definitely appear</b> in the mid, the quiz and the final. The Rydberg-type problems are the core.</li>
+<li><b>Constants are given</b> in the question, with units: R<sub>H</sub>, h and c. <b>Do not memorise them.</b></li>
+<li><b>The formula is NOT given.</b> You must know it, <b>including the squares</b> (many students forget the square).</li>
+<li><b>No derivation needed.</b> "We don't need the formula derivation." Know what the formula gives you and where to apply it.</li>
+<li><b>Write the unit</b> with every answer. No unit conversion needed: leave λ in metres, ΔE in joules (no need for nm or Å unless asked).</li>
+<li><b>You may name n₁, n₂ as you like</b> (n₁/n₂, n_L/n_H, n_final/n_initial). What matters is placing the values correctly.</li>
+<li><b>MCQ, true/false and short questions</b> come from the conceptual points. "Written questions this big" (write the postulates, write the limitations) do <b>not</b> come from the models. You are not asked to memorise the postulates of Rutherford's and Bohr's models.</li>
+<li>Do not memorise masses, charges and mass numbers of electron, proton and neutron.</li>
+<li>Do not memorise which spectral region each series falls in.</li>
+<li>Band spectrum is <b>not</b> studied.</li>
+</ol></div>
+
+<h3>Points the lecturer flagged as likely questions</h3>
+<div class="card">
+<span class="pk">Strong nuclear force holds neutrons + protons</span>
+<span class="pk">Coulombic attraction holds electrons to nucleus</span>
+<span class="pk">Rutherford vs Maxwell are contradictory (true/false)</span>
+<span class="pk">Bohr: angular momentum is quantized</span>
+<span class="pk">n = orbit number, not orbital</span>
+<span class="pk">Which level is "initial"? (higher, n₂)</span>
+<span class="pk">Find the initial level from λ (Balmer 656 nm)</span>
+<span class="pk">Series order: Lyman, Balmer, Paschen, Brackett, Pfund</span>
+<span class="pk">Lower limit n₁ of each series</span>
+<span class="pk">Line vs continuous (white light = continuous)</span>
+<span class="pk">E and λ are inversely related</span>
+<span class="pk">Ionization energy is endothermic</span>
+<span class="pk">Electrons absorb only exact energy packets</span>
+<span class="pk">Nodes (explained in a later class)</span>
+</div>
+</section>
+
+<section id="flow">
+<h2>What was taught, in order</h2>
+<table>
+<tr><th>#</th><th>Topic</th><th>Core takeaway</th></tr>
+<tr><td>1</td><td>Recap of structure; forces in the atom</td><td>Atom is mostly empty. Nucleus is tiny but holds the mass. Strong nuclear force binds p and n. Neutron is the "peacemaker".</td></tr>
+<tr><td>2</td><td>Rutherford</td><td>Discovered the nucleus. Solar-system comparison. Fails: a moving electron should lose energy (Maxwell) and fall in.</td></tr>
+<tr><td>3</td><td>Bohr</td><td>Orbits. Fixed (quantized) energy. Angular momentum quantized: mvr = nh/2π. n = orbit number.</td></tr>
+<tr><td>4</td><td>Energy levels, packets</td><td>Electron absorbs only the exact energy gap. Gaps between levels are empty, like stairs.</td></tr>
+<tr><td>5</td><td>Emission</td><td>High → low releases ΔE = E₂ − E₁ = hc/λ. We measure emitted, not absorbed, energy.</td></tr>
+<tr><td>6</td><td>Rydberg formula</td><td>1/λ = R<sub>H</sub>(1/n₁² − 1/n₂²). n₂ = initial = higher. Then E = hc·(1/λ).</td></tr>
+<tr><td>7</td><td>Practice: ∞ → 1</td><td>λ = 9.1×10⁻⁸ m, ΔE = 2.18×10⁻¹⁸ J.</td></tr>
+<tr><td>8</td><td>Spectrum</td><td>Prism, VIBGYOR. Line vs continuous. Emission vs absorption. Lower λ means higher energy.</td></tr>
+<tr><td>9</td><td>Five series</td><td>Fixed lower level per series. Closest level → smallest ΔE → largest λ. Balmer practice question.</td></tr>
+<tr><td>10</td><td>Slide recap</td><td>Coulombic vs strong force, gold foil, ionization, semi-classical Bohr, line/continuous.</td></tr>
+</table>
+<div class="callout"><b>Not taught in this class (said "next class"):</b> Dalton's theory, isotopes and isobars, the max/min wavelength calculations, nodes in detail, de Broglie. They are in a separate section at the end. Treat them as preview only.</div>
+</section>
+
+<section id="nucleus">
+<h2>1 · The nucleus and its forces</h2>
+<span class="tag t-class">TAUGHT IN CLASS</span><span class="tag t-exam">EXAM SIGNAL</span>
+
+<h3>Picture of the atom</h3>
+<ul>
+<li>Neutrons and protons sit in the middle (the <b>nucleus</b>); electrons are around it.</li>
+<li><b>Space:</b> most of the atom is <b>empty</b>. The nucleus takes up very little space; the electrons take up most of it. (That is what Rutherford found.)</li>
+<li><b>Mass:</b> the nucleus is far heavier than the electrons.</li>
+</ul>
+
+<h3>Which force holds what?</h3>
+<table>
+<tr><th>What is held</th><th>Force</th></tr>
+<tr><td><b>Neutrons and protons</b> in the nucleus</td><td><b>Strong nuclear force</b></td></tr>
+<tr><td><b>Electrons and the nucleus</b></td><td><b>Coulombic (electrostatic) attraction</b> between negative and positive</td></tr>
+</table>
+<div class="callout warn"><b>The lecturer's words:</b> "In every semester a small question like this is given. With the help of which force do the neutron and proton stay together in the nucleus? … Strong nuclear force. Look, the force's name itself is nuclear force." A common wrong answer is magnetic force. Remember: <i>electron–nucleus = Coulombic; protons and neutrons = strong nuclear force.</i></div>
+
+<h3>Why is a strong force needed?</h3>
+<ul>
+<li>Protons carry <b>positive</b> charge. There is <b>no negative charge</b> inside the nucleus, so everything there is positive. Same charges <b>repel</b>.</li>
+<li>Many protons packed into a tiny space should fly apart. They don't, because the <b>strong nuclear force</b> binds them. The lecturer compared it to <b>glue</b> (gluon-like) that binds neutron and proton.</li>
+<li>The strong force works only over <b>very short distances</b> (a space too small to see). If you increase the distance between the particles, the strong force can no longer hold them.</li>
+<li>The nucleus does not break easily; ordinary atoms (H, N, O) stay intact. It breaks only if it is radioactive or hit by outside radiation. Very high atomic number → radioactive (a later topic).</li>
+<li>The <b>proton number defines the atom</b>. If the proton number changed, the atom would become a different element, so the atom does not let protons leave easily.</li>
+</ul>
+
+<h3>What are neutrons and protons made of?</h3>
+<p><b>Quarks</b> (charged, positive and negative). For the <b>neutron</b>, the quark charges add and subtract to <b>zero</b>, so it is "zero charge". For the <b>proton</b>, they add up to <b>+1</b>.</p>
+
+<h3>Role of the neutron: the "peacemaker"</h3>
+<ul>
+<li>Neutrons sit between protons and create a little distance, so repulsion is <b>reduced</b>.</li>
+<li><b>n : p ratio of 1 : 1 → stable.</b> Example: carbon-12 (6 p, 6 n).</li>
+<li><b>Too many neutrons</b> ("too many peacemakers become a problem") → the nucleus is <b>unstable and radioactive</b>. Example: carbon-14 (6 p, 8 n), used in <b>carbon dating</b>.</li>
+<li>Slight changes are fine: sodium has 11 p and 12 n. A ratio roughly between 1 and 1.5 causes no problem. Beyond that, the nucleus becomes radioactive.</li>
+<li>Excess protons <i>or</i> excess neutrons both lead to radioactivity ("if it is not balanced, it will be unstable").</li>
+</ul>
+<div class="eq">stable: n ≈ p (1 : 1 up to ~1.5 : 1) &nbsp;|&nbsp; unbalanced → radioactive</div>
+
+<h3>Notation</h3>
+<ul>
+<li>An atom is written with its <b>mass number</b> (top left) and <b>atomic/proton number</b> (bottom left).</li>
+<li><b>Mass number = protons + neutrons.</b> So neutrons = mass number − atomic number.</li>
+</ul>
+<table>
+<tr><th>Atom</th><th>Mass no.</th><th>Protons</th><th>Neutrons</th><th>n : p</th></tr>
+<tr><td>¹²C</td><td>12</td><td>6</td><td>6</td><td>1 : 1 (stable)</td></tr>
+<tr><td>¹⁴C</td><td>14</td><td>6</td><td>8</td><td>1.33 : 1 (radioactive)</td></tr>
+<tr><td>²³Na</td><td>23</td><td>11</td><td>12</td><td>1.09 : 1 (fine)</td></tr>
+</table>
+
+<h3>Electron mass</h3>
+<p>The electron's mass is about 10⁻³¹ kg. It is <b>negligible</b> compared with the neutron and proton, but <b>negligible is not the same as zero</b>. It has mass and it is countable. (You do not need to memorise the exact values.)</p>
+</section>
+
+<section id="ruth">
+<h2>2 · Rutherford's model</h2>
+<span class="tag t-class">TAUGHT IN CLASS</span><span class="tag t-exam">EXAM SIGNAL</span>
+
+<h3>What Rutherford did and said</h3>
+<ul>
+<li><b>Discovered the nucleus</b>: a positively charged centre. He is "the father of the nucleus".</li>
+<li>He did <b>not</b> determine the proton and neutron numbers (how many of each).</li>
+<li>He compared the atom to the <b>solar system</b>: electrons revolve like planets.</li>
+<li>He said something about electron motion but gave <b>no mathematical explanation</b>.</li>
+<li>Gold-foil experiment: he passed alpha particles through the atom (foil). <b>Most went straight through</b> → the atom is mostly empty space. (Full result in the recap, section 10.)</li>
+</ul>
+
+<h3>The problem with Rutherford's model</h3>
+<div class="callout class"><b>Lecturer's argument.</b> An electron keeps <b>revolving</b>, so it has velocity. A moving body eventually <b>loses energy</b>. Planets are neutral. An electron is a <b>charged</b> particle moving around an opposite charge (the nucleus), so as it loses energy it comes closer to the nucleus and finally <b>falls in</b>. Then the atom would no longer exist.<br><br>
+<b>Maxwell</b> said exactly this: a moving charged body loses energy and will fall. <b>Rutherford</b> implied it won't fall. Their statements are <b>contradictory</b>, and <b>Maxwell is correct</b> here.</div>
+<div class="callout warn"><b>True/false signal:</b> "Rutherford's and Maxwell's statements are opposite to each other" is <b>TRUE</b>. The lecturer noted that some students wrongly marked it false.</div>
+<ul>
+<li>The analogy itself is weak: planets are <b>neutral</b>, electrons are <b>charged</b>. "Their way and these guys' way will not be the same. Never will be."</li>
+<li>Many other things were not explained properly by the model.</li>
+<li>Its good aspect: the nucleus carries positive charge, and the atom is mostly empty space.</li>
+</ul>
+</section>
+
+<section id="bohr">
+<h2>3 · Bohr's model</h2>
+<span class="tag t-class">TAUGHT IN CLASS</span><span class="tag t-exam">EXAM SIGNAL</span>
+<p>Bohr "updated" Rutherford: the positive nucleus is fine, but the electron does not move randomly.</p>
+<ul>
+<li>Each electron has a <b>specific place</b>, called an <b>orbit</b>. The concept of orbit came first from Bohr's model. Orbits are <b>circular</b> (circumference 2πr).</li>
+<li>Hydrogen has <b>one orbit</b> occupied (one electron). Atoms beyond H and He have more orbits.</li>
+<li>In a specific orbit, the electron has a <b>fixed velocity and fixed energy</b>. The word for fixed is <b>quantized</b> (a <b>discrete</b> level of energy).</li>
+<li>Every electron in the first orbit has the same energy; the second orbit has a different, fixed energy; the third has another. Each orbit carries a fixed energy and never a random one.</li>
+<li>Orbits are also called <b>shells</b> or <b>energy shells</b>.</li>
+</ul>
+
+<h3>Electron: wave and particle</h3>
+<p>The electron has mass (particle nature) and revolves like a wave (wave nature). So it has a <b>dual nature</b>, like light. It is never 50/50: if one nature is very high, the other is negligible. (This comes from <b>de Broglie's theory</b>, taught later.)</p>
+
+<h3>Angular momentum is quantized <span class="tag t-exam">EXAM SIGNAL</span></h3>
+<div class="eq">m v r = n h / 2π &nbsp;&nbsp; n = 1, 2, 3, 4, …</div>
+<ul>
+<li>The electron has mass <i>m</i>, velocity <i>v</i> and radius <i>r</i> from the centre, so it has <b>angular momentum</b> (mvr).</li>
+<li>Bohr said angular momentum increases in steps of <b>h/2π</b>. <i>n</i> says how many times: once, twice, three times… so <i>n</i> is a <b>natural number</b> (positive integer starting from 1).</li>
+<li><b>MCQ / short-question signal:</b> "Which of the following did Bohr explain?" Answer: <b>angular momentum is quantized</b> (with respect to h/2π). He did <b>not</b> say "energy is quantized" directly; that came later. Quantizing one thing implies the rest (energy, velocity) get quantized.</li>
+<li>Bohr gave formulas but <b>couldn't explain beyond hydrogen</b>: for electrons in the 2nd, 3rd orbit he couldn't provide full mathematical expressions for energy and velocity.</li>
+</ul>
+<div class="callout class"><b>n is the ORBIT number, not the orbital.</b> The values of n always denote the <b>orbit number or energy-shell number</b>. An <i>orbital</i> is a specific place that stays within an orbit (taught later). The lecturer: "I am not teaching orbital, I am teaching orbit."</div>
+
+<h3>Planck's constant, h</h3>
+<ul>
+<li><b>h = 6.626 × 10⁻³⁴ J·s</b> (given in the exam).</li>
+<li>Role: a <b>parameter to compare the classical world with the quantum world</b>. Whenever you study anything about electrons in atoms, <b>h appears</b>, and everything is compared with it as the standard. It introduces you to the quantum world.</li>
+</ul>
+
+<h3>Why Bohr's model beats Rutherford's</h3>
+<p>It explains the electron's place mathematically: the place is not random, and a specific place means a fixed velocity and fixed energy.</p>
+<div class="callout"><b>"Semi-classical" model.</b> Bohr said angular momentum is quantized; the phrase "energy is quantized" came much later. His model is <b>semi-classical</b>: he couldn't fully move to quantum theory nor break out of classical theory. <b>But the concept of quantum theory started from him.</b> "Quantized" is only possible for tiny invisible objects like atoms; our everyday energy does not become quantized. (His full postulates and limitations are in the slides; a long written question on them is not expected.)</div>
+</section>
+
+<section id="levels">
+<h2>4 · Energy levels, packets and excitation</h2>
+<span class="tag t-class">TAUGHT IN CLASS</span><span class="tag t-exam">EXAM SIGNAL</span>
+<p>The lecturer's example. Level 1 has energy <b>20 J</b> and level 2 has <b>50 J</b>. To go from level 1 to level 2 you need <b>30 J</b>. Photon energy packets of <b>10, 20, 25, 30 and 40 J</b> are sent. Which does the electron absorb? Try it:</p>
+
+<div class="card noprint">
+ <div class="row"><b>Send a packet of:</b>
+  <button class="ghost" onclick="pk(10)">10 J</button><button class="ghost" onclick="pk(20)">20 J</button><button class="ghost" onclick="pk(25)">25 J</button><button class="ghost" onclick="pk(30)">30 J</button><button class="ghost" onclick="pk(40)">40 J</button>
+  <button class="ghost" onclick="pk(10,true)">10 J then 20 J</button></div>
+ <svg id="pkv" viewBox="0 0 520 200" width="100%" style="max-width:560px;margin-top:8px"></svg>
+ <div id="pkmsg" class="res"></div>
+</div>
+<div class="printonly">Level 1 = 20 J, level 2 = 50 J. Needed = 30 J. Only the 30 J packet is absorbed.</div>
+
+<ul>
+<li>Only <b>30 J</b> is absorbed. The electron <b>never absorbs random energy</b>. It receives <b>exactly</b> the amount that pushes it to the higher level in one go.</li>
+<li>You cannot make 30 J by combining 10 J + 20 J: it won't "sit taking 10 J, waiting for 20 J". Packets are not added up.</li>
+<li>These energy packets are <b>photons</b>.</li>
+<li><b>Quantized energy</b> = fixed energy carried, and fixed energy received.</li>
+</ul>
+<h3>Empty spaces between levels, and nodes</h3>
+<ul>
+<li>Like <b>stairs</b>: you stand on one step or another, never in the gap between. You cannot climb halfway.</li>
+<li>Electrons are never found in these in-between spaces. The electron exists as a <b>cloud</b> with non-uniform density. At the edge of the cloud the probability of finding the electron is very low, essentially <b>zero</b>. Such places are called <b>nodes</b>.</li>
+<li>The lecturer said <b>questions will come from nodes</b>, but nodes will be explained properly in a later class. For now: <b>node = place where the probability of finding an electron is (close to) zero.</b></li>
+</ul>
+<h3>Excited state and coming back</h3>
+<ul>
+<li>An electron that receives the right energy goes to a higher level: the <b>excited level</b>.</li>
+<li>Nobody stays excited for long, so the electron comes back to a lower level. It must <b>release the extra energy</b>: from 50 J to 20 J it releases <b>30 J</b>.</li>
+<li>For hydrogen's single electron, only the first shell is in use normally; the other shells exist but matter only when the electron is excited.</li>
+</ul>
+</section>
+
+<section id="emit">
+<h2>5 · Emission and ΔE = hc/λ</h2>
+<span class="tag t-class">TAUGHT IN CLASS</span><span class="tag t-exam">EXAM SIGNAL</span>
+<div class="eq">ΔE = E₂ − E₁ = hc / λ</div>
+<ul>
+<li><b>h</b> = Planck's constant; <b>c</b> = speed of light; <b>λ</b> = wavelength of the radiation.</li>
+<li>This gives the <b>energy difference</b>. (The lecturer noted this does not itself explain quantization; the formula for quantized energy is different.)</li>
+<li>Equivalent form: <b>ΔE = hc · (1/λ)</b>. If you already have 1/λ from the Rydberg formula, multiply by hc to get ΔE directly.</li>
+</ul>
+<h3>Why we measure differences, and why emission</h3>
+<ul>
+<li>We always talk in <b>differences</b>: temperature "15° higher", "2° higher than yesterday". Energy is the same: compare before and after.</li>
+<li>The <b>absorbed</b> energy can't be seen or directly measured. Analogy: a sponge soaks up water. You can only measure how much water it held when you <b>squeeze it out (release)</b>.</li>
+<li>What we measure is the <b>emitted</b> energy (high → low). That is why we see electromagnetic radiation: these are all <b>emission rays</b>.</li>
+<li>The emitted radiation can be anywhere in the electromagnetic spectrum: radio, microwave, infrared, UV, visible. If it is visible, we see it.</li>
+<li>Absorbed wavelength can be found with a <b>separate instrument</b>, but the standard formulas in this course are for <b>emitted light</b>.</li>
+</ul>
+</section>
+
+<section id="ryd">
+<h2>6 · The Rydberg formula</h2>
+<span class="tag t-class">TAUGHT IN CLASS</span><span class="tag t-exam">EXAM SIGNAL: maths in mid, quiz and final</span>
+<div class="eq">1/λ = R<sub>H</sub> ( 1/n₁² − 1/n₂² )</div>
+<ul>
+<li><b>R<sub>H</sub></b> = Rydberg constant = <b>1.097 × 10⁷ m⁻¹</b> (given in the exam, with units).</li>
+<li><b>n₁ = lower level</b> (final level). <b>n₂ = higher level</b> (initial level).</li>
+<li><b>Don't forget the squares!</b> They came from the derivation; you don't need the derivation, but you do need the squares.</li>
+<li>The formula gives the <b>λ of emitted light</b>.</li>
+</ul>
+<div class="callout class"><b>Why n₂ (the higher level) is "initial".</b> The transition (emission) <b>starts</b> at the higher level and <b>ends</b> at the lower. So <b>initial = higher = n₂</b>, <b>final = lower = n₁</b>. "Find the initial level" means find <b>n₂</b>.<br>
+The 1 and 2 are only serial labels: you can write them as n_lower / n_higher or n_final / n_initial. The lecturer said the naming is up to you; what matters is placing the values correctly.</div>
+<div class="callout"><b>Why the larger n goes in the second term.</b> The start is the larger value, and mathematically the larger value has to be kept later, otherwise the result becomes negative. If your 1/λ comes out negative, you swapped n₁ and n₂.</div>
+<h3>Reading a transition</h3>
+<p>"The transition is 4 to 1" means the electron goes <b>from n = 4 to n = 1</b>. The first number is the <b>initial (higher)</b>, the second is the <b>final (lower)</b>.</p>
+<h3>Z and hydrogen</h3>
+<p>The general formula has a <b>Z</b> (atomic number). For hydrogen Z = 1, so it is not needed. The lecturer: questions are always set for <b>hydrogen</b>, so ignore Z.</p>
+<h3>Procedure (use every time)</h3>
+<ol>
+<li>Identify n₂ (initial, higher) and n₁ (final, lower).</li>
+<li>Compute 1/λ = R<sub>H</sub>(1/n₁² − 1/n₂²). (1/∞ = 0.)</li>
+<li>Invert: λ = 1/(1/λ). Unit: m.</li>
+<li>Energy: ΔE = hc × (1/λ) in J.</li>
+<li>Write the unit with the answer.</li>
+</ol>
+<div class="callout warn"><b>Common slips:</b> forgetting the square · swapping n₁/n₂ (negative answer) · giving 1/λ instead of λ · forgetting the unit.</div>
+<h3>The lecturer's practice problem</h3>
+<div class="card">The transition is from <b>n = ∞ to n = 1</b>. Find λ and ΔE. (R<sub>H</sub> = 1.097×10⁷ m⁻¹, c = 3×10⁸ m/s, h = 6.626×10⁻³⁴ J·s.)<br>
+1/λ = R<sub>H</sub>(1/1² − 1/∞²) = R<sub>H</sub>(1 − 0) = 1.097×10⁷ m⁻¹ → <b>λ = 9.1×10⁻⁸ m</b><br>
+ΔE = hc/λ = (6.626×10⁻³⁴)(3×10⁸)(1.097×10⁷) = <b>2.18×10⁻¹⁸ J</b><br>
+<small>"1/infinity is zero." No unit conversion needed: leave λ in m.</small></div>
+</section>
+
+<section id="ngrow">
+<h2>7 · Energy rises with n; energy and wavelength</h2>
+<span class="tag t-class">TAUGHT IN CLASS</span>
+<h3>Why does a farther level have more energy?</h3>
+<ul>
+<li>Levels farther from the nucleus have <b>higher energy values</b>: E₁ &lt; E₂ &lt; E₃ … and n = ∞ has the most.</li>
+<li>The lecturer's reasoning (not about attraction!): to keep an electron far away, it has to be <b>carrying more energy</b>, "otherwise it won't be able to stay". The <b>value of that level itself is higher</b>. As n increases, velocity and radius also change, and the energy value rises.</li>
+<li>Don't confuse the two ideas: a far level has a higher <b>energy</b> but a <b>weaker attraction</b> to the nucleus. Higher energy does not mean higher attraction.</li>
+<li>It is <b>easier to ionize</b> an electron in a far level (weaker attraction), even though the level's energy is higher.</li>
+<li>No electrons have been seen beyond about the 7th shell for the 118 known elements.</li>
+</ul>
+<h3>Energy and wavelength are inversely related</h3>
+<p>From ΔE = hc/λ:</p>
+<ul>
+<li><b>Large ΔE → small λ</b> (higher frequency, more vibration).</li>
+<li><b>Small ΔE → large λ</b> (low frequency, slow waves).</li>
+<li>Biggest gap: n = ∞ to n = 1 → smallest λ. With n₁ fixed, <b>n₂ = ∞ gives the smallest λ</b>.</li>
+<li>Wavelength = distance from one crest to the next (or trough to trough). Lower wavelength → higher energy → higher frequency.</li>
+</ul>
+</section>
+
+<section id="spec">
+<h2>8 · Spectrum</h2>
+<span class="tag t-class">TAUGHT IN CLASS</span><span class="tag t-exam">MCQ / TRUE-FALSE SIGNAL</span>
+<ul>
+<li>White light through a <b>prism</b> gives <b>seven colours</b>: VIBGYOR (violet, indigo, blue, green, yellow, orange, red). All seven are inside white light. These sit in the <b>visible</b> range of the electromagnetic spectrum.</li>
+<li>Besides visible, radiation includes radio, microwave, infrared, UV and more; each has its own wavelength.</li>
+<li>A <b>spectrum</b> is understood in a broad sense, but also by specific lines.</li>
+</ul>
+<table>
+<tr><th>Type</th><th>Meaning</th><th>Example</th></tr>
+<tr><td><b>Line spectrum</b></td><td>A <b>specific wavelength</b> (a single colour per line). Lines are separate.</td><td>Atomic emission of H</td></tr>
+<tr><td><b>Continuous spectrum</b></td><td>A <b>series</b> of wavelengths, more than one, together without gaps.</td><td><b>White light</b>; red to violet</td></tr>
+<tr><td>Band spectrum</td><td>Not studied.</td><td>—</td></tr>
+</table>
+<div class="callout warn"><b>Exam signal:</b> "White light: line or continuous?" → <b>Continuous</b>. White light has all colours, not one.</div>
+<table>
+<tr><th></th><th>Emission spectrum</th><th>Absorption spectrum</th></tr>
+<tr><td>Origin</td><td>Light emitted (high → low)</td><td>Light absorbed by the substance</td></tr>
+<tr><td>What you see</td><td><b>Bright lines</b>, best seen on a <b>dark background</b></td><td><b>Dark</b> (no colour or radiation seen at those wavelengths); you place black on a white/coloured background</td></tr>
+</table>
+<p>The lecturer said the background detail was only to help you understand ("these don't come in questions"). The conceptual statements (line vs continuous, emission bright vs absorption dark) can appear as true/false or MCQ.</p>
+<ul>
+<li>All the hydrogen series (Lyman, Balmer…) are <b>emission</b> series, so the transition is <b>high → low</b>.</li>
+</ul>
+</section>
+
+<section id="series">
+<h2>9 · The five series</h2>
+<span class="tag t-class">TAUGHT IN CLASS</span><span class="tag t-exam">EXAM SIGNAL: know the order</span>
+<div class="callout ok"><b>Know the sequence</b> (the question will NOT give you n₁): <b>Lyman, Balmer, Paschen, Brackett, Pfund</b> = lower limit <b>n₁ = 1, 2, 3, 4, 5</b>.<br>
+Mnemonic: <b>L</b>ong <b>B</b>efore <b>P</b>eople <b>B</b>ecame <b>P</b>unctual.</div>
+<table>
+<tr><th>Series</th><th>Lower (final) level n₁</th><th>Electrons come from n₂ =</th></tr>
+<tr><td>Lyman</td><td><b>1</b></td><td>2, 3, 4, … ∞</td></tr>
+<tr><td>Balmer</td><td><b>2</b></td><td>3, 4, 5, … ∞</td></tr>
+<tr><td>Paschen</td><td><b>3</b></td><td>4, 5, 6, … ∞</td></tr>
+<tr><td>Brackett</td><td><b>4</b></td><td>5, 6, … ∞</td></tr>
+<tr><td>Pfund</td><td><b>5</b></td><td>6, 7, … ∞</td></tr>
+</table>
+<h3>Why does a series have a lower limit?</h3>
+<p>In the lecturer's words: an electron sent to a high level can fall to <i>any</i> lower level (10 → 9, 9 → 7, 7 → 2…), which is random. Balmer instead <b>sent electrons up and fixed the lower level at 2</b>, so every transition from a higher level ends at 2 (3→2, 4→2, … ∞→2). Paschen fixed level 3; Lyman fixed level 1. Each series has a <b>lower limit</b> and "didn't work randomly". Each transition releases energy, so each fixed level gives a spectrum series.</p>
+<h3>Maximum and minimum wavelength (idea taught; the maths is next class)</h3>
+<ul>
+<li>Within a series, the transition from the <b>closest level</b> (3→2 in Balmer; 2→1 in Lyman) has the <b>smallest energy difference</b> → <b>maximum λ</b>.</li>
+<li>The transition from <b>infinity</b> has the <b>largest</b> energy difference → <b>minimum λ</b>.</li>
+</ul>
+<h3>Class question: find the initial level</h3>
+<div class="card">The wavelength of a line in the <b>Balmer series</b> is 6.56×10⁻⁷ m. Find the initial energy level.<br>
+The initial level is <b>n₂</b> (the higher). Balmer → n₁ = 2.<br>
+1/λ = 1/(6.56×10⁻⁷) = 1.524×10⁶ m⁻¹<br>
+1.524×10⁶ = 1.097×10⁷ (1/4 − 1/n₂²) → 1/4 − 1/n₂² = 0.1389 → 1/n₂² = 0.1111 → <b>n₂ = 3</b>. The transition is 3 → 2.</div>
+<p><small>The lecturer said you don't need to memorise the spectral region of each series. (In passing: Lyman is in the ultraviolet, Balmer in the visible, the rest infrared. The lecturer misspoke "infrared" for Lyman in class; it is not needed for the exam.)</small></p>
+</section>
+
+<section id="recap">
+<h2>10 · End-of-class recap (from the slides)</h2>
+<span class="tag t-class">TAUGHT IN CLASS</span>
+<ul>
+<li><b>Two facts to remember:</b> electrons and nucleus are attracted by <b>Coulombic attraction</b>; protons and neutrons stay together by the <b>strong nuclear force</b>.</li>
+<li><b>Gold foil (slide picture):</b> the green balls are alpha particles. Three conclusions on the slide: most α pass through undeflected; some scatter at large angles; a very small number rebound by <b>180°</b>. The nucleus occupies a tiny space and is positive, and α is also positive, so like charges repel and the α goes back. Only 2–3 in a hundred or two hundred rebound in the picture. (The lecturer also described the deflected ones as being affected by the charges in the atom; the key idea is that α particles are positive.)</li>
+<li><b>Electron stays in place</b> because the inward pull (the centre attracts) and the outward force from its motion balance each other.</li>
+<li><b>Ionization:</b> to remove an electron you must give energy from outside, and something must also be ready to accept it. <b>Ionization energy is endothermic.</b> The orbit has a specific energy, so you must supply energy from outside before the electron leaves. Example: sodium gives an electron and becomes stable (octet) only because another atom takes it.</li>
+<li><b>Bohr:</b> angular momentum quantized; "energy quantized" came much later; <b>semi-classical</b> model; quantum theory started from him.</li>
+<li><b>Spectrum:</b> line = specific wavelengths, separate. Continuous = all wavelengths together (red to violet). White light is continuous.</li>
+<li>The lecturer joked that chemistry has exceptions (Kota Factory), because invisible things can behave differently in different situations.</li>
+</ul>
+<div class="callout"><b>Reading strategy from the lecturer:</b> read only as much as was taught in class. The slides have extra detail so you can clear your basics; understand them once, no line-by-line memorising.</div>
+</section>
+
+<section id="calc">
+<h2>Rydberg calculator</h2>
+<div class="card noprint">
+ <div class="row">
+  <label>n₂ (initial/higher) <input id="n2" type="number" min="2" value="3"></label>
+  <label>n₁ (final/lower) <input id="n1" type="number" min="1" value="2"></label>
+  <label><input type="checkbox" id="inf"> n₂ = ∞</label>
+ </div>
+ <div class="res" id="out" style="margin-top:10px"></div>
+ <svg id="lv" viewBox="0 0 520 300" width="100%" style="max-width:620px;margin-top:8px" role="img" aria-label="Hydrogen energy levels with the chosen transition"></svg>
+ <small style="color:var(--mute)">Emission, hydrogen (Z = 1). Uses R<sub>H</sub> = 1.097×10⁷ m⁻¹, h = 6.626×10⁻³⁴ J·s, c = 3×10⁸ m/s.</small>
+</div>
+<div class="printonly">Use the procedure in section 6 to compute λ and ΔE (the interactive calculator is in the web version).</div>
+</section>
+
+<section id="worked">
+<h2>Worked problems</h2>
+<p>Constants (given in the exam): R<sub>H</sub> = 1.097×10⁷ m⁻¹, h = 6.626×10⁻³⁴ J·s, c = 3×10⁸ m/s. Answers in metres and joules; no conversion needed.</p>
+<div class="card"><b>1. (Class) ∞ → 1.</b> 1/λ = R<sub>H</sub>(1 − 0) → λ = 9.1×10⁻⁸ m; ΔE = hc/λ = 2.18×10⁻¹⁸ J.</div>
+<div class="card"><b>2. (Class) Balmer line, λ = 6.56×10⁻⁷ m. Find the initial level.</b> n₂ = 3 (see section 9).</div>
+<div class="card"><b>3. 3 → 2.</b> 1/λ = R(1/4 − 1/9) = 5R/36 = 1.524×10⁶ m⁻¹ → λ = 6.56×10⁻⁷ m. ΔE = hc/λ = (6.626×10⁻³⁴)(3×10⁸)/(6.56×10⁻⁷) = 3.03×10⁻¹⁹ J.</div>
+<div class="card"><b>4. 4 → 2 (Balmer).</b> 1/λ = R(1/4 − 1/16) = 3R/16 = 2.057×10⁶ m⁻¹ → λ = 4.86×10⁻⁷ m. ΔE = 4.09×10⁻¹⁹ J.</div>
+<div class="card"><b>5. 4 → 1 (Lyman).</b> 1/λ = R(1 − 1/16) = 15R/16 = 1.028×10⁷ m⁻¹ → λ = 9.72×10⁻⁸ m. ΔE = 2.04×10⁻¹⁸ J.</div>
+<div class="card"><b>6. 5 → 3 (Paschen).</b> 1/λ = R(1/9 − 1/25) = 16R/225 = 7.80×10⁵ m⁻¹ → λ = 1.282×10⁻⁶ m. ΔE = 1.55×10⁻¹⁹ J.</div>
+<div class="card"><b>7. Smallest λ in Balmer</b> (n₂ = ∞): 1/λ = R/4 → λ = 4/R = 3.65×10⁻⁷ m. <b>Largest λ in Lyman</b> (2 → 1): 1/λ = 3R/4 → λ = 4/(3R) = 1.215×10⁻⁷ m. <small>The lecturer said these come in the next class.</small></div>
+<div class="card"><b>8. Packet problem (class).</b> E₁ = 20 J, E₂ = 50 J → need 30 J. Only the 30 J packet is absorbed. On de-excitation 50 → 20 releases 30 J.</div>
+<div class="callout warn"><b>Check your answer:</b> bigger gap → smaller λ. ∞→1 gives about 9.1×10⁻⁸ m, the shortest for hydrogen. If your λ for 3→2 isn't about 6.56×10⁻⁷ m, recheck.</div>
+</section>
+
+<section id="cards">
+<h2>Flashcards</h2>
+<div class="noprint">
+<div class="row"><button class="ghost" onclick="fcPrev()">← Prev</button><span id="fcn"></span><button class="ghost" onclick="fcNext()">Next →</button><button class="ghost" onclick="fcShuf()">Shuffle</button></div>
+<div class="fc" id="fc" onclick="this.classList.toggle('flip')"><div class="in"><div class="f" id="fcf"></div><div class="b" id="fcb"></div></div></div>
+<small style="color:var(--mute)">Click the card to flip it.</small>
+</div>
+<div class="printonly" id="fcprint"></div>
+</section>
+
+<section id="quiz">
+<h2>Quiz &amp; drills</h2>
+<div class="noprint">
+<div class="row"><button onclick="resetQuiz()">Restart</button><span id="score"></span></div>
+<div id="qbox"></div>
+<h3>Numerical drill 1: find λ</h3>
+<div class="card" id="drill"></div>
+<h3>Numerical drill 2: find the initial level (like the class question)</h3>
+<div class="card" id="drill2"></div>
+</div>
+<div class="printonly" id="quizprint"></div>
+</section>
+
+<section id="cheat">
+<h2>One-page cheat sheet</h2>
+<div class="card">
+<div class="grid2">
+<div><b>Forces</b>
+<ul><li>Neutron + proton: <b>strong nuclear force</b></li><li>Electron + nucleus: <b>Coulombic attraction</b></li><li>Neutron = peacemaker; n:p ≈ 1:1 stable; too many n → radioactive (C-14)</li></ul>
+<b>Models</b>
+<ul><li>Rutherford: nucleus (+), mostly empty, solar system. Fails: a moving charge loses energy (Maxwell ✔), falls in.</li><li>Bohr: orbits, fixed (quantized) energy, <b>angular momentum quantized</b>: mvr = nh/2π, n = orbit no. (not orbital). Semi-classical.</li></ul>
+<b>Energy</b>
+<ul><li>Absorb exactly ΔE, never random packets</li><li>High → low = emission</li><li>Energy ↑ with n</li><li>E ∝ 1/λ</li><li>Ionization: endothermic</li></ul></div>
+<div><b>Formulas</b>
+<ul><li>mvr = nh/2π</li><li>ΔE = E₂ − E₁ = hc/λ = hc·(1/λ)</li><li><b>1/λ = R<sub>H</sub>(1/n₁² − 1/n₂²)</b>, n₂ &gt; n₁ (initial = n₂)</li></ul>
+<b>Given in exam:</b> R<sub>H</sub> = 1.097×10⁷ m⁻¹, h = 6.626×10⁻³⁴ J·s, c = 3×10⁸ m/s. <b>Not given:</b> the formula.
+<ul><li>Write units. No conversion needed.</li><li>1/∞ = 0. Don't forget squares.</li></ul>
+<b>Series (n₁)</b>: Lyman 1 · Balmer 2 · Paschen 3 · Brackett 4 · Pfund 5.<br>
+Min λ: from ∞. Max λ: from the nearest level.<br>
+<b>Spectrum:</b> line = specific λ; continuous = many λ (white light); emission = bright lines; absorption = dark.</div></div>
+</div>
+</section>
+
+<section id="later">
+<h2>Not yet taught: preview only</h2>
+<div class="callout warn">The lecturer said these come in the <b>next class</b>. They are on your slides (Lecture 1 and Lecture 2–3). Don't study them in depth until the lecture; this is the skeleton so the words don't surprise you.</div>
+<table>
+<tr><th>Topic</th><th>Skeleton</th></tr>
+<tr><td>Dalton</td><td>Atoms are indivisible and indestructible; atoms of an element are identical; compounds have fixed ratios; reactions rearrange atoms. Laws: conservation of mass and constant composition. Limitations: atoms divisible; isotopes; isobars; atom vs molecule.</td></tr>
+<tr><td>Isotopes / isobars / isotones</td><td>Same Z / same A / same N.</td></tr>
+<tr><td>Thomson</td><td>Cathode rays → electron. Plum-pudding model.</td></tr>
+<tr><td>Orbit vs orbital, nodes</td><td>Orbit: fixed circular path. Orbital: 3-D region where the probability of finding the electron is about 90–95%; s, p, d, f. Node: probability near zero.</td></tr>
+<tr><td>de Broglie, Heisenberg, Schrödinger</td><td>Wave nature of the electron (dual nature); uncertainty principle; wave function ψ, with ψ² the probability.</td></tr>
+<tr><td>Quantum numbers</td><td>n (size/energy), l (shape, 0 to n−1), mₗ (orientation, −l…+l), mₛ (±½). Slide check: 2p ✓, 2d ✗, 3d ✓, 1p ✗; n = 0 invalid; l = 2 with mₗ = +3 invalid.</td></tr>
+<tr><td>Electron configuration</td><td>Pauli exclusion, Aufbau (n + l rule), Hund's rule.</td></tr>
+</table>
+</section>
+
+</main>
+</div>
+
+<script>
+const R=1.097e7,h=6.626e-34,c=3e8;
+const $=id=>document.getElementById(id);
+function toggleTheme(){const r=document.documentElement;const d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'}
+const links=[...document.querySelectorAll('#nav a')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-20% 0px -70% 0px'});
+document.querySelectorAll('section').forEach(s=>io.observe(s));
+
+/* packet game */
+function pk(e,combo){
+ const need=30;let msg,up=false;
+ if(combo){msg='10 J is not enough, and the electron does not "save" it. It is not absorbed. Then 20 J is not enough either. Packets are never added up. Result: the electron stays at level 1.'}
+ else if(e===need){up=true;msg='<b style="color:var(--ok)">30 J is exactly the gap: absorbed!</b> The electron jumps to level 2 (excited). Coming back down, it releases 30 J.'}
+ else msg=`<b style="color:var(--bad)">${e} J is not equal to the gap (30 J): NOT absorbed.</b> The electron never accepts random energy.`;
+ $('pkmsg').innerHTML=msg;
+ const y1=150,y2=50;
+ $('pkv').innerHTML=`<line x1="120" x2="400" y1="${y1}" y2="${y1}" stroke="currentColor" stroke-width="3"/><line x1="120" x2="400" y1="${y2}" y2="${y2}" stroke="currentColor" stroke-width="3"/>
+ <text x="110" y="${y1+5}" text-anchor="end">Level 1 · 20 J</text><text x="110" y="${y2+5}" text-anchor="end">Level 2 · 50 J</text>
+ <text x="415" y="${(y1+y2)/2+5}" font-size="13">gap = 30 J</text>
+ <circle cx="260" cy="${up?y2-10:y1-10}" r="9" fill="#2f5fd0"/><text x="260" y="${up?y2-26:y1-26}" text-anchor="middle" font-size="12">e⁻</text>
+ <text x="40" y="190" font-size="13">packet sent: ${combo?'10 J, then 20 J':e+' J'}</text>`}
+pk(30);
+
+/* calculator */
+function calc(){
+ let n1=+$('n1').value,n2=$('inf').checked?Infinity:+$('n2').value;
+ const out=$('out');
+ if(!(n1>=1)||!(n2>n1)){out.innerHTML='<span style="color:var(--bad)">Need n₂ &gt; n₁ ≥ 1 (the higher level is n₂, the initial level).</span>';draw(1,2,true);return}
+ const inv=R*(1/(n1*n1)-(isFinite(n2)?1/(n2*n2):0)),lam=1/inv,E=h*c/lam;
+ const sn={1:'Lyman',2:'Balmer',3:'Paschen',4:'Brackett',5:'Pfund'}[n1]||('n₁ = '+n1);
+ out.innerHTML=`<b>Transition ${isFinite(n2)?n2:'∞'} → ${n1}</b> (emission)<br>
+ 1/λ = R<sub>H</sub>(1/${n1}² − ${isFinite(n2)?'1/'+n2+'²':'1/∞'}) = <b>${inv.toExponential(4)} m⁻¹</b><br>
+ λ = <b>${lam.toExponential(3)} m</b><br>
+ ΔE = hc/λ = <b>${E.toExponential(3)} J</b><br>
+ Series: <b>${sn}</b>`;
+ draw(n1,n2,false)}
+function draw(n1,n2,bad){
+ const s=$('lv');let t='';const X0=70,X1=330,top=20,bot=270;
+ const Y=n=>top+(1/(n*n))*0+((1-1/(n*n)))*(bot-top)*-1+(bot-top);
+ // level n sits at depth proportional to -(-1/n^2): n=1 bottom, n=inf top
+ const Yn=n=>top+(1/(n*n))*0+(bot-top)*(1/(n*n))*-1+(bot-top)*1-(bot-top)*0;
+ const yy=n=>top+(bot-top)*(1-(1-1/(n*n)));
+ for(let n=1;n<=7;n++){const y=top+(bot-top)*(1/(n*n));t+=`<line x1="${X0}" x2="${X1}" y1="${y}" y2="${y}" stroke="currentColor" stroke-opacity=".55" stroke-width="2"/><text x="${X0-8}" y="${y+4}" text-anchor="end" font-size="12">n=${n}</text>`}
+ t+=`<line x1="${X0}" x2="${X1}" y1="${top}" y2="${top}" stroke="currentColor" stroke-dasharray="4 3"/><text x="${X0-8}" y="${top+4}" text-anchor="end" font-size="12">n=∞</text>`;
+ if(!bad){const ya=isFinite(n2)&&n2<=7?top+(bot-top)*(1/(n2*n2)):top,yb=top+(bot-top)*(1/(Math.min(n1,7)**2));const x=(X0+X1)/2;
+  t+=`<defs><marker id="ah" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#d6452f"/></marker></defs><line x1="${x}" x2="${x}" y1="${ya}" y2="${yb-6}" stroke="#d6452f" stroke-width="3" marker-end="url(#ah)"/><text x="${x+12}" y="${(ya+yb)/2}" font-size="13" style="fill:#d6452f">photon emitted</text>`}
+ s.innerHTML=t}
+['n1','n2','inf'].forEach(i=>$(i).addEventListener('input',calc));calc();
+
+/* flashcards */
+const cards=[
+["Which force holds neutrons and protons together?","The strong nuclear force (like glue). Not magnetic."],
+["Which force holds electrons to the nucleus?","Coulombic (electrostatic) attraction."],
+["Why is a strong force needed in the nucleus?","Protons are all positive and repel; there is no negative charge inside. The strong force overcomes this over very short distances."],
+["What are neutrons and protons made of?","Quarks. Neutron's quark charges sum to 0; proton's to +1."],
+["Role of the neutron?","'Peacemaker': sits between protons, adds distance, reduces repulsion."],
+["Stable n : p ratio?","About 1 : 1 (e.g. C-12: 6 p, 6 n); slightly above is OK (Na: 11 p, 12 n). Far off means radioactive."],
+["Why is C-14 radioactive?","6 protons, 8 neutrons: too many neutrons, ratio not balanced. Used in carbon dating."],
+["Mass number = ?","Protons + neutrons."],
+["Rutherford discovered?","The nucleus (positive centre). He did not give the numbers of protons and neutrons."],
+["Rutherford's analogy?","Solar system: electrons revolve like planets."],
+["Rutherford's main problem?","A moving charged electron loses energy and would fall into the nucleus (Maxwell). Planets are neutral, electrons are charged."],
+["True or false: Rutherford and Maxwell's statements are contradictory.","TRUE. Maxwell is correct."],
+["What did Bohr introduce?","Orbits: specific places for electrons, with fixed (quantized) energy and velocity."],
+["What did Bohr say is quantized?","Angular momentum: mvr = nh/2π. (Energy quantization came later.)"],
+["What is n in mvr = nh/2π?","Orbit number (energy shell), natural number 1, 2, 3… NOT orbital."],
+["What is h and its role?","Planck's constant, 6.626×10⁻³⁴ J·s. Parameter linking the classical and quantum worlds."],
+["Why is Bohr's model 'semi-classical'?","It quantizes angular momentum but couldn't fully leave classical physics; but quantum theory started from it."],
+["Does the electron have mass?","Yes (~10⁻³¹ kg). Negligible compared with p and n, but not zero."],
+["Dual nature of the electron?","Particle (has mass) and wave. Never 50/50 (de Broglie, later)."],
+["Level 1 = 20 J, level 2 = 50 J. Which packet is absorbed?","30 J only. Never random energy; packets are not added (10 + 20 doesn't work)."],
+["What is a node?","A place where the probability of finding an electron is (close to) zero. Detailed later."],
+["Excited electron comes back. What happens to the energy?","It releases the energy difference as radiation (50 → 20 J releases 30 J)."],
+["Energy-difference formula?","ΔE = E₂ − E₁ = hc/λ = hc·(1/λ)."],
+["Why do we measure emitted, not absorbed, energy?","Absorbed energy can't be seen or measured directly (sponge analogy); released energy can."],
+["Rydberg formula?","1/λ = R_H(1/n₁² − 1/n₂²). n₁ lower/final, n₂ higher/initial. Squares!"],
+["Which level is 'initial' for emission?","The higher level, n₂."],
+["Is the formula given in the exam? The constants?","Formula: NO, learn it. Constants (R_H, h, c) with units: YES."],
+["Is formula derivation needed?","No."],
+["Do you convert λ to nm?","No. Write whatever unit comes out (m, J), but always write the unit."],
+["Why can Z be ignored?","For hydrogen Z = 1; questions are about hydrogen."],
+["λ and ΔE for ∞ → 1?","λ = 9.1×10⁻⁸ m; ΔE = 2.18×10⁻¹⁸ J."],
+["What does 'transition 4 to 1' mean?","Electron goes from n = 4 (initial) to n = 1 (final)."],
+["Energy vs n?","Energy of the level increases with n (n = ∞ highest). Higher energy is not stronger attraction."],
+["Energy vs wavelength?","Inversely related. High energy: small λ, high frequency."],
+["Line spectrum vs continuous?","Line: specific wavelength(s), separate. Continuous: many wavelengths together. White light = continuous."],
+["Emission vs absorption spectrum?","Emission: bright lines (dark background). Absorption: dark (no light at those wavelengths)."],
+["Five series and their n₁?","Lyman 1, Balmer 2, Paschen 3, Brackett 4, Pfund 5. The order is not given in the question."],
+["Why does each series have a fixed lower limit?","Electrons are sent to higher levels and the lower level is fixed; all transitions end there (not random)."],
+["Which transition gives the max λ in a series? The min?","Max λ: from the nearest level (smallest ΔE). Min λ: from ∞ (biggest ΔE)."],
+["Is ionization energy endothermic or exothermic?","Endothermic: energy must be supplied from outside."],
+["Why is n₂ > n₁ always?","Otherwise 1/λ would be negative; the start is the larger value."],
+["The Lyman, Balmer… series are examples of?","Emission spectra (transition high → low)."]
+];
+let fi=0;
+function fcShow(){$('fcf').textContent=cards[fi][0];$('fcb').textContent=cards[fi][1];$('fc').classList.remove('flip');$('fcn').textContent=(fi+1)+' / '+cards.length}
+function fcNext(){fi=(fi+1)%cards.length;fcShow()}function fcPrev(){fi=(fi-1+cards.length)%cards.length;fcShow()}
+function fcShuf(){for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]]}fi=0;fcShow()}
+fcShow();
+$('fcprint').innerHTML='<table><tr><th>Question</th><th>Answer</th></tr>'+cards.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td></tr>`).join('')+'</table>';
+
+/* quiz */
+const Q=[
+["With the help of which force do the neutron and proton stay together in the nucleus?",["Magnetic force","Strong nuclear force","Coulombic attraction","Gravitational force"],1,"Strong nuclear force. Coulombic attraction acts between electron and nucleus."],
+["Electrons are held to the nucleus by",["Strong nuclear force","Coulombic attraction","Peacemaker neutrons","Magnetic force"],1,"Opposite charges attract: Coulombic (electrostatic) attraction."],
+["True or false: Rutherford's and Maxwell's statements about the moving electron are opposite to each other.",["True","False"],0,"Rutherford implied the electron wouldn't fall; Maxwell said a moving charged body loses energy and will. Maxwell is right."],
+["Why is the neutron called a peacemaker?",["It carries positive charge","It reduces repulsion between protons","It orbits the nucleus","It attracts electrons"],1,"It sits between protons and creates distance, reducing repulsion."],
+["Which nucleus is stable?",["Carbon with 6 p and 6 n","Carbon with 6 p and 8 n","Any with many neutrons","None"],0,"1 : 1 is stable. 6 p / 8 n (C-14) is radioactive."],
+["Mass number equals",["Protons","Neutrons","Protons + neutrons","Electrons + protons"],2,"Mass number = protons + neutrons."],
+["Rutherford discovered",["Proton","Neutron","Nucleus","Quantized orbits"],2,"He is the 'father of the nucleus'; he did not give p and n numbers."],
+["What is the main problem with Rutherford's model?",["Nucleus is negative","A moving charged electron should lose energy and fall in","Electrons are neutral","Atom is full, not empty"],1,"Maxwell's argument."],
+["Bohr said which quantity is quantized?",["Mass","Angular momentum","Charge","Temperature"],1,"Angular momentum = nh/2π. Energy quantization came later."],
+["In mvr = nh/2π, n is",["Orbit number (1, 2, 3…)","Orbital type","Number of neutrons","Spin"],0,"n is the orbit/energy-shell number, not the orbital."],
+["Planck's constant is",["1.097×10⁷ m⁻¹","6.626×10⁻³⁴ J·s","3×10⁸ m/s","9.109×10⁻³¹ kg"],1,"R_H, c and the electron mass are the others."],
+["Bohr's model is called",["Quantum","Semi-classical","Classical","Wave-mechanical"],1,"Quantized angular momentum, but still classical orbits."],
+["Level 1 = 20 J, level 2 = 50 J. A packet of which energy raises the electron?",["10 J","25 J","30 J","40 J"],2,"The gap is 30 J. Random energies are never absorbed."],
+["Can 10 J and 20 J packets together excite the electron across a 30 J gap?",["Yes","No"],1,"Packets are not added up. It needs exactly 30 J in one go."],
+["Electron moves from the 50 J level to the 20 J level. It",["Absorbs 30 J","Releases 30 J","Releases 70 J","Does nothing"],1,"High to low releases the difference."],
+["In the Rydberg formula, the initial level of an emission is",["n₁ (lower)","n₂ (higher)","Always 1","Always ∞"],1,"The transition starts at the higher level."],
+["The Rydberg constant R_H is about",["6.626×10⁻³⁴","3×10⁸","1.097×10⁷ m⁻¹","9.1×10⁻³¹"],2,"Constants are given in the exam, but know which is which."],
+["Which is true about the exam?",["Formulas are given; constants must be memorised","Constants are given; the formula must be known","Both are given","Neither is given"],1,"The formula is not given; constants come with units."],
+["For ∞ → 1 in hydrogen, ΔE is about",["2.18×10⁻¹⁸ J","2.18×10⁻¹⁸ m","9.1×10⁻⁸ J","6.56×10⁻⁷ J"],0,"hcR_H = 2.18×10⁻¹⁸ J. (λ = 9.1×10⁻⁸ m.)"],
+["A Balmer line has λ = 6.56×10⁻⁷ m. The initial level is",["2","3","4","5"],1,"1/4 − 1/n₂² = 0.1389 → n₂ = 3."],
+["The Balmer series has lower level n₁ =",["1","2","3","4"],1,"Lyman 1, Balmer 2, Paschen 3, Brackett 4, Pfund 5."],
+["Which is the correct order of the series?",["Lyman, Balmer, Paschen, Brackett, Pfund","Balmer, Lyman, Paschen, Pfund, Brackett","Paschen, Lyman, Balmer, Brackett, Pfund","Pfund, Brackett, Paschen, Balmer, Lyman"],0,"n₁ = 1 to 5."],
+["Within a series the maximum wavelength comes from",["n₂ = ∞","The nearest higher level","The lowest level","Random levels"],1,"Smallest ΔE means largest λ (e.g. 3→2 in Balmer)."],
+["The minimum wavelength in a series comes from",["n₂ = n₁ + 1","n₂ = ∞","n₂ = 2","n₁ = ∞"],1,"Biggest ΔE means smallest λ."],
+["Energy and wavelength are",["Directly proportional","Inversely related","Unrelated","Equal"],1,"ΔE = hc/λ."],
+["Energy of an orbit",["Decreases as n increases","Increases as n increases","Is the same in all orbits","Is random"],1,"Farther level, higher energy value (n = ∞ is highest)."],
+["White light gives a",["Line spectrum","Continuous spectrum","Band spectrum only","No spectrum"],1,"All seven colours / many wavelengths together."],
+["A line spectrum shows",["A specific wavelength per line","All wavelengths","Only absorption","No colours"],0,"Specific, separate lines."],
+["Emission spectra show",["Dark lines","Bright lines","Only white","No lines"],1,"Absorption is dark."],
+["Ionization energy is",["Exothermic","Endothermic","Zero","Negative always"],1,"Energy must be supplied from outside."],
+["The Lyman, Balmer… series are series of",["Absorption spectra","Emission spectra","Band spectra","Continuous spectra"],1,"Transitions go high → low."],
+["A node is a region where",["Electron density is highest","The probability of finding the electron is ~zero","The nucleus sits","Photons are absorbed"],1,"Explained properly in a later class."],
+["Which statement about the electron's mass is right?",["It is exactly zero","It is negligible but not zero","It is larger than a proton","It equals a neutron's"],1,"About 10⁻³¹ kg; negligible vs p and n."]
+];
+let ans=0,done=0;
+function resetQuiz(){ans=0;done=0;$('score').textContent='';const b=$('qbox');b.innerHTML='';
+ Q.forEach((q,i)=>{const d=document.createElement('div');d.className='card q';d.innerHTML=`<b>${i+1}. ${q[0]}</b>`;
+  q[1].forEach((o,j)=>{const bt=document.createElement('button');bt.className='opt';bt.textContent=o;bt.onclick=()=>{if(d.dataset.done)return;d.dataset.done=1;done++;
+   [...d.querySelectorAll('.opt')].forEach((x,k)=>{if(k===q[2])x.classList.add('ok')});if(j===q[2])ans++;else bt.classList.add('bad');
+   d.querySelector('.exp').classList.add('show');$('score').textContent=`Score ${ans} / ${done} (of ${Q.length})`};d.appendChild(bt)});
+  const e=document.createElement('div');e.className='exp';e.textContent=q[3];d.appendChild(e);b.appendChild(d)})}
+resetQuiz();
+$('quizprint').innerHTML='<ol>'+Q.map(q=>`<li>${q[0]}<br>${q[1].map((o,j)=>String.fromCharCode(65+j)+') '+o).join(' &nbsp; ')}<br><i>Answer: ${String.fromCharCode(65+q[2])}. ${q[3]}</i></li>`).join('')+'</ol>';
+
+/* drills */
+function newDrill(){
+ const n1=1+Math.floor(Math.random()*4),n2=n1+1+Math.floor(Math.random()*4);
+ const inv=R*(1/(n1*n1)-1/(n2*n2)),lam=1/inv;
+ $('drill').innerHTML=`<b>Hydrogen electron falls from n = ${n2} to n = ${n1}. Find λ in units of 10⁻⁷ m.</b><div class="row" style="margin-top:8px"><input id="dans" type="number" step="any" placeholder="×10⁻⁷ m"><button onclick="chk(${lam*1e7})">Check</button><button class="ghost" onclick="newDrill()">New question</button></div><div id="dres" style="margin-top:8px"></div>`;
+ window._s1=`1/λ = R(1/${n1}² − 1/${n2}²) = ${inv.toExponential(3)} m⁻¹ → λ = ${lam.toExponential(3)} m. ΔE = hc/λ = ${(h*c/lam).toExponential(3)} J.`}
+function chk(l){const v=+$('dans').value;const ok=Math.abs(v-l)/l<0.02;$('dres').innerHTML=(ok?'<span style="color:var(--ok)"><b>Correct!</b></span> ':'<span style="color:var(--bad)"><b>Not quite.</b></span> ')+window._s1}
+function newDrill2(){
+ const ser=['Lyman','Balmer','Paschen','Brackett','Pfund'];const k=Math.floor(Math.random()*3);const n1=k+1,n2=n1+1+Math.floor(Math.random()*3);
+ const lam=1/(R*(1/(n1*n1)-1/(n2*n2)));
+ $('drill2').innerHTML=`<b>A line in the ${ser[k]} series has λ = ${(lam*1e7).toFixed(2)}×10⁻⁷ m. Find the initial energy level (n₂).</b><div class="row" style="margin-top:8px"><input id="d2ans" type="number" placeholder="n₂"><button onclick="chk2(${n2},${n1},${lam})">Check</button><button class="ghost" onclick="newDrill2()">New question</button></div><div id="d2res" style="margin-top:8px"></div>`}
+function chk2(n2,n1,lam){const v=+$('d2ans').value;$('d2res').innerHTML=(v===n2?'<span style="color:var(--ok)"><b>Correct!</b></span> ':'<span style="color:var(--bad)"><b>Not quite.</b></span> ')+`Series gives n₁ = ${n1}. 1/n₂² = 1/${n1}² − 1/(R·λ) = ${(1/(n1*n1)-1/(R*lam)).toFixed(4)} → n₂ = ${n2}.`}
+newDrill();newDrill2();
+</script>
+</body>
+</html>
