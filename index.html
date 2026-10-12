@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CHE110 Study Hub</title>
+<style>
+:root{--bg:#fafaf7;--card:#fff;--ink:#1d2330;--mute:#5c6577;--line:#e3e4ea;--acc:#2f5fd0;--accbg:#e8efff;--warn:#8a5a00;--warnbg:#fff3d6}
+@media(prefers-color-scheme:dark){:root{--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--warn:#f5c15a;--warnbg:#3a2e12}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Roboto,sans-serif}
+main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+h1{margin:0 0 4px;font-size:30px}
+p.sub{color:var(--mute);margin-top:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.card h2{margin:0 0 6px;font-size:20px}
+.card a.btn{display:inline-block;margin:8px 8px 0 0;background:var(--acc);color:#fff;text-decoration:none;padding:7px 14px;border-radius:8px;font-size:15px}
+.card a.ghost{background:var(--accbg);color:var(--acc)}
+ul{padding-left:20px;margin:6px 0}li{margin:2px 0;font-size:15px}
+.note{background:var(--warnbg);color:var(--warn);border-radius:10px;padding:10px 14px;margin:16px 0;font-size:15px}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:8px}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left}
+th{background:var(--accbg)}
+</style>
+</head>
+<body>
+<main>
+<h1>CHE110: Principles of Chemistry</h1>
+<p class="sub">Interactive study guides built from the recorded lectures and the slides: notes, calculators, flashcards and quizzes.</p>
+
+<div class="grid">
+<div class="card">
+<h2>Lecture 1</h2>
+<ul><li>Nucleus and forces, Rutherford, Bohr</li><li>Energy packets, ΔE = hc/λ, Rydberg formula</li><li>Spectrum and the five series</li><li>Slides: Dalton, isotopes, Thomson</li></ul>
+<a class="btn" href="CHE110_L1_Study_Guide.html">Open guide</a><a class="btn ghost" href="CHE110_L1_Study_Guide.pdf">PDF</a>
+</div>
+<div class="card">
+<h2>Lecture 2 (midterm syllabus)</h2>
+<ul><li>Max / min wavelength of every series</li><li>de Broglie, Heisenberg, Schrödinger</li><li>Nodes and quantum numbers</li><li>Electron configuration (atoms 1–30)</li></ul>
+<a class="btn" href="CHE110_L2_Study_Guide.html">Open guide</a><a class="btn ghost" href="CHE110_L2_Study_Guide.pdf">PDF</a>
+</div>
+</div>
+
+<div class="note"><b>What the lecturer said about exams:</b> constants (R<sub>H</sub>, h, c) are given with units, but formulas are not; derivations are not needed; always write units; lower level goes first in the Rydberg formula; follow the class, not every line of the slides.</div>
+
+<div class="card">
+<h2>Quick formula list</h2>
+<table>
+<tr><th>Topic</th><th>Formula</th></tr>
+<tr><td>Bohr angular momentum</td><td>mvr = nh/2π</td></tr>
+<tr><td>Photon energy</td><td>ΔE = E₂ − E₁ = hc/λ</td></tr>
+<tr><td>Rydberg</td><td>1/λ = R<sub>H</sub>(1/n₁² − 1/n₂²), n₂ &gt; n₁</td></tr>
+<tr><td>de Broglie</td><td>λ = h/mv</td></tr>
+<tr><td>Heisenberg</td><td>Δx·Δp ≥ h/4π</td></tr>
+<tr><td>Nodes</td><td>radial n − l − 1 · angular l · total n − 1</td></tr>
+<tr><td>Quantum numbers</td><td>l: 0…n−1 · mₗ: −l…+l · mₛ: ±½</td></tr>
+</table>
+</div>
+</main>
+</body>
+</html>
