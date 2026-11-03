@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CHE110 Tutorial Guide</title>
+<style>
+:root{--bg:#fafaf7;--card:#fff;--ink:#1d2330;--mute:#5c6577;--line:#e3e4ea;--acc:#2f5fd0;--accbg:#e8efff;--ok:#1b7f4b;--okbg:#e3f5ea;--bad:#b3261e;--badbg:#fde8e6;--warn:#8a5a00;--warnbg:#fff3d6;--class:#6a3fc4;--classbg:#efe8fb;--code:#f1f2f6;--grid:#d9dde8;--curve:#2f5fd0;--tan:#d6452f}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--ok:#5fd394;--okbg:#17301f;--bad:#ff8a80;--badbg:#3a1c1a;--warn:#f5c15a;--warnbg:#3a2e12;--class:#b79cff;--classbg:#2a2144;--code:#242837;--grid:#2c3040;--curve:#7da2ff;--tan:#ff8a6b}}
+:root[data-theme=dark]{--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--ok:#5fd394;--okbg:#17301f;--bad:#ff8a80;--badbg:#3a1c1a;--warn:#f5c15a;--warnbg:#3a2e12;--class:#b79cff;--classbg:#2a2144;--code:#242837;--grid:#2c3040;--curve:#7da2ff;--tan:#ff8a6b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}
+.layout{display:flex;max-width:1200px;margin:0 auto}
+nav{position:sticky;top:0;align-self:flex-start;height:100vh;overflow:auto;width:255px;flex:none;padding:18px 14px;border-right:1px solid var(--line)}
+nav h1{font-size:17px;margin:0 0 4px}
+nav small{color:var(--mute)}
+nav a{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--ink);font-size:14px}
+nav a:hover,nav a.on{background:var(--accbg);color:var(--acc)}
+nav .grp{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:14px 8px 4px}
+main{flex:1;min-width:0;padding:20px 28px 80px}
+section{margin-bottom:46px;scroll-margin-top:12px}
+h2{font-size:25px;margin:0 0 6px;border-bottom:2px solid var(--line);padding-bottom:6px}
+h3{font-size:18px;margin:22px 0 6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:1px 8px;border-radius:99px;vertical-align:middle;margin-right:6px}
+.t-class{background:var(--classbg);color:var(--class)}
+.t-slide{background:var(--accbg);color:var(--acc)}
+.t-exam{background:var(--warnbg);color:var(--warn)}
+.callout{border-left:4px solid var(--acc);background:var(--accbg);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0}
+.callout.class{border-color:var(--class);background:var(--classbg)}
+.callout.warn{border-color:var(--warn);background:var(--warnbg)}
+.callout.ok{border-color:var(--ok);background:var(--okbg)}
+.eq{background:var(--code);border-radius:10px;padding:10px 14px;margin:10px 0;font-family:Cambria Math,Georgia,serif;font-size:19px;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left}
+th{background:var(--code)}
+ul,ol{padding-left:22px}li{margin:3px 0}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:7px 14px;cursor:pointer}
+button.ghost{background:var(--code);color:var(--ink);border:1px solid var(--line)}
+input,select,textarea{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+input[type=number],input[type=text]{width:100px}
+textarea{width:100%;max-width:330px;height:150px;font-family:ui-monospace,Consolas,monospace;font-size:13px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:820px){nav{display:none}main{padding:16px}.grid2{grid-template-columns:1fr}}
+.res{font-size:15px}
+.fc{perspective:900px;height:170px;cursor:pointer;margin:10px 0}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.fc.flip .in{transform:rotateY(180deg)}
+.fc .f,.fc .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;border:1px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;padding:18px;text-align:center;font-size:18px}
+.fc .b{transform:rotateY(180deg);background:var(--accbg);font-size:16px}
+.q{margin:14px 0}.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--line);margin:5px 0}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}.opt.bad{background:var(--badbg);border-color:var(--bad)}
+.exp{display:none;margin-top:6px;font-size:14.5px;color:var(--mute)}.exp.show{display:block}
+.pk{display:inline-block;background:var(--warnbg);color:var(--warn);border-radius:99px;padding:3px 12px;font-weight:600;margin:3px}
+.printonly{display:none}
+details{margin:8px 0}summary{cursor:pointer;font-weight:600}
+@media print{
+ nav,.noprint,.fc,.q button,#toolbar{display:none!important}
+ .printonly{display:block}
+ details{display:block}details>*{display:block}summary{display:none}
+ body{background:#fff;color:#000;font-size:11.5pt}
+ :root{--bg:#fff;--card:#fff;--ink:#000}
+ main{padding:0}.layout{display:block}
+ .card,.callout,table,.eq{break-inside:avoid}
+ h2{break-after:avoid}
+}
+svg text{fill:var(--ink);font-family:system-ui}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav id="nav">
+ <h1>CHE110 · Tutorial</h1><small>Rate of reaction from graphs (Lecture 5–6)</small>
+ <div class="grp">Start here</div>
+ <a href="index.html">← Hub (all guides)</a>
+ <a href="#info">Tutorial details</a>
+ <a href="#recipe">Step-by-step recipe</a>
+ <div class="grp">Tutorial notes</div>
+ <a href="#rate">1 · What is rate?</a>
+ <a href="#graphs">2 · Reading the graphs</a>
+ <a href="#three">3 · Initial, average, instantaneous</a>
+ <a href="#coef">4 · Coefficients &amp; relations</a>
+ <a href="#tool">Interactive grapher</a>
+ <a href="#worked">Worked: slide 16 &amp; sheet</a>
+ <a href="#factors">5 · Factors affecting rate</a>
+ <div class="grp">Beyond the tutorial</div>
+ <a href="#lec56">6 · Lecture 5–6 slides</a>
+ <a href="#arr">Arrhenius practice</a>
+ <div class="grp">Practice</div>
+ <a href="#cards">Flashcards</a>
+ <a href="#quiz">Quiz</a>
+ <a href="#cheat">Cheat sheet</a>
+ <div class="grp">&nbsp;</div>
+ <button class="ghost" onclick="toggleTheme()">Light / dark</button>
+ <button class="ghost" style="margin-top:6px" onclick="window.print()">Print / save PDF</button>
+</nav>
+<main>
+
+<section id="info">
+<h2>CHE110 · Tutorial 1 study guide</h2>
+<p>Built from the tutorial-class transcripts (Tutorial 1 pt1–3), the class announcements, the Lecture 5–6 slides and the practice sheet "Reaction rate: Math Problem".
+<span class="tag t-class">SAID IN TUTORIAL CLASS</span>
+<span class="tag t-exam">EXAM SIGNAL</span>
+<span class="tag t-slide">SLIDES / SHEET</span></p>
+
+<h3>Tutorial details (from the announcements)</h3>
+<div class="callout warn">
+<ul style="margin:4px 0">
+<li><b>Date:</b> Wednesday, 4 November · <b>Marks:</b> 10 · <b>Duration:</b> 30 minutes</li>
+<li><b>Syllabus:</b> rate-related graph problems <b>similar to Slide 16 of Lecture 5–6</b></li>
+<li><b>Bring:</b> your <b>own calculator, pencil and scale</b>, and at least <b>two sheets of graph paper</b></li>
+<li><b>No makeup tutorial.</b> Don't share a calculator with the person next to you; rent one for an hour if you have to.</li>
+<li>Preparation task: draw the graph of the Slide 16 data (x-axis time, y-axis concentration).</li>
+</ul></div>
+
+<h3>What the lecturer said the tutorial will be</h3>
+<div class="callout class"><ol style="margin:4px 0">
+<li><b>"You will get the exact kind of math given on Slide 16"</b>, perhaps one or two extra questions related to the graph. If you understand Slide 16 you "won't even need to touch" the practice sheet (it is extra).</li>
+<li><b>Your syllabus is this much and nothing outside it:</b> (a) <b>average rate</b>, (b) <b>instantaneous rate</b>, and (c) finding the rate of one species from the rate of another using the reaction's coefficients.</li>
+<li>You may have to <b>draw the graph</b>, either of the <b>reactant</b> or of the <b>product</b>, from given values.</li>
+<li>She may instead <b>give you the graph</b>, mark points on it, and ask you to <b>explain what is happening</b> at those points or <b>compare them</b> (why is the rate higher here than there?).</li>
+<li>An <b>MCQ</b> can ask about a <b>straight-line graph</b> (average = instantaneous; see section 3).</li>
+<li>The <b>reaction will be given</b> in the question so you can find the coefficients.</li>
+<li><b>Reading values from your own graph is expected.</b> She grades by checking that you plugged in values from <i>your</i> graph. Approximate readings are fine (29 or 29.4, 13.8 or 13.2). <b>Do not</b> hand-calculate "exact" values.</li>
+<li>Time: it takes 2–3 minutes per problem once the graph is drawn. "Everyone does poorly in the first tutorial" because they don't practise. Draw the graph in advance, bring graph paper.</li>
+</ol></div>
+
+<h3>Likely tutorial skills</h3>
+<div class="card">
+<span class="pk">Plot [A] vs t</span>
+<span class="pk">Plot [B] vs t (product starts at 0)</span>
+<span class="pk">Explain steep → flat</span>
+<span class="pk">Average rate between two times</span>
+<span class="pk">Draw a tangent, find slope</span>
+<span class="pk">Instantaneous rate = slope</span>
+<span class="pk">Coefficient (1/a) in rate</span>
+<span class="pk">Modulus for reactants</span>
+<span class="pk">Rate of B from rate of A</span>
+<span class="pk">Straight line: avg = inst</span>
+<span class="pk">Units: mol L⁻¹ min⁻¹</span>
+</div>
+</section>
+
+<section id="recipe">
+<h2>Step-by-step recipe (use every time)</h2>
+<div class="card">
+<ol>
+<li><b>Read the reaction first.</b> Write it down and note each coefficient (e.g. 2A → 3B). You need them for the relation.</li>
+<li><b>Draw the graph</b> of the species whose data are given: <b>x = time, y = concentration</b>, with units and a sensible scale. Make it <b>large</b>, on one graph paper, and <b>freehand a smooth curve</b>. If one or two points deviate (experimental error), <b>don't force the curve through them</b>; follow the overall trend.</li>
+<li><b>Average rate (two times given):</b> read [conc] at <b>exactly</b> those two times from your graph (approximate values are fine). Compute <b>d[A]/dt = (C₂ − C₁)/(t₂ − t₁)</b>, with units. Then <b>average rate = (1/coefficient) × |d[A]/dt|</b>.</li>
+<li><b>Instantaneous rate (one time given):</b> mark that time on the curve, place the ruler so it <b>touches the curve at that point</b> and draw the <b>tangent</b>. Pick <b>two points on the tangent line</b> (reasonably far apart), read (x₁,y₁), (x₂,y₂), and find <b>slope = (y₂ − y₁)/(x₂ − x₁)</b>. Then <b>instantaneous rate = (1/coefficient) × |slope|</b>.</li>
+<li><b>Show only what you used.</b> Label the points you took from the graph (e.g. the two times and the tangent points). Don't label every point; it makes the graph messy.</li>
+<li><b>Units:</b> concentration/time, for example mol L⁻¹ min⁻¹. <b>Rates are always positive</b>, so use the modulus (or a minus sign) for a reactant.</li>
+<li><b>Relations (if asked for another species):</b> write the equal-sign relation with the coefficients, substitute the known rate, and solve (section 4).</li>
+</ol></div>
+<div class="callout warn"><b>Common errors the lecturer saw:</b> using a different time interval from the one asked ("do it within that exact boundary"); forgetting the minus/modulus so the rate comes out negative; forgetting the 1/coefficient; not writing units; labelling every point; drawing four small graphs on one page.</div>
+</section>
+
+<section id="rate">
+<h2>1 · What is the rate of reaction?</h2>
+<span class="tag t-slide">SLIDES (L5–6)</span><span class="tag t-class">TUTORIAL</span>
+<ul>
+<li><b>Chemical reaction:</b> reactants transform into products with different composition and properties, by breaking and forming bonds. The products contain the <b>same atoms</b> as the reactants, rearranged. Signs: energy released (fizzing, burning), odour, change in temperature or pH, colour change, precipitate.</li>
+<li><b>Rate of reaction</b> = how fast the reaction occurs = the <b>change in concentration of any reactant or product per unit time</b>.</li>
+<li>For A → B: the concentration of A <b>decreases</b> and that of B <b>increases</b> with time. Rate of disappearance of A = rate of appearance of B (when the coefficients are 1).</li>
+</ul>
+<div class="eq">Rate = −Δ[A]/Δt = +Δ[B]/Δt</div>
+<p>For the general reaction <b>A + 2B → 3C + D</b> (slide):</p>
+<div class="eq">Rate = −d[A]/dt = −½ d[B]/dt = ⅓ d[C]/dt = d[D]/dt</div>
+<ul>
+<li><b>How is rate measured?</b> Concentration can't be measured directly, so we measure a property that is proportional to it: refractive index, absorbance, conductance, volume of gas, etc. Examples on the slide: 2H₂O₂ → 2H₂O + O₂ (volume of O₂); CH₃COOC₂H₅ + NaOH → CH₃COONa + C₂H₅OH (conductance).</li>
+<li>Units of rate: concentration ÷ time, e.g. mol L⁻¹ s⁻¹ (M s⁻¹) or mol L⁻¹ min⁻¹.</li>
+</ul>
+<div class="callout"><b>Sheet Q4 (written answer).</b> Why can't the rate be found by dividing "the amount reacted" by the time taken? Because that gives only an <b>average rate</b>, not the actual rate at a moment. The rate isn't constant: it changes as the reactant concentration falls. The <b>instantaneous rate</b> comes from the <b>slope of the tangent</b> to the concentration–time curve at that moment.</div>
+</section>
+
+<section id="graphs">
+<h2>2 · Reading the concentration–time graphs</h2>
+<span class="tag t-class">TUTORIAL CLASS</span><span class="tag t-exam">EXAM SIGNAL: explain / compare points</span>
+
+<h3>Reactant graph, [A] vs time (decreasing curve)</h3>
+<table>
+<tr><th>Region</th><th>What you see</th><th>Why (the lecturer's reasoning)</th></tr>
+<tr><td><b>Start</b></td><td><b>Steepest</b> slope, so the rate is <b>fastest</b></td><td>The reactant concentration is <b>highest</b>, so there are <b>more collisions</b> and more <b>effective collisions</b>.</td></tr>
+<tr><td><b>Middle</b></td><td>Slope gets gentler; the rate decreases gradually (not stopping)</td><td>Reactant is being used up, so <b>concentration falls</b>, so effective collisions fall.</td></tr>
+<tr><td><b>Late</b></td><td>Almost flat; concentration barely changes</td><td>Called <b>equilibrium / completion</b> in class: the change is so small you can't tell whether it is going on. Rate of forward and reverse change are equal (or the reaction is essentially complete). Changes are of the order of 0.05 or 0.01.</td></tr>
+</table>
+<ul>
+<li>"<b>Steeper</b> = larger slope = <b>higher rate</b>." Exam-style comparison: "compare the rate at point P (early) with Q (late): P is higher because [A] is higher, so effective collisions are higher."</li>
+<li>The lecturer noted "slowly" isn't quite the word for the middle region: the change still happens, just gradually.</li>
+<li>In nature the reaction normally keeps changing very slowly; all reactions are reversible in principle but we don't give them enough time.</li>
+<li>If you stop it (e.g. by removing product), the reaction ends.</li>
+</ul>
+
+<h3>Product graph, [B] vs time (increasing curve)</h3>
+<ul>
+<li><b>Starts at zero</b> (there was no product initially), so the graph starts at the origin.</li>
+<li><b>Steep at the start</b>, then gradually flatter, then levels off (completion/equilibrium). Same reason: reactant is high initially, so effective collisions are high and product forms fastest at first.</li>
+<li>The product's slope is <b>positive</b>, so no modulus is needed.</li>
+</ul>
+<div class="callout warn"><b>Drawing rules:</b> x = time, y = concentration (don't plot values randomly). If you're asked for the product, the curve rises; for the reactant, it falls. An experimental point that goes off the trend (up then back down) is left off the curve.</div>
+</section>
+
+<section id="three">
+<h2>3 · The three rates</h2>
+<span class="tag t-class">TUTORIAL CLASS</span><span class="tag t-exam">EXAM SIGNAL</span>
+<p>You studied the <b>individual</b> rates (reactant's rate and product's rate). The <b>overall</b> rate of the reaction is looked at in three ways:</p>
+<table>
+<tr><th>Rate</th><th>Meaning</th><th>How to find it</th></tr>
+<tr><td><b>Initial rate</b></td><td>Rate at the very beginning (t = 0), before concentrations change much</td><td>Tangent at t = 0. <b>Not examined as a calculation here.</b> Its use: for complex, multi-step reactions it helps predict how the reaction behaves and is used later for finding the <b>order</b> (initial-rate method), because later on you can't tell which reactant changed how much.</td></tr>
+<tr><td><b>Average rate</b></td><td>Average change in concentration over a <b>specific time interval</b></td><td><b>ΔC/Δt</b> between the <b>two times given</b>. Like average velocity = change in distance / change in time. Use exactly that interval, no more or less.</td></tr>
+<tr><td><b>Instantaneous rate</b></td><td>Rate at <b>one specific moment</b></td><td><b>Slope of the tangent</b> at that point on the curve (a single point has no "change", so we use the tangent / gradient).</td></tr>
+</table>
+<div class="eq">Average rate = (1/coeff) · |[A]₂ − [A]₁| / (t₂ − t₁)</div>
+<div class="eq">Instantaneous rate = (1/coeff) · |slope of tangent| , slope = (y₂ − y₁)/(x₂ − x₁)</div>
+
+<h3>The minus sign / modulus</h3>
+<ul>
+<li>Rates are <b>always positive</b>. For a <b>reactant</b>, d[A]/dt is negative, so put a minus sign in front <b>or take the modulus</b> |d[A]/dt|. The lecturer recommends the <b>modulus</b>: you'll never get the sign wrong.</li>
+<li>For a <b>product</b>, d[B]/dt is already positive: no modulus needed.</li>
+</ul>
+
+<h3>Straight-line graph (MCQ signal)</h3>
+<div class="callout class">If the concentration–time graph is a <b>straight line</b> (uniform change), then the slope is the <b>same everywhere</b>. So you don't need to draw a tangent, and the <b>average rate equals the instantaneous rate</b> at every time (any two points give the same ΔC/Δt). For a curved graph (the usual case) they differ.</div>
+</section>
+
+<section id="coef">
+<h2>4 · Coefficients and relating the rates</h2>
+<span class="tag t-class">TUTORIAL CLASS</span><span class="tag t-exam">EXAM SIGNAL</span>
+
+<h3>Why the coefficient appears</h3>
+<ul>
+<li>In <b>2A → B</b>, A is consumed twice as fast as B forms. The reaction's rate is expressed "per single-fold", so you <b>divide A's change by its coefficient 2</b> (multiply by ½). "Whatever coefficient is with whichever term, the coefficient goes to the other side in divided form."</li>
+<li>If the coefficient is a fraction (½), you multiply by 2 instead.</li>
+<li>This applies to <b>any</b> of the three rates (initial, average, instantaneous) when you express the overall rate through one species.</li>
+</ul>
+
+<h3>When do you use the coefficient and when not?</h3>
+<table>
+<tr><th>The question asks…</th><th>Do this</th></tr>
+<tr><td>"Rate of <b>disappearance of A</b>" or "rate of <b>formation of B</b>"</td><td>Just |d[A]/dt| or d[B]/dt. <b>No coefficient.</b> It is that species' own rate.</td></tr>
+<tr><td>"<b>Average / instantaneous rate of the reaction</b>" found from species A</td><td><b>Include 1/coefficient</b>.</td></tr>
+<tr><td>"Find the rate of B given the rate of A"</td><td>Write the <b>equal-sign relation</b> with coefficients, substitute, solve.</td></tr>
+</table>
+
+<h3>The relation (for 2A → 3B)</h3>
+<div class="eq">½ |d[A]/dt| = ⅓ d[B]/dt</div>
+<p>Both sides equal the same overall rate, whether average, instantaneous or initial.</p>
+<h3>For A + 2B → 3C + D</h3>
+<div class="eq">Rate = |d[A]/dt| = ½|d[B]/dt| = ⅓ d[C]/dt = d[D]/dt</div>
+<ul>
+<li>Reactants are <b>not</b> given a plus sign: each graph is of one species individually (not a summation), so each term is separate and you just equate them.</li>
+<li>Each species has its own graph and its own relation.</li>
+</ul>
+<div class="callout ok"><b>Class example.</b> 2A → 3B. The rate of disappearance of A is 0.01 mol L⁻¹ min⁻¹. Rate of formation of B?<br>
+½(0.01) = ⅓ · d[B]/dt → d[B]/dt = 3 × 0.005 = <b>0.015 mol L⁻¹ min⁻¹</b>. No graph needed: the rate is given, but you must use the reaction equation.</div>
+
+<div class="card noprint"><b>Rate-relation calculator</b>
+<div class="row" style="margin-top:8px"><b>aA + bB → cC + dD</b>
+ <label>a <input id="ra" type="number" value="2" min="0"></label>
+ <label>b <input id="rb" type="number" value="1" min="0"></label>
+ <label>c <input id="rc" type="number" value="3" min="0"></label>
+ <label>d <input id="rd" type="number" value="0" min="0"></label>
+</div>
+<div class="row" style="margin-top:8px">
+ <label>Known species <select id="rsp"><option value="0">A (disappearing)</option><option value="1">B (disappearing)</option><option value="2">C (forming)</option><option value="3">D (forming)</option></select></label>
+ <label>its rate (mol L⁻¹ s⁻¹) <input id="rv" type="text" value="0.10"></label>
+</div>
+<div class="res" id="rout" style="margin-top:8px"></div></div>
+<div class="printonly">Overall rate = (rate of species)/(its coefficient). Rate of another species = coefficient × overall rate.</div>
+</section>
+
+<section id="tool">
+<h2>Interactive grapher</h2>
+<p>Practise exactly what the tutorial asks: plot the points, read values at two times for the <b>average rate</b>, and see the <b>tangent</b> and its slope for the <b>instantaneous rate</b>. The curve is a smooth fit through the points (it behaves like a good freehand curve); your own reading from graph paper will differ slightly, which is fine.</p>
+<div class="card noprint">
+ <div class="row">
+  <label>Data set <select id="ds"></select></label>
+  <label>This species is a <select id="role"><option value="r">reactant</option><option value="p">product</option></select></label>
+  <label>its coefficient <input id="coef" type="number" min="0.5" step="0.5" value="1"></label>
+  <label><input type="checkbox" id="gridchk" checked> graph-paper grid</label>
+ </div>
+ <div class="row" style="margin-top:10px;align-items:flex-start">
+  <div>
+   <b>Points (time, concentration)</b><br>
+   <textarea id="pts" spellcheck="false"></textarea><br>
+   <small style="color:var(--mute)">Edit the numbers or paste your own data; one "t, conc" pair per line.</small>
+  </div>
+  <div style="flex:1;min-width:300px">
+   <div class="row">
+    <label>Average rate: from t₁ <input id="t1" type="number" step="any" value="30"></label>
+    <label>to t₂ <input id="t2" type="number" step="any" value="65"></label>
+   </div>
+   <div class="row" style="margin-top:8px"><label>Instantaneous rate at t <input id="ti" type="number" step="any" value="40"></label></div>
+   <div class="res" id="gout" style="margin-top:10px"></div>
+  </div>
+ </div>
+ <svg id="plot" viewBox="0 0 680 420" width="100%" style="max-width:780px;margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:8px" role="img" aria-label="Concentration versus time graph with secant and tangent"></svg>
+ <small style="color:var(--mute)">Dashed line = chord used for the average rate. Red line = tangent at your chosen time; its slope is the instantaneous rate.</small>
+</div>
+<div class="printonly">The interactive grapher is on the web version. Follow the recipe at the top to do it by hand on graph paper.</div>
+</section>
+
+<section id="worked">
+<h2>Worked problems: Slide 16 and the practice sheet</h2>
+<p>Readings come from a smooth curve. Your graph-paper values will differ slightly; the lecturer will mark your method and your own readings. Use the grapher above to check yourself.</p>
+
+<h3>Slide 16 (the tutorial template)</h3>
+<div class="card">
+<b>Data (A → B):</b>
+<table>
+<tr><th>t (min)</th><td>5</td><td>15</td><td>25</td><td>37</td><td>45</td><td>53</td><td>60</td><td>70</td><td>80</td><td>95</td></tr>
+<tr><th>[A] (mol L⁻¹)</th><td>50</td><td>40</td><td>32</td><td>26</td><td>21</td><td>17</td><td>14</td><td>12</td><td>11</td><td>10.5</td></tr>
+</table>
+<b>(a) Average rate between 30 and 65 min.</b> From the graph: [A] at 30 min ≈ 29; at 65 min ≈ 13 to 14 (the class read 29 and 13.8).<br>
+d[A]/dt = (13.8 − 29)/(65 − 30) = −15.2/35 = −0.43 mol L⁻¹ min⁻¹.<br>
+Reaction A → B has coefficient 1, so <b>average rate = |d[A]/dt| ≈ 0.43 mol L⁻¹ min⁻¹</b> (about 0.43–0.47 depending on your curve).<br><br>
+<b>(b) Instantaneous rate at 40 min.</b> Draw the tangent at t = 40 min. A good tangent has slope ≈ −0.65 mol L⁻¹ min⁻¹ (the data either side of 40 min, from 37 to 45 min, fall by 5 in 8 min = 0.63 per minute, which supports this).<br>
+<b>Instantaneous rate = |slope| ≈ 0.6–0.7 mol L⁻¹ min⁻¹</b>.<br>
+<small>The instantaneous rate at 40 min (≈0.65) is higher than the average over 30–65 min (≈0.43), because the average includes the later, slower part. Sanity check: rate falls as time goes on.</small></div>
+
+<h3>Practice sheet answers</h3>
+<details open><summary>Q1–Q3, Q10, Q11 (average rates from two concentrations)</summary>
+<div class="card">
+<b>Q1.</b> B: 0.50 → 0.30 mol L⁻¹, 10 s → 40 s. (0.50 − 0.30)/(40 − 10) = 0.20/30 = <b>0.0067 mol L⁻¹ s⁻¹</b>.<br>
+<b>Q2.</b> Product C: 0.05 → 0.25 in 50 s: 0.20/50 = <b>0.004 mol L⁻¹ s⁻¹</b>.<br>
+<b>Q3 / Q10.</b> A: (0.40 − 0.28)/20 = 0.12/20 = <b>0.006 mol L⁻¹ s⁻¹</b>; B: (0.60 − 0.45)/20 = 0.15/20 = <b>0.0075 mol L⁻¹ s⁻¹</b> (Q10 is the same with F = 0.005 and G = 0.0075).<br>
+<b>Q9.</b> (2.13 − 0.24)/279 = 1.89/279 = <b>0.00677 M min⁻¹</b>.<br>
+<b>Q11.</b> CO: 0.15 → 0.05 mol L⁻¹ in 5 min = 300 s. 0.10/300 = <b>3.33×10⁻⁴ mol L⁻¹ s⁻¹</b> (convert min → s because the answer is asked in s⁻¹).
+</div></details>
+
+<details><summary>Q5, Q6, Q8 (relations and the rate law)</summary>
+<div class="card">
+<b>Q5.</b> 2A + B → 3C. Rate of disappearance of A = 0.10. Overall rate = 0.10/2 = 0.05; rate of formation of C = 3 × 0.05 = <b>0.15 mol L⁻¹ s⁻¹</b>.<br>
+<b>Q6.</b> rate = k[G]² = 0.1 × (0.5)² = <b>0.025 mol L⁻¹ s⁻¹</b>.<br>
+<b>Q8.</b> rate = k[D]² = 0.05 × (0.4)² = <b>0.008 mol L⁻¹ s⁻¹</b>.<br>
+<small>Q6 and Q8 use the rate law (Lecture 5–6, section 6 below); k has units L mol⁻¹ s⁻¹ because the reaction is second order.</small>
+</div></details>
+
+<details><summary>Q7 (instantaneous rate at 5 and 8 min)</summary>
+<div class="card">
+Data: t = 0, 2.5, 5, 7.5, 10, 12.5 min; [A] = 0.500, 0.389, 0.303, 0.236, 0.184, 0.143.<br>
+Plot [A] vs t and draw tangents.<br>
+At 5 min: slope of the neighbouring points (2.5 → 7.5): (0.236 − 0.389)/5 = −0.0306 → <b>≈ 0.031 mol L⁻¹ min⁻¹</b> (key: 0.0306).<br>
+At 8 min: between 7.5 and 10: (0.184 − 0.236)/2.5 = −0.0208 → <b>≈ 0.021 mol L⁻¹ min⁻¹</b> (key: 0.0208). A tangent on a smooth curve gives about 0.022 at 8 min. All of these are "approximately right".
+</div></details>
+
+<details><summary>Q12 (average rates from a short table)</summary>
+<div class="card">
+Data: t = 0, 10, 20 s; [A] = 1.00, 0.80, 0.65.<br>
+i) 0–6 s: read [A] at 6 s from your graph ≈ 0.88. (1.00 − 0.88)/6 = <b>≈ 0.02 mol L⁻¹ s⁻¹</b>.<br>
+ii) 10–14 s: [A] at 14 s ≈ 0.74. (0.80 − 0.74)/4 = <b>≈ 0.015 mol L⁻¹ s⁻¹</b>. (Key: 0.02 and 0.015.) Note the rate is lower later: the reaction slows.
+</div></details>
+
+<details><summary>Q13 (tangent slope given)</summary>
+<div class="card">The tangent slope at 5 s is −0.025 mol L⁻¹ s⁻¹. The rate is the positive value: <b>0.025 mol L⁻¹ s⁻¹</b> (coefficient 1, take the modulus).</div></details>
+
+<details><summary>Q14 (the full graph question)</summary>
+<div class="card">
+Data: t = 0, 5, 10, 15, 20, 25 s; [A] = 1.00, 0.80, 0.65, 0.55, 0.48, 0.43.<br>
+<b>a)</b> Plot [A] (y) against time (x).<br>
+<b>b)</b> i) Initial concentration = <b>1.00 mol L⁻¹</b> (at t = 0). ii) [A] at 11 s ≈ <b>0.63 mol L⁻¹</b> (read from the curve between 0.65 at 10 s and 0.55 at 15 s). iii) The graph is <b>curved</b>, so the rate is <b>not constant</b>: it decreases with time (the slope gets less steep).<br>
+<b>c)</b> i) 0–5 s: (1.00 − 0.80)/5 = <b>0.040 mol L⁻¹ s⁻¹</b>. ii) 5–8 s: [A] at 8 s ≈ 0.70; (0.80 − 0.70)/3 ≈ <b>0.032 mol L⁻¹ s⁻¹</b>. iii) 10–18 s: [A] at 18 s ≈ 0.51; (0.65 − 0.51)/8 ≈ <b>0.018 mol L⁻¹ s⁻¹</b>. iv) The averages fall (0.040 → 0.032 → 0.018), so the reaction is <b>slowing down</b>.<br>
+<b>d)</b> Tangent at 10 s: slope ≈ −0.024 to −0.025 → instantaneous rate ≈ <b>0.025 mol L⁻¹ s⁻¹</b>.<br>
+<b>e)</b> At 30 s ≈ <b>0.40 mol L⁻¹</b>: the drops per 5 s are shrinking (0.20, 0.15, 0.10, 0.07, 0.05) so the next drop is about 0.03–0.04, giving 0.43 − 0.035 ≈ 0.40. Reason: the rate keeps decreasing as [A] falls.<br>
+<b>f)</b> The curve <b>flattens (levels off) to a nearly horizontal line</b>: the reactant is almost used up (or the reaction reaches equilibrium), so the concentration hardly changes and the slope → 0.
+</div></details>
+
+<details><summary>Q15 (reactant, instantaneous rates)</summary>
+<div class="card">
+Data: t = 0, 2.5, 5, 7.5, 10, 12.5 min; [A] = 50, 40, 30, 23, 18, 14.<br>
+Estimates from a smooth curve: at 5 min the tangent slope is about −3.0 to −3.3 → <b>≈ 3 mol L⁻¹ min⁻¹</b>; at 8 min about −2.2 → <b>≈ 2.2 mol L⁻¹ min⁻¹</b>.<br>
+<div class="callout warn">The answer key lists 4.0 (at 5 min) and 3.0 (at 8 min). Those look like slopes of single neighbouring intervals (4.0 is exactly the slope between 2.5 and 5 min, i.e. the rate near 3.75 min, not 5 min). The key itself says the answers are approximate and "find by yourself". Trust a proper tangent on your own graph, and show your working.</div>
+</div></details>
+
+<details><summary>Q16 (product B, rate of formation)</summary>
+<div class="card">
+Data (A → B): t = 0, 2.5, 4.5, 5, 5.5, 7.5, 8, 8.5, 10, 12.5 min; [B] = 0, 10, 18.5, 20, 21.5, 27, 28.5, 30, 32, 36. The product graph starts at the origin and rises.<br>
+b) i) At 7.5 min the tangent slope ≈ <b>2.8–3.0 mol L⁻¹ min⁻¹</b> (using nearby points, e.g. 5.5 → 8.5: 8.5/3 ≈ 2.8). ii) At 11 min ≈ <b>1.5 mol L⁻¹ min⁻¹</b> (this section of the data is noisy; take a smooth tangent). <br>
+c) Average 0–6 min: [B] at 6 min ≈ 23 → 23/6 ≈ <b>3.8 mol L⁻¹ min⁻¹</b>. For a product the slope is positive: no modulus. Since A → B has coefficient 1, rate of formation of B = rate of the reaction.
+</div></details>
+
+<h3>Lecturer's worked examples with coefficients</h3>
+<div class="card">
+<b>If the reaction is 2A → B and the graph is of A:</b> instantaneous rate = ½ |slope|.<br>
+<b>If the reaction is 2A → 3B and the graph is of B:</b> average rate = ⅓ · d[B]/dt; instantaneous rate = ⅓ · slope (no modulus, positive).<br>
+<b>Which species?</b> Whichever species' concentration is given in the question: "with respect to whichever one I give, you will do it with respect to that one."
+</div>
+</section>
+
+<section id="factors">
+<h2>5 · Factors affecting the rate of reaction</h2>
+<span class="tag t-class">TUTORIAL CLASS</span><span class="tag t-slide">SLIDES</span>
+<p>Theory only (no maths in the tutorial syllabus), but good for MCQ/short questions. Six factors on the slide: <b>concentration, pressure (gases), temperature, catalyst, light, surface area</b>.</p>
+
+<table>
+<tr><th>Factor</th><th>Effect and reason</th></tr>
+<tr><td><b>Concentration</b></td><td>Higher concentration → <b>more collisions → more effective collisions</b> → higher rate (rate ∝ cⁿ). Limit: if you keep increasing it until there is "no space left", it behaves like a solid, so space/surface area also matters.</td></tr>
+<tr><td><b>Surface area</b></td><td>Bigger surface area → faster reaction (reaction happens at the surface of a solid). A wood fire burns faster if logs are chopped into small pieces; a large ball broken into tiny particles has far more total surface. <b>Nanomaterials</b> and <b>nanocatalysts</b> use this. The rate rises with surface area per unit volume.</td></tr>
+<tr><td><b>Catalyst</b></td><td>Changes the rate without being consumed. It provides a <b>new route (pathway) with lower activation energy (Eₐ′)</b>; the original path is not changed or ruined. It takes part in at least one step and is regenerated. It can also add surface area. Examples: Ni, Fe, V₂O₅; most catalysts are <b>transition metals (d-block)</b>. Analogy: choosing the shorter road to the same place.</td></tr>
+<tr><td><b>Light</b></td><td>Photochemical reactions. Photons give the activation energy; e.g. Cl₂ + light → 2 Cl• (<b>radicals</b>, highly reactive, with an unpaired electron). Rate rises with light intensity (more photons). Example: photosynthesis.</td></tr>
+<tr><td><b>Pressure</b></td><td>Only for <b>gases</b>. Higher pressure/partial pressure → molecules closer → more collisions → more effective collisions. Little effect on liquids and solids (not compressible).</td></tr>
+<tr><td><b>Temperature</b></td><td>Rate usually <b>increases</b> with temperature. Higher temperature → higher kinetic energy (KE = ½mv²) → <b>more molecules with energy above the activation energy</b> → more effective collisions.</td></tr>
+</table>
+<div class="callout warn"><b>Temperature, carefully (class):</b> temperature does <b>not</b> lower the activation energy. The barrier stays the same; the reactant particles simply carry more energy (e.g. 10 J → 12 J versus a 10 J barrier) so they cross it more easily. Don't bring Le Chatelier's principle into this. <b>Catalyst, by contrast, <i>does</i> lower Eₐ</b> (by a new path).</div>
+
+<h3>Activation energy</h3>
+<ul>
+<li><b>Activation energy (Eₐ)</b> = the <b>minimum energy needed for the reactants to start the reaction</b> (energy, not time). On a potential-energy vs reaction-progress diagram it's measured <b>from the reactant level up to the peak</b> (the barrier), not from zero.</li>
+<li>Why a barrier? Bonds must break (A–A, B–B) and new bonds form (A–B). During collision, electron clouds repel each other, so potential energy rises first.</li>
+<li><b>Spontaneous</b> reaction: can cross the barrier on its own. <b>Non-spontaneous</b>: needs energy from outside (temperature, light) to make it go.</li>
+<li><b>Lower potential energy = more stable.</b> In the class diagram (an <b>endothermic</b> reaction) the product is higher in energy than the reactant, so the <b>reactant</b> is more stable.</li>
+</ul>
+<h3>Boltzmann / Maxwell distribution</h3>
+<ul>
+<li>Graph: number of molecules (y) vs kinetic energy (x). At a <b>lower temperature</b> most molecules have low energy. At a <b>higher temperature</b> the curve <b>shifts right and flattens</b>: more molecules have high energy.</li>
+<li>So at higher T, a <b>larger number of molecules exceed Eₐ</b> (the threshold energy), giving more effective collisions.</li>
+</ul>
+<h3>Arrhenius equation (slide; calculations come later)</h3>
+<div class="eq">k = A · e^(−Eₐ/RT) &nbsp;&nbsp; ln k = ln A − (Eₐ/R)(1/T)</div>
+<p>k = rate constant; A = frequency factor; Eₐ = activation energy; R = gas constant (8.314 J K⁻¹ mol⁻¹); T = absolute temperature. <b>Temperature coefficient</b> = ratio of rate constants at two temperatures 10 °C apart.</p>
+</section>
+
+<section id="lec56">
+<h2>6 · Lecture 5–6 slides beyond the tutorial</h2>
+<span class="tag t-slide">SLIDES: not in the tutorial syllabus</span>
+<div class="callout warn">The lecturer limited the <b>tutorial</b> to average rate, instantaneous rate and relations. This section covers the rest of the Lecture 5–6 slides (rate law, order, integrated rate laws, Arrhenius) for later quizzes and the midterm/final. The lecturer hasn't said how these will be examined in the recordings you gave me. Check with her.</div>
+
+<h3>Types of reactions (slides 3–9)</h3>
+<ul>
+<li>A chemical reaction rearranges atoms; products contain the same atoms as reactants.</li>
+<li><b>Combustion</b> (fire triangle: fuel, oxygen, heat). <b>Acid-base:</b> NaHCO₃ + CH₃COOH → CO₂ + H₂O + Na⁺ + CH₃COO⁻ (baking soda + vinegar releases CO₂). <b>Precipitation:</b> Ca²⁺ + C₂O₄²⁻ ⇌ CaC₂O₄(s) (kidney stones). <b>Redox.</b></li>
+</ul>
+
+<h3>Rate law and order</h3>
+<div class="eq">rate = k [A]ᵐ [B]ⁿ</div>
+<ul>
+<li>The rate is proportional to concentrations each raised to some power. The relationship found <b>experimentally</b> (by varying one concentration while keeping the other constant) is the <b>rate law</b> (rate equation). <b>k</b> is the rate constant.</li>
+<li><b>Order of reaction</b> = the sum of the powers in the rate law (overall order = m + n). Order with respect to A is m, with respect to B is n. The powers are <b>not</b> necessarily the coefficients; they are experimental.</li>
+<li>Possible orders: 0, 1, 2, 3, 3/2, ½. Fractional (3/2, ½) only for gas-phase reactions. Third order is rare; most reactions are <b>first order</b>; zero and third order are rare.</li>
+<li>Example: 2NO₂ + F₂ → 2NO₂F, rate = k[NO₂][F₂] → first order in each, <b>overall order 2</b>.</li>
+</ul>
+
+<h3>Integrated rate laws</h3>
+<table>
+<tr><th></th><th>Zero order</th><th>First order</th><th>Second order</th></tr>
+<tr><td>Rate law</td><td>rate = k</td><td>rate = k[A]</td><td>rate = k[A]²</td></tr>
+<tr><td>Integrated</td><td>[A] = [A]₀ − kt</td><td>ln([A]₀/[A]) = kt, i.e. [A] = [A]₀e^(−kt); also k = (1/t) ln(a/(a−x))</td><td>1/[A] = 1/[A]₀ + kt</td></tr>
+<tr><td>Half-life</td><td>t½ = [A]₀/2k</td><td>t½ = 0.693/k (independent of [A]₀)</td><td>t½ = 1/(k[A]₀)</td></tr>
+<tr><td>Unit of k</td><td>mol L⁻¹ time⁻¹ (M s⁻¹)</td><td>time⁻¹ (s⁻¹)</td><td>L mol⁻¹ time⁻¹ (M⁻¹ s⁻¹)</td></tr>
+<tr><td>Straight-line plot</td><td>[A] vs t (slope −k)</td><td>ln[A] vs t (slope −k)</td><td>1/[A] vs t (slope k)</td></tr>
+<tr><td>Rate vs [A]</td><td>horizontal line</td><td>straight line through origin</td><td>parabola (curve)</td></tr>
+</table>
+<p><small>The slide states the first-order definitions and the data problems below; the second-order integrated law shown here is the standard 1/[A] = 1/[A]₀ + kt for rate = k[A]². Check with the slide image if your textbook writes 2kt.</small></p>
+
+<h3>Slide problems, solved</h3>
+<div class="card">
+<b>Zero order (slide 26).</b> [A]₀ = 1.5 M, [A] = 0.75 M after 120 s. k = ([A]₀ − [A])/t = 0.75/120 = <b>6.25×10⁻³ M s⁻¹</b>.<br>
+<b>First order (slide 27).</b> Unit of k: s⁻¹ (time⁻¹). A reaction is 35.5% complete in 4.90 min: [A]/[A]₀ = 0.645; k = (1/4.90) ln(1/0.645) = 0.4385/4.90 = <b>0.0895 min⁻¹</b>.<br>
+<b>Half-life, first order (slide 28).</b> k = 0.450 s⁻¹ → t½ = 0.693/0.450 = <b>1.54 s</b>. 50% complete in 23 min → k = 0.693/23 = 0.0301 min⁻¹; 90% complete: t = (1/k) ln(100/10) = 2.303/0.0301 = <b>76.4 min</b>.<br>
+<b>Second order (slide 29).</b> Unit of k: M⁻¹ s⁻¹. k = 0.025 M⁻¹ s⁻¹, [A]₀ = 0.80 M, t = 200 s: 1/[A] = 1/0.80 + 0.025 × 200 = 1.25 + 5 = 6.25 → [A] = <b>0.16 M</b>.<br>
+<b>Half-life, second order (slide 30).</b> t½ = 1/(k[A]₀) = 1/(0.010 × 0.50) = <b>200 s</b>.
+</div>
+<h3>Finding order from initial-rate data (slides 33–35)</h3>
+<div class="card">
+<b>2NO + 2H₂ → N₂ + 2H₂O.</b> Expt 1: [NO] 0.10, [H₂] 0.20, rate 2.4×10⁻³. Expt 2: 0.10, 0.10, 1.2×10⁻³. Expt 3: 0.20, 0.20, 9.6×10⁻³.<br>
+1 vs 2: [NO] fixed, [H₂] halved → rate halves → <b>first order in H₂</b>. 1 vs 3: [H₂] fixed, [NO] doubled → rate ×4 → <b>second order in NO</b>.<br>
+<b>Rate = k[NO]²[H₂]; overall order 3.</b> k = 2.4×10⁻³ /(0.10² × 0.20) = <b>1.2 M⁻² s⁻¹</b>.<br><br>
+<b>SO₂Cl₂ → SO₂ + Cl₂.</b> Rate is 3.60×10⁻⁶ M s⁻¹ at 0.25, 0.50 and 0.75 M: no change with concentration → <b>zero order</b>; k = <b>3.60×10⁻⁶ M s⁻¹</b>.<br><br>
+<b>Decomposition of O₃.</b> [O₃] 0.020, 0.040, 0.060 → rate 1.0, 2.0, 3.0 ×10⁻⁵. Rate ∝ [O₃] → <b>first order</b>; k = 1.0×10⁻⁵/0.020 = <b>5.0×10⁻⁴ s⁻¹</b>.
+</div>
+<div class="callout"><b>Method:</b> compare two experiments in which only one concentration changes. If doubling it doubles the rate → order 1; quadruples → order 2; no change → order 0.</div>
+</section>
+
+<section id="arr">
+<h2>Arrhenius practice (sheet Q17–Q22)</h2>
+<span class="tag t-slide">PRACTICE SHEET</span> The lecturer said "we will do math with the Arrhenius equation later", so this isn't in the first tutorial. Use for later.
+<div class="eq">ln(k₂/k₁) = (Eₐ/R)(1/T₁ − 1/T₂) &nbsp;&nbsp; slope of ln k vs 1/T = −Eₐ/R</div>
+<table>
+<tr><th>Q</th><th>Result (R = 8.314 J K⁻¹ mol⁻¹)</th></tr>
+<tr><td>17</td><td>k₂ = 2k₁, T₁ = 280 K, Eₐ = 65 kJ/mol: 1/T₂ = 1/280 − (8.314 ln 2)/65000 → <b>T₂ ≈ 287 K</b></td></tr>
+<tr><td>18</td><td>k₁ = 1.2 s⁻¹ at 320 K, Eₐ = 60 kJ/mol, T₂ = 290 K: ln(k₂/k₁) = (60000/8.314)(1/320 − 1/290) = −2.33 → <b>k₂ ≈ 0.116 s⁻¹</b></td></tr>
+<tr><td>19</td><td>slope = −1.2×10⁴ K: Eₐ = 8.314 × 1.2×10⁴ = <b>1.0×10⁵ J mol⁻¹</b></td></tr>
+<tr><td>20</td><td>slope = −2.55×10⁴: Eₐ = 8.314 × 2.55×10⁴ = <b>2.12×10⁵ J</b> (the key prints "21.2007 × 10⁴ J" = 2.12×10⁵ J)</td></tr>
+<tr><td>21</td><td>Rate doubles for a 10 °C rise from 27 °C (300 K → 310 K): Eₐ = R ln 2 /(1/300 − 1/310) = <b>≈ 53.6 kJ</b></td></tr>
+<tr><td>22</td><td>k = 4.346×10⁻⁵ at 25 °C, 4.87×10⁻³ at 65 °C: ln(k₂/k₁) = 4.72; Eₐ = 8.314 × 4.72/(1/298 − 1/338) = <b>≈ 99 kJ mol⁻¹</b>. <span style="color:var(--warn)">The key says 103.585 kJ; the given data produce about 99 kJ, so the key's value seems to differ. Mention it to the lecturer if it matters.</span></td></tr>
+</table>
+<div class="card noprint"><b>Arrhenius calculator</b>
+<div class="row" style="margin-top:8px">
+ <label>k₁ <input id="ak1" type="text" value="4.346e-5"></label>
+ <label>k₂ <input id="ak2" type="text" value="4.87e-3"></label>
+ <label>T₁ (K) <input id="aT1" type="text" value="298.15"></label>
+ <label>T₂ (K) <input id="aT2" type="text" value="338.15"></label>
+</div>
+<div class="res" id="aout" style="margin-top:8px"></div></div>
+</section>
+
+<section id="cards">
+<h2>Flashcards</h2>
+<div class="noprint">
+<div class="row"><button class="ghost" onclick="fcPrev()">← Prev</button><span id="fcn"></span><button class="ghost" onclick="fcNext()">Next →</button><button class="ghost" onclick="fcShuf()">Shuffle</button></div>
+<div class="fc" id="fc" onclick="this.classList.toggle('flip')"><div class="in"><div class="f" id="fcf"></div><div class="b" id="fcb"></div></div></div>
+<small style="color:var(--mute)">Click the card to flip it.</small>
+</div>
+<div class="printonly" id="fcprint"></div>
+</section>
+
+<section id="quiz">
+<h2>Quiz</h2>
+<div class="noprint">
+<div class="row"><button onclick="resetQuiz()">Restart</button><span id="score"></span></div>
+<div id="qbox"></div>
+<h3>Numerical drill: average rate</h3>
+<div class="card" id="drill"></div>
+</div>
+<div class="printonly" id="quizprint"></div>
+</section>
+
+<section id="cheat">
+<h2>Cheat sheet</h2>
+<div class="card">
+<div class="grid2">
+<div>
+<b>Graph:</b> x = time, y = concentration; large; freehand smooth; ignore outliers; label only used points.<br>
+<b>Reactant</b> falls, steepest at start (high [A] → more effective collisions). <b>Product</b> starts at 0 and rises, then levels.<br>
+<b>Average rate</b> = (1/coeff)·|ΔC/Δt| over the <b>exact</b> two times given.<br>
+<b>Instantaneous</b> = (1/coeff)·|slope of tangent|; slope = (y₂−y₁)/(x₂−x₁) from two points on the tangent.<br>
+<b>Initial rate</b>: t = 0 (used for order).<br>
+<b>Straight line</b>: avg = instantaneous.
+</div>
+<div>
+<b>Units:</b> mol L⁻¹ s⁻¹ (or min⁻¹).<br>
+<b>"Rate of disappearance of A"</b> = |d[A]/dt| (no coefficient). <b>Reaction rate / relation</b>: divide by coefficient.<br>
+aA+bB→cC+dD: rate = |d[A]/dt|/a = |d[B]/dt|/b = d[C]/dt/c = d[D]/dt/d.<br>
+<b>Factors:</b> concentration, pressure (gases), temperature, catalyst, light, surface area.<br>
+<b>Catalyst</b> lowers Eₐ via a new path. <b>Temperature</b> doesn't lower Eₐ; more molecules exceed it.<br>
+<b>Bring:</b> calculator, pencil, scale, 2 graph papers.
+</div></div>
+</div>
+</section>
+
+</main>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+function toggleTheme(){const r=document.documentElement;const d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'}
+const links=[...document.querySelectorAll('#nav a[href^="#"]')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-20% 0px -70% 0px'});
+document.querySelectorAll('section').forEach(s=>io.observe(s));
+const sup=n=>String(n).replace(/[0-9]/g,d=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[d]).replace('-','⁻');
+const fx=(x,p=3)=>{if(x===0)return '0';const [m,e]=x.toExponential(p-1).split('e');return +e===0?m:m+'×10'+sup(+e)};
+
+/* relation calculator */
+function rel(){const co=[+$('ra').value,+$('rb').value,+$('rc').value,+$('rd').value];const k=+$('rsp').value;const v=parseFloat($('rv').value);const nm=['A','B','C','D'];
+ if(!(v>=0)||!(co[k]>0)){$('rout').innerHTML='<span style="color:var(--bad)">Pick a species with a non-zero coefficient and enter a positive rate.</span>';return}
+ const r=v/co[k];let t=`Overall rate = ${v} / ${co[k]} = <b>${+r.toPrecision(4)} mol L⁻¹ s⁻¹</b><br>`;
+ co.forEach((c,i)=>{if(c>0)t+=`Rate of ${i<2?'disappearance':'formation'} of ${nm[i]} = ${c} × ${+r.toPrecision(4)} = <b>${+(c*r).toPrecision(4)}</b> mol L⁻¹ s⁻¹<br>`});$('rout').innerHTML=t}
+['ra','rb','rc','rd','rsp','rv'].forEach(i=>$(i).addEventListener('input',rel));rel();
+
+/* PCHIP */
+function pchip(x,y){const n=x.length,h=[],d=[],m=new Array(n).fill(0);for(let i=0;i<n-1;i++){h[i]=x[i+1]-x[i];d[i]=(y[i+1]-y[i])/h[i]}
+ if(n===2){m[0]=m[1]=d[0]}else{
+ for(let i=1;i<n-1;i++){if(d[i-1]*d[i]>0){const w1=2*h[i]+h[i-1],w2=h[i]+2*h[i-1];m[i]=(w1+w2)/(w1/d[i-1]+w2/d[i])}}
+ const end=(h0,h1,d0,d1)=>{let v=((2*h0+h1)*d0-h0*d1)/(h0+h1);if(Math.sign(v)!==Math.sign(d0))v=0;else if(Math.sign(d0)!==Math.sign(d1)&&Math.abs(v)>3*Math.abs(d0))v=3*d0;return v};
+ m[0]=end(h[0],h[1],d[0],d[1]);m[n-1]=end(h[n-2],h[n-3],d[n-2],d[n-3])}
+ const seg=t=>{let i=0;while(i<n-2&&t>x[i+1])i++;return i};
+ return{f(t){const i=seg(t),H=h[i],u=(t-x[i])/H;return(2*u**3-3*u**2+1)*y[i]+(u**3-2*u**2+u)*H*m[i]+(-2*u**3+3*u**2)*y[i+1]+(u**3-u**2)*H*m[i+1]},
+  d(t){const i=seg(t),H=h[i],u=(t-x[i])/H;return((6*u**2-6*u)*y[i]+(3*u**2-4*u+1)*H*m[i]+(-6*u**2+6*u)*y[i+1]+(3*u**2-2*u)*H*m[i+1])/H}}}
+
+/* data sets */
+const DS={
+ s16:{name:'Slide 16: [A] vs t (min)',role:'r',coef:1,t1:30,t2:65,ti:40,pts:[[5,50],[15,40],[25,32],[37,26],[45,21],[53,17],[60,14],[70,12],[80,11],[95,10.5]]},
+ q14:{name:'Sheet Q14: [A] vs t (s)',role:'r',coef:1,t1:5,t2:8,ti:10,pts:[[0,1],[5,.8],[10,.65],[15,.55],[20,.48],[25,.43]]},
+ q15:{name:'Sheet Q15: [A] vs t (min)',role:'r',coef:1,t1:5,t2:10,ti:5,pts:[[0,50],[2.5,40],[5,30],[7.5,23],[10,18],[12.5,14]]},
+ q7:{name:'Sheet Q7: [A] vs t (min)',role:'r',coef:1,t1:2.5,t2:7.5,ti:5,pts:[[0,.5],[2.5,.389],[5,.303],[7.5,.236],[10,.184],[12.5,.143]]},
+ q16:{name:'Sheet Q16: [B] vs t (min), product',role:'p',coef:1,t1:0,t2:6,ti:7.5,pts:[[0,0],[2.5,10],[4.5,18.5],[5,20],[5.5,21.5],[7.5,27],[8,28.5],[8.5,30],[10,32],[12.5,36]]},
+ s2a:{name:'Example: 2A → 3B, graph of A (min)',role:'r',coef:2,t1:5,t2:20,ti:10,pts:[[0,1],[5,.72],[10,.52],[20,.27],[30,.14],[40,.07]]},
+ custom:{name:'Your own data',role:'r',coef:1,t1:1,t2:3,ti:2,pts:[[0,1],[1,.6],[2,.38],[3,.25],[4,.18]]}
+};
+Object.entries(DS).forEach(([k,v])=>{const o=document.createElement('option');o.value=k;o.textContent=v.name;$('ds').appendChild(o)});
+function loadDS(){const d=DS[$('ds').value];$('role').value=d.role;$('coef').value=d.coef;$('t1').value=d.t1;$('t2').value=d.t2;$('ti').value=d.ti;$('pts').value=d.pts.map(p=>p.join(', ')).join('\n');draw()}
+function parsePts(){const r=[];$('pts').value.split('\n').forEach(l=>{const m=l.split(/[,\s;]+/).map(Number).filter(v=>!isNaN(v)&&isFinite(v));if(l.trim()&&m.length>=2)r.push([m[0],m[1]])});r.sort((a,b)=>a[0]-b[0]);return r.filter((p,i)=>i===0||p[0]!==r[i-1][0])}
+function draw(){
+ const P=parsePts();const out=$('gout'),svg=$('plot');
+ if(P.length<3){out.innerHTML='<span style="color:var(--bad)">Enter at least 3 points.</span>';svg.innerHTML='';return}
+ const xs=P.map(p=>p[0]),ys=P.map(p=>p[1]);const g=pchip(xs,ys);
+ const x0=xs[0],x1=xs[xs.length-1];
+ const W=680,H=420,L=64,Rr=20,T=20,B=52;
+ const ymax=Math.max(...ys)*1.08,ymin=Math.min(0,Math.min(...ys));
+ const sx=t=>L+(t-Math.min(0,x0))/(x1*1.04-Math.min(0,x0))*(W-L-Rr),sy=v=>H-B-(v-ymin)/(ymax-ymin)*(H-T-B);
+ const xmin=Math.min(0,x0),xmax=x1*1.04;
+ const nice=(a,b,k)=>{const r=(b-a)/k,p=Math.pow(10,Math.floor(Math.log10(r))),m=r/p;const s=(m<1.5?1:m<3?2:m<7?5:10)*p;const o=[];for(let v=Math.ceil(a/s)*s;v<=b+1e-9;v+=s)o.push(+v.toFixed(10));return o};
+ let s='';const gx=nice(xmin,xmax,8),gy=nice(ymin,ymax,8);
+ if($('gridchk').checked){gx.forEach(v=>s+=`<line x1="${sx(v)}" x2="${sx(v)}" y1="${T}" y2="${H-B}" stroke="var(--grid)" stroke-width=".7"/>`);gy.forEach(v=>s+=`<line x1="${L}" x2="${W-Rr}" y1="${sy(v)}" y2="${sy(v)}" stroke="var(--grid)" stroke-width=".7"/>`)}
+ s+=`<line x1="${L}" x2="${W-Rr}" y1="${H-B}" y2="${H-B}" stroke="currentColor"/><line x1="${L}" x2="${L}" y1="${T}" y2="${H-B}" stroke="currentColor"/>`;
+ gx.forEach(v=>s+=`<text x="${sx(v)}" y="${H-B+16}" text-anchor="middle" font-size="11">${v}</text>`);
+ gy.forEach(v=>s+=`<text x="${L-6}" y="${sy(v)+4}" text-anchor="end" font-size="11">${v}</text>`);
+ s+=`<text x="${(L+W-Rr)/2}" y="${H-10}" text-anchor="middle" font-size="13">Time</text><text transform="translate(16 ${(T+H-B)/2}) rotate(-90)" text-anchor="middle" font-size="13">Concentration</text>`;
+ let path='';for(let i=0;i<=200;i++){const t=x0+(x1-x0)*i/200;path+=(i?'L':'M')+sx(t).toFixed(1)+' '+sy(g.f(t)).toFixed(1)}
+ s+=`<path d="${path}" fill="none" stroke="var(--curve)" stroke-width="2.2"/>`;
+ P.forEach(p=>s+=`<circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="3.6" fill="var(--card)" stroke="var(--curve)" stroke-width="1.8"/>`);
+ const coef=+$('coef').value||1,role=$('role').value;
+ const t1=+$('t1').value,t2=+$('t2').value,ti=+$('ti').value;let txt='';
+ const inR=t=>t>=x0&&t<=x1;
+ if(inR(t1)&&inR(t2)&&t1!==t2){const c1=g.f(t1),c2=g.f(t2);const sl=(c2-c1)/(t2-t1);
+  s+=`<line x1="${sx(t1)}" x2="${sx(t2)}" y1="${sy(c1)}" y2="${sy(c2)}" stroke="var(--ok)" stroke-width="2" stroke-dasharray="6 4"/><circle cx="${sx(t1)}" cy="${sy(c1)}" r="4.5" fill="var(--ok)"/><circle cx="${sx(t2)}" cy="${sy(c2)}" r="4.5" fill="var(--ok)"/>`;
+  s+=`<text x="${sx(t1)+6}" y="${sy(c1)-8}" font-size="11" style="fill:var(--ok)">(${t1}, ${+c1.toPrecision(3)})</text><text x="${sx(t2)+6}" y="${sy(c2)-8}" font-size="11" style="fill:var(--ok)">(${t2}, ${+c2.toPrecision(3)})</text>`;
+  const rate=Math.abs(sl)/coef;
+  txt+=`<b>Average rate, ${t1} → ${t2}</b><br>[ ] at ${t1} ≈ ${+c1.toPrecision(3)}, at ${t2} ≈ ${+c2.toPrecision(3)}<br>d[ ]/dt = (${+c2.toPrecision(3)} − ${+c1.toPrecision(3)})/(${t2} − ${t1}) = ${+sl.toPrecision(3)}<br>${coef!==1?`Divide by coefficient ${coef}: `:''}<b>average rate ≈ ${+rate.toPrecision(3)}</b> (concentration/time unit)<br><br>`}
+ else txt+='<span style="color:var(--bad)">t₁ and t₂ must be different and inside the data range.</span><br><br>';
+ if(inR(ti)){const c=g.f(ti),sl=g.d(ti);const half=(x1-x0)*0.18;const ta=Math.max(x0,ti-half),tb=Math.min(x1,ti+half);
+  const ya=c+sl*(ta-ti),yb=c+sl*(tb-ti);
+  s+=`<line x1="${sx(ta)}" x2="${sx(tb)}" y1="${sy(ya)}" y2="${sy(yb)}" stroke="var(--tan)" stroke-width="2"/><circle cx="${sx(ti)}" cy="${sy(c)}" r="5" fill="var(--tan)"/><circle cx="${sx(ta)}" cy="${sy(ya)}" r="3.5" fill="var(--tan)"/><circle cx="${sx(tb)}" cy="${sy(yb)}" r="3.5" fill="var(--tan)"/>`;
+  s+=`<text x="${sx(tb)}" y="${sy(yb)-8}" font-size="11" text-anchor="end" style="fill:var(--tan)">(${+tb.toPrecision(3)}, ${+yb.toPrecision(3)})</text><text x="${sx(ta)}" y="${sy(ya)+16}" font-size="11" text-anchor="start" style="fill:var(--tan)">(${+ta.toPrecision(3)}, ${+ya.toPrecision(3)})</text>`;
+  const rate=Math.abs(sl)/coef;
+  txt+=`<b>Instantaneous rate at t = ${ti}</b><br>Tangent through (${ti}, ${+c.toPrecision(3)}); two points on it: (${+ta.toPrecision(3)}, ${+ya.toPrecision(3)}) and (${+tb.toPrecision(3)}, ${+yb.toPrecision(3)})<br>slope = (y₂ − y₁)/(x₂ − x₁) = ${+sl.toPrecision(3)} ${role==='r'?'(negative: concentration falling)':'(positive: product forming)'}<br>${coef!==1?`Divide by coefficient ${coef}: `:''}<b>instantaneous rate ≈ ${+rate.toPrecision(3)}</b>`}
+ else txt+='<span style="color:var(--bad)">The instantaneous-rate time must be inside the data range.</span>';
+ svg.innerHTML=s;out.innerHTML=txt}
+$('ds').addEventListener('change',loadDS);
+['pts','role','coef','t1','t2','ti','gridchk'].forEach(i=>$(i).addEventListener('input',draw));
+$('ds').value='s16';loadDS();
+
+/* Arrhenius calc */
+function arr(){const k1=parseFloat($('ak1').value),k2=parseFloat($('ak2').value),T1=parseFloat($('aT1').value),T2=parseFloat($('aT2').value);
+ if(!(k1>0&&k2>0&&T1>0&&T2>0&&T1!==T2)){$('aout').textContent='Enter positive values with T₁ ≠ T₂.';return}
+ const Ea=8.314*Math.log(k2/k1)/(1/T1-1/T2);$('aout').innerHTML=`ln(k₂/k₁) = ${Math.log(k2/k1).toFixed(3)}; 1/T₁ − 1/T₂ = ${(1/T1-1/T2).toExponential(3)}<br>Eₐ = R·ln(k₂/k₁)/(1/T₁ − 1/T₂) = <b>${fx(Ea)} J mol⁻¹ = ${(Ea/1000).toFixed(1)} kJ mol⁻¹</b>`}
+['ak1','ak2','aT1','aT2'].forEach(i=>$(i).addEventListener('input',arr));arr();
+
+/* flashcards */
+const cards=[
+["Define rate of reaction.","Change in concentration of a reactant or product per unit time."],
+["Units of rate?","Concentration/time, e.g. mol L⁻¹ s⁻¹ or mol L⁻¹ min⁻¹."],
+["Why are rates always positive? How do you ensure it for a reactant?","d[reactant]/dt is negative, so use a minus sign or the modulus |d[A]/dt|."],
+["What does the reactant graph look like? The product graph?","Reactant: falling curve. Product: starts at zero and rises. Both are steepest at the start and flatten later."],
+["Why is the rate highest at the start?","Highest reactant concentration, so more collisions, so more effective collisions: a steeper slope."],
+["Why does the rate fall as the reaction proceeds?","The reactant is consumed; concentration falls, so there are fewer effective collisions."],
+["What does the flat part of the graph mean?","Completion / equilibrium: the change in concentration is negligible."],
+["Three kinds of reaction rate?","Initial, average and instantaneous."],
+["Initial rate?","Rate at t = 0; helps in complex reactions and in finding the order."],
+["Average rate formula?","ΔC/Δt over the two given times, divided by the coefficient (use the modulus for a reactant)."],
+["Instantaneous rate?","Slope of the tangent at that point (divided by the coefficient)."],
+["How to find the slope of a tangent?","Pick two points on the tangent line: slope = (y₂ − y₁)/(x₂ − x₁)."],
+["Which times do you use for the average rate?","Exactly the two times given: no more, no less."],
+["Do you hand-calculate exact values from the data?","No. Read approximate values from your own graph."],
+["How do you treat a deviating point on the graph?","Leave it off; follow the overall trend (freehand smooth curve)."],
+["If the graph is a straight line, average vs instantaneous rate?","They are equal (the slope is the same everywhere)."],
+["Rate of disappearance of A?","|d[A]/dt|, with no coefficient."],
+["When does the coefficient come in?","When you write the overall reaction rate or the relation between species: divide by the coefficient."],
+["Relation for 2A → 3B?","½|d[A]/dt| = ⅓ d[B]/dt."],
+["Rate relation for A + 2B → 3C + D?","|d[A]/dt| = ½|d[B]/dt| = ⅓ d[C]/dt = d[D]/dt."],
+["2A → 3B; A disappears at 0.01. Rate of B formation?","½(0.01) = ⅓ d[B]/dt → 0.015."],
+["Six factors affecting rate?","Concentration, pressure (gases), temperature, catalyst, light, surface area."],
+["How does a catalyst work?","Provides a new route with lower activation energy; it isn't consumed (regenerated)."],
+["Does temperature lower the activation energy?","No. More molecules have energy above Eₐ (higher KE), so more effective collisions."],
+["What is activation energy?","The minimum energy needed to start the reaction (reactant level to the peak of the barrier)."],
+["What does the Boltzmann (Maxwell) curve show?","Number of molecules vs KE: at higher T the curve shifts right, so more molecules exceed Eₐ."],
+["Which factor applies only to gases?","Pressure."],
+["Why does surface area increase rate?","The reaction occurs at the surface; more surface means more places for collisions (chopped wood, nanomaterials)."],
+["What does light do?","Provides photons (activation energy), producing radicals e.g. Cl₂ → 2Cl•; photochemical reactions."],
+["Arrhenius equation?","k = A e^(−Eₐ/RT); ln k vs 1/T has slope −Eₐ/R."],
+["Rate law?","rate = k[A]ᵐ[B]ⁿ (found experimentally)."],
+["Order of reaction?","Sum of the powers in the rate law (m + n)."],
+["First-order half-life?","0.693/k."],
+["Zero order: [A] vs t?","Straight line with slope −k; k has units M s⁻¹."],
+["Units of k for first and second order?","First: s⁻¹. Second: M⁻¹ s⁻¹."],
+["What to bring to the tutorial?","Own calculator, pencil, scale, and at least two graph papers."]
+];
+let fi=0;
+function fcShow(){$('fcf').textContent=cards[fi][0];$('fcb').textContent=cards[fi][1];$('fc').classList.remove('flip');$('fcn').textContent=(fi+1)+' / '+cards.length}
+function fcNext(){fi=(fi+1)%cards.length;fcShow()}function fcPrev(){fi=(fi-1+cards.length)%cards.length;fcShow()}
+function fcShuf(){for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]]}fi=0;fcShow()}
+fcShow();
+$('fcprint').innerHTML='<table><tr><th>Question</th><th>Answer</th></tr>'+cards.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td></tr>`).join('')+'</table>';
+
+/* quiz */
+const Q=[
+["On a [A] vs time graph, the rate is highest where",["The curve is flattest","The curve is steepest","The curve ends","The curve crosses the axis"],1,"Steeper slope = larger rate; this is at the start, where [A] is highest."],
+["Why is the initial rate higher?",["Lower temperature","More reactant, so more effective collisions","Catalyst appears","Products inhibit"],1,"Higher concentration gives more collisions and more effective collisions."],
+["The flat end of the concentration–time curve indicates",["Rate is highest","Completion/equilibrium: negligible change","Catalyst failure","Negative rate"],1,"Concentration hardly changes."],
+["A product's concentration–time graph starts at",["The initial reactant concentration","Zero","Infinity","The final concentration"],1,"There was no product at the start."],
+["For a reactant, d[A]/dt is",["Positive","Negative","Zero always","Undefined"],1,"So use a minus sign or the modulus to get a positive rate."],
+["The average rate between two times is calculated as",["Slope of a tangent","ΔC/Δt between the two times","C at t = 0","Final concentration"],1,"Like average velocity."],
+["The instantaneous rate at a time is found from",["The slope of the tangent at that point","The initial concentration","The area under the curve","Two arbitrary times"],0,"A single point has no change, so use the tangent."],
+["Slope of a tangent is",["(x₂ − x₁)/(y₂ − y₁)","(y₂ − y₁)/(x₂ − x₁)","y₁ × x₁","y₂ + y₁"],1,"Concentration (y) change over time (x) change."],
+["For the average rate you should use",["Any times near the given ones","Exactly the two times given","The first and last data points","t = 0 only"],1,"Use the exact interval; read values from your graph."],
+["A straight-line concentration–time graph means",["Average rate ≠ instantaneous rate","Average rate = instantaneous rate","Rate is zero","Rate increases"],1,"The slope is constant everywhere."],
+["Rate of disappearance of A for 2A → B is",["½|d[A]/dt|","|d[A]/dt|","2|d[A]/dt|","d[B]/dt"],1,"It is A's own rate: no coefficient."],
+["For 2A → B the overall average rate found from A is",["|d[A]/dt|","½|d[A]/dt|","2|d[A]/dt|","−d[B]/dt"],1,"Divide by the coefficient 2."],
+["For 2A → 3B the relation is",["½|d[A]/dt| = ⅓ d[B]/dt","2|d[A]/dt| = 3 d[B]/dt","|d[A]/dt| = d[B]/dt","⅓|d[A]/dt| = ½ d[B]/dt"],0,"Divide each by its coefficient."],
+["2A + B → 3C: rate of disappearance of A = 0.10. Rate of formation of C =",["0.05","0.10","0.15","0.30"],2,"Overall = 0.05; C = 3 × 0.05 = 0.15."],
+["A: 0.50 → 0.30 mol/L from 10 s to 40 s (A → products). Average rate =",["0.0067 mol/L/s","0.67 mol/L/s","0.20 mol/L/s","0.020 mol/L/s"],0,"0.20/30."],
+["Product C: 0.05 → 0.25 mol/L in 50 s. Average rate of formation =",["0.004","0.005","0.04","0.4"],0,"0.20/50 = 0.004 mol/L/s."],
+["Which is NOT a way to measure concentration indirectly?",["Absorbance","Conductance","Volume of gas","Boiling the solution"],3,"Properties proportional to concentration: refractive index, absorbance, conductance, gas volume."],
+["Which factor applies only to gases?",["Surface area","Catalyst","Pressure","Light"],2,"Higher pressure brings gas molecules closer."],
+["A catalyst increases the rate by",["Raising temperature","Providing a path with lower activation energy","Consuming reactants","Changing the products"],1,"The original path is unchanged."],
+["Does raising the temperature lower the activation energy?",["Yes","No: more molecules have energy ≥ Eₐ","Only for gases","Only with a catalyst"],1,"The barrier stays; molecules have more KE."],
+["Activation energy is measured from",["Zero energy to the peak","The reactant level to the peak","Product level to peak","Peak to product"],1,"Minimum energy needed to start the reaction."],
+["Chopping wood into pieces speeds burning because of",["Higher pressure","Larger total surface area","Lower Eₐ","Less oxygen"],1,"The reaction occurs at the surface."],
+["Cl₂ in sunlight forms",["Cl⁻ ions","Cl• radicals","Cl₃","Nothing"],1,"Photons break the bond, giving reactive radicals."],
+["In the Boltzmann distribution, raising temperature",["Shifts the curve to higher KE and flattens it","Shifts to lower KE","Doesn't change","Narrows only"],0,"More molecules above the threshold energy."],
+["Which are typical catalysts mentioned in class?",["Transition metals / compounds such as Ni, Fe, V₂O₅","Noble gases","Water","Alkali metals"],0,"Most catalysts are d-block transition metals."],
+["Lecturer's tutorial syllabus: slide",["5","11","16","25"],2,"Slide 16 of Lecture 5–6."],
+["What must you bring to the tutorial?",["Textbook only","Own calculator, pencil, scale and graph papers","Phone","Nothing"],1,"Also: no makeup tutorial."],
+["rate = k[G]², k = 0.1 L/mol/s, [G] = 0.5 M gives",["0.05","0.025","0.25","0.0125"],1,"0.1 × 0.25."],
+["Order of a reaction is",["The number of reactants","The sum of the powers of concentrations in the rate law","The coefficient total","Always 1"],1,"Experimental, not from coefficients."],
+["Doubling [A] doubles the rate. The order in A is",["0","1","2","3"],1,"Rate ∝ [A]."],
+["First-order half-life with k = 0.450 s⁻¹ is",["0.693 s","1.54 s","0.450 s","2.2 s"],1,"0.693/0.450."],
+["Unit of k for a first-order reaction",["s⁻¹","M s⁻¹","M⁻¹ s⁻¹","M² s⁻¹"],0,"Time⁻¹."],
+["The Arrhenius plot of ln k vs 1/T has slope",["Eₐ/R","−Eₐ/R","−Eₐ","R/Eₐ"],1,"ln k = ln A − (Eₐ/R)(1/T)."],
+["An experimental point deviates from the trend. You should",["Force the curve through it","Leave it off the smooth curve","Delete the graph","Use it for the tangent"],1,"Follow the overall trend."]
+];
+let ans=0,done=0;
+function resetQuiz(){ans=0;done=0;$('score').textContent='';const b=$('qbox');b.innerHTML='';
+ Q.forEach((q,i)=>{const d=document.createElement('div');d.className='card q';d.innerHTML=`<b>${i+1}. ${q[0]}</b>`;
+  q[1].forEach((o,j)=>{const bt=document.createElement('button');bt.className='opt';bt.textContent=o;bt.onclick=()=>{if(d.dataset.done)return;d.dataset.done=1;done++;
+   [...d.querySelectorAll('.opt')].forEach((x,k)=>{if(k===q[2])x.classList.add('ok')});if(j===q[2])ans++;else bt.classList.add('bad');
+   d.querySelector('.exp').classList.add('show');$('score').textContent=`Score ${ans} / ${done} (of ${Q.length})`};d.appendChild(bt)});
+  const e=document.createElement('div');e.className='exp';e.textContent=q[3];d.appendChild(e);b.appendChild(d)})}
+resetQuiz();
+$('quizprint').innerHTML='<ol>'+Q.map(q=>`<li>${q[0]}<br>${q[1].map((o,j)=>String.fromCharCode(65+j)+') '+o).join(' &nbsp; ')}<br><i>Answer: ${String.fromCharCode(65+q[2])}. ${q[3]}</i></li>`).join('')+'</ol>';
+
+/* drill */
+function newDrill(){const c1=+(0.3+Math.random()*0.7).toFixed(2),dc=+(0.05+Math.random()*(c1-0.1)*0.6).toFixed(2),c2=+(c1-dc).toFixed(2),t1=Math.floor(Math.random()*20),dt=10+Math.floor(Math.random()*5)*5;const t2=t1+dt;const co=[1,2,3][Math.floor(Math.random()*3)];
+ const ans=dc/dt/co;
+ $('drill').innerHTML=`<b>Reaction ${co}A → products. [A] falls from ${c1} mol L⁻¹ at ${t1} s to ${c2} mol L⁻¹ at ${t2} s. Find the <u>average rate of the reaction</u> (include the coefficient) in mol L⁻¹ s⁻¹, as a number ×10⁻³.</b><div class="row" style="margin-top:8px"><input id="dans" type="number" step="any" placeholder="×10⁻³"><button onclick="chk(${ans*1000})">Check</button><button class="ghost" onclick="newDrill()">New question</button></div><div id="dres" style="margin-top:8px"></div>`;
+ window._s=`|d[A]/dt| = (${c1} − ${c2})/(${t2} − ${t1}) = ${(dc/dt*1000).toFixed(2)}×10⁻³; divide by coefficient ${co}: average rate = ${(ans*1000).toFixed(2)}×10⁻³ mol L⁻¹ s⁻¹.`}
+function chk(a){const v=+$('dans').value;const ok=Math.abs(v-a)/a<0.03;$('dres').innerHTML=(ok?'<span style="color:var(--ok)"><b>Correct!</b></span> ':'<span style="color:var(--bad)"><b>Not quite.</b></span> ')+window._s}
+newDrill();
+</script>
+</body>
+</html>
