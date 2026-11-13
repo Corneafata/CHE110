@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CHE110 · L4</title>
+<style>
+:root{--bg:#fafaf7;--card:#fff;--ink:#1d2330;--mute:#5c6577;--line:#e3e4ea;--acc:#2f5fd0;--accbg:#e8efff;--ok:#1b7f4b;--okbg:#e3f5ea;--bad:#b3261e;--badbg:#fde8e6;--warn:#8a5a00;--warnbg:#fff3d6;--class:#6a3fc4;--classbg:#efe8fb;--code:#f1f2f6;--grid:#d9dde8;--curve:#2f5fd0;--tan:#d6452f}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--ok:#5fd394;--okbg:#17301f;--bad:#ff8a80;--badbg:#3a1c1a;--warn:#f5c15a;--warnbg:#3a2e12;--class:#b79cff;--classbg:#2a2144;--code:#242837;--grid:#2c3040;--curve:#7da2ff;--tan:#ff8a6b}}
+:root[data-theme=dark]{--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--ok:#5fd394;--okbg:#17301f;--bad:#ff8a80;--badbg:#3a1c1a;--warn:#f5c15a;--warnbg:#3a2e12;--class:#b79cff;--classbg:#2a2144;--code:#242837;--grid:#2c3040;--curve:#7da2ff;--tan:#ff8a6b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}
+.layout{display:flex;max-width:1200px;margin:0 auto}
+nav{position:sticky;top:0;align-self:flex-start;height:100vh;overflow:auto;width:260px;flex:none;padding:18px 14px;border-right:1px solid var(--line)}
+nav h1{font-size:17px;margin:0 0 4px}
+nav small{color:var(--mute)}
+nav a{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--ink);font-size:14px}
+nav a:hover,nav a.on{background:var(--accbg);color:var(--acc)}
+nav .grp{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:14px 8px 4px}
+main{flex:1;min-width:0;padding:20px 28px 80px}
+section{margin-bottom:46px;scroll-margin-top:12px}
+h2{font-size:25px;margin:0 0 6px;border-bottom:2px solid var(--line);padding-bottom:6px}
+h3{font-size:18px;margin:22px 0 6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:1px 8px;border-radius:99px;vertical-align:middle;margin-right:6px}
+.t-class{background:var(--classbg);color:var(--class)}
+.t-slide{background:var(--accbg);color:var(--acc)}
+.t-exam{background:var(--warnbg);color:var(--warn)}
+.callout{border-left:4px solid var(--acc);background:var(--accbg);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0}
+.callout.class{border-color:var(--class);background:var(--classbg)}
+.callout.warn{border-color:var(--warn);background:var(--warnbg)}
+.callout.ok{border-color:var(--ok);background:var(--okbg)}
+.callout.bad{border-color:var(--bad);background:var(--badbg)}
+.eq{background:var(--code);border-radius:10px;padding:10px 14px;margin:10px 0;font-family:Cambria Math,Georgia,serif;font-size:19px;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--code)}
+ul,ol{padding-left:22px}li{margin:3px 0}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:7px 14px;cursor:pointer}
+button.ghost{background:var(--code);color:var(--ink);border:1px solid var(--line)}
+input,select,textarea{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+input[type=number],input[type=text]{width:105px}
+textarea{width:100%;max-width:360px;height:130px;font-family:ui-monospace,Consolas,monospace;font-size:13px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:820px){nav{display:none}main{padding:16px}.grid2{grid-template-columns:1fr}}
+.res{font-size:15px}
+.fc{perspective:900px;height:170px;cursor:pointer;margin:10px 0}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.fc.flip .in{transform:rotateY(180deg)}
+.fc .f,.fc .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;border:1px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;padding:18px;text-align:center;font-size:18px}
+.fc .b{transform:rotateY(180deg);background:var(--accbg);font-size:16px}
+.q{margin:14px 0}.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--line);margin:5px 0}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}.opt.bad{background:var(--badbg);border-color:var(--bad)}
+.exp{display:none;margin-top:6px;font-size:14.5px;color:var(--mute)}.exp.show{display:block}
+.pk{display:inline-block;background:var(--warnbg);color:var(--warn);border-radius:99px;padding:3px 12px;font-weight:600;margin:3px}
+.printonly{display:none}
+details{margin:8px 0}summary{cursor:pointer;font-weight:600}
+.timer{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;border-radius:99px;padding:1px 9px;font-size:12px;background:var(--code);border:1px solid var(--line);margin-left:6px;color:var(--mute)}
+@media print{
+ nav,.noprint,.fc,.q button,#toolbar{display:none!important}
+ .printonly{display:block}
+ details{display:block}details>*{display:block}summary{display:none}
+ body{background:#fff;color:#000;font-size:11.5pt}
+ :root{--bg:#fff;--card:#fff;--ink:#000}
+ main{padding:0}.layout{display:block}
+ .card,.callout,table,.eq{break-inside:avoid}
+ h2{break-after:avoid}
+}
+svg text{fill:var(--ink);font-family:system-ui}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav id="nav">
+<h1>CHE110 · L4</h1><small>Periodicity (Quiz 2)</small>
+<div class="grp">Site</div><a href="index.html">← Hub (all guides)</a>
+<div class="grp">Start here</div>
+<a href="#exam">What the lecturer wants</a>
+<a href="#map">Slides ↔ class map</a>
+<div class="grp">Class notes</div>
+<a href="#history">1 · Mendeleev, Moseley</a>
+<a href="#period">2 · Periodicity &amp; blocks</a>
+<a href="#zeff">3 · Shielding &amp; Z<sub>eff</sub></a>
+<a href="#radius">4 · Atomic &amp; ionic radius</a>
+<a href="#ie">5 · Ionization energy</a>
+<a href="#ea">6 · Electron affinity</a>
+<a href="#en">7 · Electronegativity</a>
+<a href="#diag">8 · Diagonal relationship</a>
+<a href="#defects">9 · Defects of the table</a>
+<div class="grp">Interactive</div>
+<a href="#tools">Trend charts &amp; tools</a>
+<div class="grp">Practice</div>
+<a href="#cards">Flashcards</a>
+<a href="#quiz">Quiz</a>
+<a href="#cheat">Cheat sheet</a>
+<div class="grp">Other guides</div>
+<a href="CHE110_L5-6_Kinetics_Guide.html">Lecture 5–6 (slide 23+)</a>
+<a href="CHE110_L7_Mechanism_Guide.html">Lecture 7</a>
+<a href="CHE110_Quiz2_Prep.html">Quiz 2 prep</a>
+<div class="grp">&nbsp;</div><button class="ghost" onclick="toggleTheme()">Light / dark</button><button class="ghost" style="margin-top:6px" onclick="window.print()">Print / save PDF</button>
+</nav>
+<main>
+
+<section id="exam">
+<h2>CHE110 · Lecture 4: Periodicity</h2>
+<p>Built from the two periodicity transcripts (the file names say "L3"; they cover <b>Lecture 4</b> on your slides) and the Lecture 4 slides.
+<span class="tag t-class">TAUGHT IN CLASS</span> <span class="tag t-exam">EXAM SIGNAL</span> <span class="tag t-slide">SLIDES ONLY</span></p>
+<div class="callout warn"><b>Quiz 2 (Monday 16 November, 10 marks, 15 minutes)</b> covers Lecture 4, Lecture 5–6 (slide 23 to the end) and Lecture 7. All of this page is in scope.</div>
+
+<h3>What the lecturer said about the exam</h3>
+<div class="callout class"><ol style="margin:4px 0">
+<li>Periodicity comes as <b>small sub-questions</b> (1–1.5 marks) attached to bigger questions, and as <b>MCQ / true-false</b>. Quiz 2 and the midterm will have them.</li>
+<li><b>Explain with two terms:</b> "In the exam I will specifically say: explain using <b>shielding effect</b> and <b>effective nuclear charge</b> why atomic radius decreases or increases group-wise or period-wise." Write <b>2–3 lines</b>, not an essay.</li>
+<li>Write <b>less, legibly, to the point</b>. Space is deliberately small and "unnecessary writing" loses marks.</li>
+<li><b>True/false trap:</b> "The radius of Cl⁻ is smaller than Cl" is <b>False</b>.</li>
+<li><b>Ion-size ordering</b> questions "will definitely be in your exam": e.g. Al³⁺ < Na⁺ < F⁻ < O²⁻ and Fe⁴⁺ < Fe³⁺ < Fe²⁺.</li>
+<li><b>MCQ shortcut:</b> for "highest ionization potential and lowest electron affinity", look for a <b>noble gas</b> among the options first. If it is there, that is the answer.</li>
+<li><b>Exceptions</b> in ionization energy and electron affinity will be asked. Know the electronic configurations of atoms <b>1 to 20</b> (examples never go beyond 30). If asked to explain an exception, just <b>show the configuration</b>.</li>
+<li><b>Electronegativity exceptions</b> (relativistic effect, Hg, Group 12/13) will <b>not</b> be asked. Know how EN works group-wise, period-wise and in bonding.</li>
+<li><b>Diagonal relationship:</b> MCQs like "which pair is (not) diagonally related?" Never the numerical properties.</li>
+<li>Only what was <b>taught in class</b> is examined. The slides contain extra reading.</li>
+</ol></div>
+<div class="card"><span class="pk">Explain radius with Z_eff + shielding</span><span class="pk">Cl⁻ larger than Cl</span><span class="pk">Al³⁺ &lt; Na⁺ &lt; F⁻ &lt; O²⁻</span><span class="pk">Fe⁴⁺ &lt; Fe³⁺ &lt; Fe²⁺</span><span class="pk">IE: N &gt; O, Be &gt; B</span><span class="pk">EA: C &gt; N, Cl &gt; F</span><span class="pk">Noble gas: highest IE, lowest EA</span><span class="pk">EA vs EN</span><span class="pk">Li–Mg, Be–Al, B–Si</span><span class="pk">d–d transition</span><span class="pk">Cause of periodicity</span></div>
+</section>
+
+<section id="map">
+<h2>Slides ↔ class map</h2>
+<table>
+<tr><th>Lecture 4 slide</th><th>Topic</th><th>In class?</th></tr>
+<tr><td>3–4</td><td>Mendeleev, Moseley, modern periodic law, periodicity and its cause</td><td>Yes</td></tr>
+<tr><td>5</td><td>Periodic trends overview</td><td>Yes (radius, IE, EA, EN)</td></tr>
+<tr><td>6</td><td>Z and Z<sub>eff</sub>, shielding</td><td>Yes (the formula Z<sub>eff</sub> = Z − σ is for understanding, not maths)</td></tr>
+<tr><td>7–8</td><td>Atomic radius, covalent/metallic/ionic radius, cation/anion radii</td><td>Yes (glimpse of radius types; "only as much as I taught")</td></tr>
+<tr><td>9–10</td><td>Ionization potential, successive IE, graph with exceptions</td><td>Yes</td></tr>
+<tr><td>11–12</td><td>Electron affinity and exceptions</td><td>Yes</td></tr>
+<tr><td>13–14</td><td>Electronegativity</td><td>Yes (exceptions for Hg not examined)</td></tr>
+<tr><td>15–16</td><td>Diagonal relationship (Li–Mg, Be–Al, B–Si) and property similarities</td><td>Yes (pairs only)</td></tr>
+<tr><td>17</td><td>Defects of the periodic table</td><td>Yes (list a few)</td></tr>
+<tr><td>(not on slides)</td><td>s-, d-, f-block properties: melting point, colour, alloys</td><td>Class only, "one or two small questions"</td></tr>
+</table>
+</section>
+
+<section id="history">
+<h2>1 · Mendeleev and Moseley</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES</span>
+<ul>
+<li><b>Mendeleev (1869)</b> ("father of the periodic table") arranged about 60-plus known elements by <b>atomic mass</b>, lowest to highest, grouped by matching properties. Protons, neutrons and electrons were not yet known, only masses.</li>
+<li>It worked up to a limit but not for 100%: <b>Ar (39.94) vs K (39.1)</b> and <b>Te (127.6) vs I (126.9)</b>. By mass, K and I should come first, but properties force Ar before K and Te before I. He placed them correctly but could not explain it.</li>
+<li>His greater feat: he <b>left blank spaces</b> for elements he predicted; those elements were later found.</li>
+<li><b>Moseley (1913)</b> arranged elements by <b>atomic (proton) number</b>, which explains all the anomalies. That is the <b>modern periodic table</b> (118 elements, 7 periods, 18 groups). Rutherford had found only the nucleus, not separate proton and neutron numbers.</li>
+<li><b>Modern periodic law:</b> the physical and chemical properties of elements are periodic functions of their atomic number.</li>
+</ul>
+</section>
+
+<section id="period">
+<h2>2 · Periodicity, trends and blocks</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li><b>Periodicity</b> = repetition of properties at regular intervals with increasing atomic number. It means a <b>gradual trend</b>, not random jumps (10, 10.2, 10.5, 10.9 rather than 10, 20, 25, 12). Like periodic motion: after a fixed interval, the same pattern recurs.</li>
+<li><b>Cause:</b> the <b>recurrence of similar valence-shell electronic configurations</b> after regular intervals. Group 1 is always ns¹ (1s¹, 2s¹, 3s¹, 4s¹...). "<i>Similar</i>, not the same": the ns¹ part repeats, the shell number changes. A one-line answer: "similar valence configurations recur at fixed intervals".</li>
+<li><b>Periodic trends:</b> atomic radius, ionization energy, electron affinity, electronegativity. Periods = rows (7), groups = columns (18). Trends: <b>across a period (left→right)</b> and <b>down a group (top→bottom)</b>.</li>
+<li><b>Why it matters:</b> an atom's tendency to give or take electrons (to reach stability, the octet) decides bonding; trends explain it.</li>
+</ul>
+
+<h3>Blocks (s, p, d, f)</h3>
+<table>
+<tr><th>Block</th><th>Class points</th></tr>
+<tr><td><b>s-block</b> (groups 1–2)</td><td>Low melting and boiling points relative to d-block metals. Reason: only 1–2 valence electrons → weaker metallic bond. Melting/boiling does <b>not</b> break strong bonds (ionic, covalent, metallic); the distance between particles increases (weak interactions overcome, e.g. hydrogen bonds between water molecules).</td></tr>
+<tr><td><b>d-block</b> (mostly transition metals)</td><td><b>Coloured compounds:</b> ligands (e.g. H₂O, CN⁻) approach the metal ion and <b>split the five degenerate d orbitals</b> into a lower and a higher set (crystal-field splitting, not taught in detail). An electron absorbs a photon (hν) and jumps to the higher set, then falls back releasing visible light: the <b>d–d transition</b>. Examples: CuSO₄ blue; Fe²⁺ green, Fe³⁺ reddish-brown. This is an "exception" because normally orbital type changes (s→p, p→d, d→f).<br><b>Alloys:</b> an alloy mixes metals (e.g. steel, brass, duralumin). A d-block element is always present. The large d orbitals have <b>vacancy/space</b> where other metals' electrons can move in, giving a flexible structure and changed properties (strength). Zn is not a transition metal (full d¹⁰) but still forms alloys (brass with Cu).</td></tr>
+<tr><td><b>f-block</b></td><td>Mostly radioactive; coloured by <b>f–f transitions</b> but the colours are faded, because the f subshell is deep inside and the energy gap is small.</td></tr>
+<tr><td><b>p-block</b></td><td>Mostly non-metals.</td></tr>
+</table>
+<div class="callout"><b>Short-answer templates.</b> "Why do d-block elements show colour?" → d–d transition between split d orbitals. "Why do d-block elements form alloys?" → vacant space in their d orbitals lets other metals' electrons enter.</div>
+</section>
+
+<section id="zeff">
+<h2>3 · Shielding effect and effective nuclear charge</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-exam">EXAM SIGNAL: use both terms</span>
+<ul>
+<li><b>Nuclear charge Z</b> = number of protons.</li>
+<li><b>Effective nuclear charge Z<sub>eff</sub></b> = the <b>net attraction of the nucleus on the valence-shell electrons</b> (only the outermost shell). <div class="eq">Z<sub>eff</sub> = Z − σ</div> σ = shielding (screening) constant.</li>
+<li><b>Shielding effect:</b> inner-shell electrons (between the nucleus and the valence electrons) repel the outer electrons and <b>reduce the attraction</b>. Like a barrier weakening a field. s and p electrons are dense and compact; d and f orbitals are diffuse and shield poorly.</li>
+<li><b>Down a group:</b> Z rises, but shells are added one by one, so σ rises too. Z<sub>eff</sub> increases only a little (almost constant). Example values the lecturer gave only for illustration: Z = 1, 3, 11 with Z<sub>eff</sub> = 0.5, 0.75, 1.</li>
+<li><b>Across a period:</b> same number of shells, so σ is <b>almost constant</b>, so Z<sub>eff</sub> increases <b>rapidly</b>.</li>
+<li>"Balanced" picture used in class: 11 protons balance 1 valence electron in Na, 12 balance 2 in Mg, 13 balance 3 in Al, 17 balance 7 in Cl. Fewer electrons than this balance → stronger pull per electron; extra electrons → repulsion and expansion.</li>
+</ul>
+<div class="callout ok"><b>Model answer, group-wise (2–3 lines).</b> "Down a group the number of shells increases, so the shielding effect increases. The effective nuclear charge therefore does not increase proportionally, the attraction on the outermost electrons decreases, and the atomic radius increases."<br>
+<b>Model answer, period-wise.</b> "Across a period the shielding effect is almost constant (same shells) but the nuclear charge increases, so Z<sub>eff</sub> increases and pulls the valence electrons closer; the radius decreases."</div>
+</section>
+
+<section id="radius">
+<h2>4 · Atomic and ionic radius</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li>Radius = distance from the nucleus to the outermost shell where electrons are found. It is not a hard wall: "as far as electrons are found". So the same atom in different charge states has different radii.</li>
+<li><b>Types (slide):</b> <b>covalent</b> radius (non-metals): half the distance between the nuclei of two covalently bonded atoms. <b>Metallic/crystal</b> radius (metals): half the distance between adjacent nuclei in the closed-packed lattice. <b>Ionic</b> radius: distance from the nucleus to the outermost shell of an ion.</li>
+<li><b>Trends:</b> across a period ↓ (Z<sub>eff</sub> ↑); down a group ↑ (shells added, shielding ↑).</li>
+</ul>
+<h3>Cations (always smaller than the parent atom)</h3>
+<ul>
+<li>Remove the outermost electron(s): the outer shell may vanish (Na → Na⁺, Mg → Mg²⁺), and even when it does not (Mg → Mg⁺ still has one 3s electron), 12 protons now pull fewer electrons → <b>Z<sub>eff</sub> increases</b>, the cloud shrinks.</li>
+<li>The higher the charge, the smaller: <b>Mg²⁺ &lt; Mg⁺ &lt; Mg</b>; <b>Al³⁺ &lt; Al²⁺ &lt; Al⁺ &lt; Al</b>; <b>Fe⁴⁺ &lt; Fe³⁺ &lt; Fe²⁺ &lt; Fe⁺ &lt; Fe</b>.</li>
+<li>When explaining a cation, say "Z<sub>eff</sub> increases" (shielding is not the point because the number of shells is the same).</li>
+</ul>
+<h3>Anions (always larger than the parent atom)</h3>
+<ul>
+<li>Cl (2,8,7) → Cl⁻ (2,8,8): 17 protons balanced 7 valence electrons; an extra electron enters 3p (next to an electron already there). Electron–electron <b>repulsion</b>; the electron cloud spreads out so the electrons keep apart. The electron does not go to a new shell.</li>
+<li>The more negative the charge, the larger: <b>O²⁻ &gt; F⁻</b> (same electrons, fewer protons). F ≈ 64 pm → F⁻ ≈ 133 pm (example values).</li>
+<li><b>True/false:</b> "The radius of Cl⁻ is smaller than Cl" is <b>False</b>. (Rare exceptions exist, but in general anion &gt; atom.)</li>
+</ul>
+<h3>Isoelectronic species</h3>
+<div class="callout class">Same number of electrons (and so the same shells) → compare by <b>nuclear charge</b>: the more protons, the stronger the pull, the smaller the species.
+<div class="eq">Al³⁺ (13 p) &lt; Na⁺ (11 p) &lt; F⁻ (9 p) &lt; O²⁻ (8 p) &nbsp; (all 10 e⁻)</div>
+Cations are the smallest, then anions in order of increasing negative charge. There are no exceptions in this.</div>
+</section>
+
+<section id="ie">
+<h2>5 · Ionization energy (ionization potential)</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li><b>Definition:</b> energy needed to remove the most loosely bound electron from an isolated gaseous atom (to make a cation). <b>Endothermic</b>: energy must be supplied because the electron is bound in its shell by attraction.</li>
+<li><b>Successive IE:</b> electrons leave one by one. <b>IE₃ &gt; IE₂ &gt; IE₁</b> (the slide says IE₂ is always greater than IE₁). Each time the ion is smaller with higher Z<sub>eff</sub>; e.g. removing an electron from Al²⁺ is hardest. Trends are compared using the first ionization energy.</li>
+<li><b>Group-wise:</b> IE <b>decreases</b>: shielding ↑, Z<sub>eff</sub> hardly rises, size ↑, so the outer electron is easy to remove (Na is easier than Li: Li is smaller and holds its electron more strongly).</li>
+<li><b>Period-wise:</b> IE <b>increases</b>: Z<sub>eff</sub> ↑ with no new shell, so Na loses an electron easily and Cl does not.</li>
+</ul>
+<h3>Exceptions (half-filled and full-filled stability)</h3>
+<ul>
+<li>Stable arrangements: <b>full-filled</b> (s², p⁶, d¹⁰, f¹⁴; noble gases) and <b>half-filled</b> (p³, d⁵, f⁷). Such atoms resist losing (and gaining) electrons. Example: Cu = 3d¹⁰4s¹ instead of 4s²3d⁹.</li>
+<li><b>N (2p³) &gt; O (2p⁴).</b> N is half-filled. Configurations: N 1s²2s²2p³, O 1s²2s²2p⁴.</li>
+<li><b>Be (2s²) &gt; B (2p¹)</b> (full-filled 2s). On the slide also <b>Mg &gt; Al</b> and <b>P &gt; S</b>.</li>
+<li>On an IE vs Z graph the IE rises across each period but <b>dips</b> at B and at O (second period) and again at Al and S (third period); <b>noble gases are the peaks</b>. Each period's noble gas has the highest IE in that period.</li>
+</ul>
+<div class="callout warn"><b>MCQ tip:</b> "Which has the highest ionization potential and lowest electron affinity?" → look for a noble gas among the options.</div>
+</section>
+
+<section id="ea">
+<h2>6 · Electron affinity</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li><b>Definition:</b> energy <b>released</b> when a neutral, isolated gaseous atom accepts an electron to form an anion. It is a <b>free</b> electron being attracted ("kind of love: you pull it in"), so no energy has to be supplied. Free electron at zero energy; once in an orbit it releases energy and goes negative (more stable). Affinity measures how strongly/quickly the atom pulls the electron in.</li>
+<li><b>Period-wise:</b> increases (Z<sub>eff</sub> ↑). <b>Group-wise:</b> decreases (larger size; the nucleus reaches the free electron less effectively).</li>
+<li><b>Period exceptions (half/full-filled):</b> <b>C &gt; N</b> (N is 2p³, half-filled and does not want another electron). On the slide also Si &gt; P. Noble gases ≈ 0 (full p subshell).</li>
+<li><b>Group exception (group 17):</b> <b>Cl &gt; F &gt; Br &gt; I</b>. F is so small that the very high electron density on its surface repels the incoming electron even though the nucleus attracts it.</li>
+<li>If asked to explain an exception, just show the configuration (e.g. N = 2p³, half-filled).</li>
+</ul>
+</section>
+
+<section id="en">
+<h2>7 · Electronegativity</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li><b>Definition:</b> the tendency of an atom to attract the <b>shared (bonded) pair</b> of electrons in a covalent bond (e.g. Cl pulls electron density in HCl; F in HF).</li>
+<li><b>Electron affinity vs electronegativity:</b> <b>free</b> electron (energy released) vs <b>bonded</b> electron (a relative value on a scale, the <b>Pauling scale</b>; not an energy value like IE/EA).</li>
+<li><b>It does not depend on half- or full-filled stability</b> (the electron is already in a bond). It depends on Z<sub>eff</sub>, shielding, size and s/p character (slide: s-character: C–C &lt; C=C &lt; C≡C).</li>
+<li><b>Trends:</b> ↑ across a period, ↓ down a group (size ↑). <b>F is highest</b> (4.0), <b>Cs lowest</b>. Slide Pauling values: F 4.0, O 3.5, N 3.0, Cl 3.1. Higher oxidation number → higher EN (Fe &lt; Fe²⁺ &lt; Fe³⁺).</li>
+<li><b>Oxidation numbers:</b> in <b>OF₂</b>, F = −1 so O = +2; in <b>Cl₂O₇</b>, O = −2 so Cl = +7. Two non-metals can bond with the less electronegative one positive when the other is very electronegative; the structure remains stable.</li>
+<li><b>Oxides across a period</b> (slide): Na₂O (strongly basic) → Al₂O₃ (amphoteric) → Cl₂O₇ (strongly acidic): chemical properties are periodic too.</li>
+<li><b>Not examined:</b> exceptions in groups 12/13 (Zn, Cd, Hg; Al, Ga, Tl). In class the explanation was the <b>relativistic effect</b> (heavy nucleus → fast 1s electrons → mass increases → s shells contract) plus poor shielding by d/f orbitals, so Z<sub>eff</sub> rises. It also explains why Hg is liquid (weak metallic bonding). Understanding it is a bonus, not required.</li>
+</ul>
+</section>
+
+<section id="diag">
+<h2>8 · Diagonal relationship</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES</span><span class="tag t-exam">MCQ / TRUE-FALSE SIGNAL</span>
+<ul>
+<li>An element of period 2 resembles the element <b>one group to the right in period 3</b> (diagonally down-right). Reason: radius <i>decreases</i> across a period but <i>increases</i> down a group, so the effects partly cancel.</li>
+<li>Pairs: <b>Li – Mg</b>, <b>Be – Al</b>, <b>B – Si</b>. (C – P also fits the pattern: 4 valence electrons ↔ 5 in the next period. <b>C and S are not</b> diagonally related.)</li>
+<li>Li and Mg similarities (slide, <b>don't memorise</b>): both react directly with N₂ to form nitrides; fluorides, carbonates and phosphates are insoluble; both are hard metals; hydroxides are weak bases; strong metallic bond, high melting and boiling points.</li>
+<li>Questions ask which pair is or is not diagonally related, never the numerical properties.</li>
+</ul>
+</section>
+
+<section id="defects">
+<h2>9 · Defects of the periodic table</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES</span>
+<ol>
+<li><b>Position of hydrogen:</b> resembles alkali metals (1 valence electron, forms H⁺) and halogens (gains an electron to form H⁻, exists as diatomic H₂), yet is unique (small, light, forms hydrogen bonds). Hydrogen is on one side and helium far on the other.</li>
+<li><b>Lanthanides and actinides</b> (57–71, 89–103) are placed separately below the table, because 28 more inline elements would make the table 32 columns wide. This hides their true positions between groups 3 and 4 and their similarity with d-block elements.</li>
+<li><b>No fixed position for isotopes:</b> same atomic number, different mass (C-12 and C-14), same place, but different properties; the table does not distinguish them.</li>
+<li><b>No sharp boundary between metals, non-metals and metalloids:</b> the zigzag line is not clean (As, Sb show mixed properties).</li>
+</ol>
+<p>The lecturer's remark: just mention a few; even with these flaws the table is hugely useful.</p>
+</section>
+
+<section id="tools">
+<h2>Interactive: trend charts and tools</h2>
+<p><small>Values are standard textbook figures for elements 1–20 (illustration only; you do not need to memorise any numbers). The lecturer's graphs show the same pattern.</small></p>
+
+<div class="card noprint">
+<b>1 · Periodic-property chart (Z = 1–20)</b>
+<div class="row" style="margin-top:8px"><label>Property <select id="prop"><option value="ie">First ionization energy (kJ/mol)</option><option value="ea">Electron affinity, energy released (kJ/mol)</option><option value="en">Electronegativity (Pauling)</option><option value="r">Covalent radius (pm)</option></select></label></div>
+<svg id="chart" viewBox="0 0 720 340" width="100%" style="max-width:820px;margin-top:8px" role="img" aria-label="Periodic property versus atomic number"></svg>
+<div class="res" id="chartnote"></div>
+</div>
+
+<div class="card noprint">
+<b>2 · Compare two elements (rule vs data)</b>
+<div class="row" style="margin-top:8px">
+<label>Property <select id="cmpP"><option value="r">Atomic radius</option><option value="ie">Ionization energy</option><option value="ea">Electron affinity</option><option value="en">Electronegativity</option></select></label>
+<label>Element 1 <select id="cmpA"></select></label><label>Element 2 <select id="cmpB"></select></label></div>
+<div class="res" id="cmpOut" style="margin-top:8px"></div>
+</div>
+
+<div class="card noprint">
+<b>3 · Isoelectronic size sorter</b>
+<div class="row" style="margin-top:8px" id="isoBoxes"></div>
+<div class="res" id="isoOut" style="margin-top:8px"></div>
+</div>
+<div class="printonly">Interactive charts and the isoelectronic sorter are on the web version.</div>
+</section>
+<section id="cards">
+<h2>Flashcards</h2>
+<div class="noprint">
+<div class="row"><button class="ghost" onclick="fcPrev()">← Prev</button><span id="fcn"></span><button class="ghost" onclick="fcNext()">Next →</button><button class="ghost" onclick="fcShuf()">Shuffle</button></div>
+<div class="fc" id="fc" onclick="this.classList.toggle('flip')"><div class="in"><div class="f" id="fcf"></div><div class="b" id="fcb"></div></div></div>
+<small style="color:var(--mute)">Click the card to flip it.</small>
+</div>
+<div class="printonly" id="fcprint"></div>
+</section><section id="quiz">
+<h2>Practice quiz</h2>
+<div class="noprint">
+<div class="row"><button onclick="resetQuiz()">Restart</button><span id="score"></span></div>
+<div id="qbox"></div>
+</div>
+<div class="printonly" id="quizprint"></div>
+</section>
+<section id="cheat">
+<h2>Cheat sheet</h2>
+<div class="card"><div class="grid2">
+<div>
+<b>History:</b> Mendeleev (mass, 1869, left gaps) → Moseley (atomic number, 1913). Ar/K, Te/I anomalies.<br>
+<b>Periodicity cause:</b> recurrence of similar valence configurations.<br>
+<b>Z<sub>eff</sub> = Z − σ</b> (valence electrons only).<br>
+<b>Group ↓:</b> shielding ↑, Z<sub>eff</sub> ~ constant → radius ↑, IE ↓, EA ↓, EN ↓.<br>
+<b>Period →:</b> shielding ~ constant, Z<sub>eff</sub> ↑ → radius ↓, IE ↑, EA ↑, EN ↑.<br>
+<b>Cation &lt; atom; anion &gt; atom.</b> Isoelectronic: more protons = smaller.
+</div><div>
+<b>IE exceptions:</b> N &gt; O, Be &gt; B (Mg &gt; Al, P &gt; S). Noble gas: highest IE.<br>
+<b>EA exceptions:</b> C &gt; N, Cl &gt; F &gt; Br &gt; I, noble gas ≈ 0 (lowest).<br>
+<b>EN:</b> bonded electron, no half/full effect, F highest.<br>
+<b>EA = free e⁻ (energy released); IE = energy supplied (endothermic).</b><br>
+<b>Diagonal:</b> Li–Mg, Be–Al, B–Si (C–P).<br>
+<b>d-block:</b> colour = d–d transition; alloys = vacant d space; s-block low mp = weak metallic bond.<br>
+<b>Defects:</b> H, lanthanides/actinides, isotopes, metal/non-metal boundary.
+</div></div></div>
+</section>
+
+</main>
+</div>
+<script>
+
+const $=id=>document.getElementById(id);
+const sup=n=>String(n).replace(/[0-9]/g,d=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[d]).replace('-','⁻');
+const fx=(x,p=3)=>{if(x===0)return '0';const [m,e]=x.toExponential(p-1).split('e');return +e===0?m:m+'×10'+sup(+e)};
+function toggleTheme(){const r=document.documentElement;const d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'}
+const links=[...document.querySelectorAll('#nav a[href^="#"]')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-20% 0px -70% 0px'});
+document.querySelectorAll('section').forEach(s=>io.observe(s));
+/* flashcards */
+let fi=0;
+function fcShow(){if(typeof cards==='undefined'||!$('fcf'))return;$('fcf').innerHTML=cards[fi][0];$('fcb').innerHTML=cards[fi][1];$('fc').classList.remove('flip');$('fcn').textContent=(fi+1)+' / '+cards.length}
+function fcNext(){fi=(fi+1)%cards.length;fcShow()}function fcPrev(){fi=(fi-1+cards.length)%cards.length;fcShow()}
+function fcShuf(){for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]]}fi=0;fcShow()}
+/* quiz renderer: items {t:'mcq',q,o,a,e} or {t:'num',q,a,tol,u,e} */
+function renderQuiz(list,boxId,scoreId,opts){opts=opts||{};const b=$(boxId);b.innerHTML='';let ans=0,done=0;
+ const upd=()=>{if($(scoreId))$(scoreId).textContent=`Score ${ans} / ${done} (of ${list.length})`;if(opts.onUpdate)opts.onUpdate(ans,done,list.length)};
+ list.forEach((q,i)=>{const d=document.createElement('div');d.className='card q';d.innerHTML=`<b>${i+1}. ${q.q}</b>${q.tag?`<span class="pill">${q.tag}</span>`:''}`;
+  const ex=document.createElement('div');ex.className='exp';ex.innerHTML=q.e||'';
+  if(q.t==='num'){const w=document.createElement('div');w.className='row';w.style.marginTop='8px';w.innerHTML=`<input type="text" placeholder="answer" style="width:120px"> <span>${q.u||''}</span>`;const bt=document.createElement('button');bt.textContent='Check';
+   bt.onclick=()=>{if(d.dataset.done)return;const v=parseFloat(w.querySelector('input').value);if(isNaN(v))return;d.dataset.done=1;done++;const ok=Math.abs(v-q.a)<=Math.abs(q.a)*(q.tol||0.03);if(ok)ans++;w.querySelector('input').style.borderColor=ok?'var(--ok)':'var(--bad)';ex.innerHTML=(ok?'<b style="color:var(--ok)">Correct.</b> ':'<b style="color:var(--bad)">Not quite (answer ≈ '+q.a+' '+(q.u||'')+').</b> ')+(q.e||'');ex.classList.add('show');upd()};w.appendChild(bt);d.appendChild(w)}
+  else{q.o.forEach((o,j)=>{const bt=document.createElement('button');bt.className='opt';bt.innerHTML=o;bt.onclick=()=>{if(d.dataset.done)return;d.dataset.done=1;done++;[...d.querySelectorAll('.opt')].forEach((x,k)=>{if(k===q.a)x.classList.add('ok')});if(j===q.a)ans++;else bt.classList.add('bad');ex.classList.add('show');upd()};d.appendChild(bt)})}
+  d.appendChild(ex);b.appendChild(d)});upd();return{reveal(){list.forEach((q,i)=>{const c=b.children[i];if(!c.dataset.done){c.dataset.done=1;done++;[...c.querySelectorAll('.opt')].forEach((x,k)=>{if(k===q.a)x.classList.add('ok')});c.querySelector('.exp').classList.add('show');}});upd()}}}
+function printQuiz(list,id){if(!$(id))return;$(id).innerHTML='<ol>'+list.map(q=>q.t==='num'?`<li>${q.q} <i>Answer ≈ ${q.a} ${q.u||''}. ${q.e||''}</i></li>`:`<li>${q.q}<br>${q.o.map((o,j)=>String.fromCharCode(65+j)+') '+o).join(' &nbsp; ')}<br><i>Answer: ${String.fromCharCode(65+q.a)}. ${q.e||''}</i></li>`).join('')+'</ol>'}
+
+const cards=[["Who published the first organised periodic table and when?", "Dmitri Mendeleev, 1869, arranged by atomic mass."], ["What problem did arranging by mass cause?", "Ar (39.94) comes before K (39.1) and Te (127.6) before I (126.9) in the correct order, so mass order fails."], ["What did Moseley do?", "Arranged elements by atomic (proton) number in 1913: the modern table."], ["Modern periodic law?", "Properties of elements are periodic functions of their atomic number."], ["Cause of periodicity?", "Recurrence of similar valence-shell electronic configurations at regular intervals."], ["Periodic vs similar vs same?", "Configurations recur similar, not the same (ns¹ is the same, the shell number n is different)."], ["Shielding effect?", "Inner-shell electrons reduce the nucleus's attraction on valence electrons."], ["Effective nuclear charge?", "Net pull on valence electrons: Z_eff = Z − σ."], ["Radius down a group (use both terms)?", "Shells added → shielding increases → Z_eff does not increase much → outer electrons less attracted → radius increases."], ["Radius across a period (use both terms)?", "Shielding about constant (same shells) → Z_eff increases → valence electrons pulled closer → radius decreases."], ["Why is an anion larger than its atom?", "Extra electron repels existing ones; the cloud spreads to reduce repulsion (Z_eff cannot rise)."], ["Why is a cation smaller than its atom?", "Fewer electrons (outer shell may vanish) and the same protons pull each remaining electron harder."], ["Order: Mg, Mg⁺, Mg²⁺?", "Mg²⁺ < Mg⁺ < Mg."], ["Order: Al³⁺, Na⁺, F⁻, O²⁻?", "Al³⁺ < Na⁺ < F⁻ < O²⁻ (isoelectronic: more protons, smaller)."], ["What are isoelectronic species?", "Species with the same number of electrons."], ["Ionization energy?", "Energy to remove the outermost electron from an isolated gaseous atom; endothermic."], ["Successive IE order?", "IE₃ > IE₂ > IE₁."], ["IE trend down a group and why?", "Decreases: more shielding, larger size, easier removal."], ["IE trend across a period and why?", "Increases: Z_eff rises, harder to remove."], ["IE exceptions?", "N > O (half-filled 2p³); Be > B (full 2s²); slide also Mg > Al and P > S."], ["Which has highest IE and lowest EA?", "Noble gases."], ["Electron affinity?", "Energy released when a gaseous atom accepts a free electron."], ["EA trend?", "Increases across a period, decreases down a group."], ["EA exceptions?", "C > N (N is half-filled); Cl > F > Br > I (F too small); noble gases ≈ 0."], ["Electronegativity?", "Tendency to attract the shared pair in a covalent bond; relative (Pauling) scale."], ["Electron affinity vs electronegativity?", "Free electron vs bonded electron."], ["Does half/full-filled stability affect electronegativity?", "No."], ["Highest and lowest electronegativity?", "F highest (4.0); Cs lowest."], ["Oxygen in OF₂ and Cl in Cl₂O₇?", "O = +2 (F is more electronegative); Cl = +7 (O pulls electrons)."], ["Diagonal relationship pairs?", "Li–Mg, Be–Al, B–Si (C–P). Same-looking radius trends produce similar properties."], ["Why are d-block compounds coloured?", "d–d transition: ligands split the d orbitals; absorbed photon excites an electron within d."], ["Why do d-block elements form alloys?", "Vacant space in large d orbitals accommodates electrons of other metals."], ["Why do f-block compounds show faint colours?", "f–f transitions: f orbitals are deep inside, so the energy gap is small."], ["Why do s-block metals melt at lower temperature?", "1–2 valence electrons: weaker metallic bonding."], ["Defects of the periodic table (4)?", "Position of H; lanthanides/actinides placed separately; no place for isotopes; no sharp metal/non-metal boundary."], ["Why are lanthanides and actinides at the bottom?", "Placing them inline would make the table 32 columns wide."]];
+fcShow();
+if($('fcprint'))$('fcprint').innerHTML='<table><tr><th>Question</th><th>Answer</th></tr>'+cards.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td></tr>`).join('')+'</table>';
+const QL=[{"t": "mcq", "q": "Mendeleev arranged his periodic table (1869) according to", "o": ["Atomic number", "Atomic mass", "Number of neutrons", "Electronegativity"], "a": 1, "e": "Mendeleev used atomic mass; atomic number was not yet known.", "tag": "L4"}, {"t": "mcq", "q": "Who arranged the elements by atomic (proton) number in 1913?", "o": ["Dalton", "Mendeleev", "Moseley", "Rutherford"], "a": 2, "e": "Moseley's arrangement is the modern periodic table.", "tag": "L4"}, {"t": "mcq", "q": "Which pair shows the problem with arranging by mass (the heavier element comes first in the table)?", "o": ["Ar and K", "Na and Mg", "C and N", "Li and Be"], "a": 0, "e": "Ar (39.94) is placed before K (39.1); Te (127.6) before I (126.9).", "tag": "L4"}, {"t": "mcq", "q": "Mendeleev's greater achievement was that he", "o": ["Knew the electron configurations", "Left gaps for undiscovered elements, which were later found", "Discovered protons", "Used the atomic number"], "a": 1, "e": "The predicted elements were later discovered in those gaps.", "tag": "L4"}, {"t": "mcq", "q": "The modern periodic law says properties are periodic functions of", "o": ["Atomic mass", "Atomic number", "Mass number", "Neutron number"], "a": 1, "e": "Properties repeat at regular intervals when elements are arranged by atomic number.", "tag": "L4"}, {"t": "mcq", "q": "The cause of periodicity is", "o": ["Similar valence-shell electronic configurations recurring at regular intervals", "Equal atomic masses", "Identical nuclear charges", "Equal numbers of shells"], "a": 0, "e": "Similar (not the same) valence configurations recur, e.g. all alkali metals have ns¹.", "tag": "L4"}, {"t": "mcq", "q": "Valence-shell configuration of the alkali metals", "o": ["ns²", "ns¹", "np¹", "nd¹"], "a": 1, "e": "Li 2s¹, Na 3s¹, K 4s¹: all ns¹, hence similar properties.", "tag": "L4"}, {"t": "mcq", "q": "The shielding (screening) effect is", "o": ["Attraction between electrons", "Inner electrons reducing the nucleus's pull on the valence electrons", "Repulsion between protons", "Loss of electrons"], "a": 1, "e": "Inner electrons repel the valence electrons and shield them from the nucleus.", "tag": "L4"}, {"t": "mcq", "q": "Effective nuclear charge is", "o": ["Z + σ", "Z − σ", "Z × σ", "Z / σ"], "a": 1, "e": "Z_eff = Z − σ, where σ is the shielding constant.", "tag": "L4"}, {"t": "mcq", "q": "Z_eff refers to the attraction of the nucleus on", "o": ["All electrons", "The valence-shell electrons", "Only the 1s electrons", "The neutrons"], "a": 1, "e": "Only the valence (outermost) electrons.", "tag": "L4"}, {"t": "mcq", "q": "Down a group, atomic radius", "o": ["Decreases", "Increases", "Stays constant", "Is random"], "a": 1, "e": "Shells are added; shielding increases, so Z_eff does not increase much and the outer electrons sit farther away.", "tag": "L4"}, {"t": "mcq", "q": "Down a group, Z_eff", "o": ["Increases a lot", "Increases only slightly / almost constant, because shielding increases", "Decreases to zero", "Doubles"], "a": 1, "e": "Z increases, but increasing shielding cancels most of it.", "tag": "L4"}, {"t": "mcq", "q": "Across a period (left to right), shielding is", "o": ["Rapidly increasing", "Almost constant, so Z_eff increases", "Decreasing", "Zero"], "a": 1, "e": "No new shells are added, so Z_eff rises and the radius falls.", "tag": "L4"}, {"t": "mcq", "q": "Across a period, atomic radius", "o": ["Increases", "Decreases", "Stays constant", "First decreases then increases always"], "a": 1, "e": "Z_eff increases, pulling the valence shell closer.", "tag": "L4"}, {"t": "mcq", "q": "True or false: the radius of Cl⁻ is smaller than that of Cl.", "o": ["True", "False"], "a": 1, "e": "False. The extra electron repels the others and the cloud spreads out, so an anion is larger than its parent atom.", "tag": "L4"}, {"t": "mcq", "q": "A cation is always", "o": ["Larger than its parent atom", "Smaller than its parent atom", "The same size", "Larger only for metals"], "a": 1, "e": "Fewer electrons, higher Z_eff per electron (and often a whole shell is lost).", "tag": "L4"}, {"t": "mcq", "q": "Which has the smallest radius?", "o": ["Mg", "Mg⁺", "Mg²⁺", "They are equal"], "a": 2, "e": "Mg²⁺ has lost the whole third shell; Mg⁺ still has one electron in it.", "tag": "L4"}, {"t": "mcq", "q": "Order of radius for iron species", "o": ["Fe < Fe²⁺ < Fe³⁺", "Fe⁴⁺ < Fe³⁺ < Fe²⁺", "Fe³⁺ < Fe⁴⁺ < Fe²⁺", "All equal"], "a": 1, "e": "The more electrons removed, the higher the pull per electron: Fe⁴⁺ < Fe³⁺ < Fe²⁺ < Fe.", "tag": "L4"}, {"t": "mcq", "q": "Arrange by increasing size: Al³⁺, Na⁺, F⁻, O²⁻ (all isoelectronic)", "o": ["O²⁻ < F⁻ < Na⁺ < Al³⁺", "Al³⁺ < Na⁺ < F⁻ < O²⁻", "Na⁺ < Al³⁺ < O²⁻ < F⁻", "F⁻ < O²⁻ < Al³⁺ < Na⁺"], "a": 1, "e": "Same electrons (10), so more protons means smaller: Al³⁺ (13) < Na⁺ (11) < F⁻ (9) < O²⁻ (8).", "tag": "L4"}, {"t": "mcq", "q": "Isoelectronic species have the same", "o": ["Number of protons", "Number of electrons", "Mass", "Charge"], "a": 1, "e": "Example: Al³⁺, Na⁺, F⁻, O²⁻ all have 10 electrons.", "tag": "L4"}, {"t": "mcq", "q": "Ionization energy is the energy needed to", "o": ["Add an electron", "Remove the most loosely bound electron from a gaseous atom", "Form a bond", "Break a molecule"], "a": 1, "e": "It is an endothermic process: energy must be supplied.", "tag": "L4"}, {"t": "mcq", "q": "Ionization is", "o": ["Exothermic", "Endothermic", "Neither", "Spontaneous always"], "a": 1, "e": "Energy is supplied from outside to remove an electron.", "tag": "L4"}, {"t": "mcq", "q": "Which is always true?", "o": ["IE₁ > IE₂ > IE₃", "IE₃ > IE₂ > IE₁", "IE₁ = IE₂", "IE₂ < IE₁"], "a": 1, "e": "Each successive electron is removed from a more positive ion with a higher Z_eff.", "tag": "L4"}, {"t": "mcq", "q": "Ionization energy down a group", "o": ["Increases", "Decreases", "Constant", "Random"], "a": 1, "e": "Larger size and more shielding: easier to remove the electron.", "tag": "L4"}, {"t": "mcq", "q": "Ionization energy across a period", "o": ["Generally increases", "Generally decreases", "Constant", "Always zero"], "a": 0, "e": "Z_eff increases, so removal is harder (Na is easy, Cl is hard).", "tag": "L4"}, {"t": "mcq", "q": "Which has the higher first ionization energy?", "o": ["N", "O", "They are equal", "Cannot be compared"], "a": 0, "e": "N (2p³) is half-filled and stable, an exception to the trend.", "tag": "L4"}, {"t": "mcq", "q": "Which has the higher first ionization energy?", "o": ["Be", "B", "They are equal", "Neither"], "a": 0, "e": "Be (2s², full) is more stable than B; also Mg > Al on the slide.", "tag": "L4"}, {"t": "mcq", "q": "Which element has the highest ionization energy in its period?", "o": ["Alkali metal", "Halogen", "Noble gas", "Alkaline earth metal"], "a": 2, "e": "Noble gases have the highest IE (and the lowest EA); check for one first in an MCQ.", "tag": "L4"}, {"t": "mcq", "q": "Electron affinity is the energy", "o": ["Absorbed when an atom loses an electron", "Released when a gaseous atom accepts an electron", "Needed to break a bond", "Of a shared pair"], "a": 1, "e": "A free electron is attracted to the nucleus and energy is released.", "tag": "L4"}, {"t": "mcq", "q": "Which has the higher electron affinity?", "o": ["C", "N", "They are equal", "Cannot say"], "a": 0, "e": "N (2p³) is half-filled and does not want an extra electron, so its EA is low. Exception.", "tag": "L4"}, {"t": "mcq", "q": "The electron-affinity order of group 17 is", "o": ["F > Cl > Br > I", "Cl > F > Br > I", "I > Br > Cl > F", "Br > Cl > F > I"], "a": 1, "e": "F is so small that incoming electrons feel strong repulsion (high charge density).", "tag": "L4"}, {"t": "mcq", "q": "Electron affinity of noble gases is about", "o": ["Highest", "Zero (lowest)", "Negative infinity", "Same as halogens"], "a": 1, "e": "Their p subshell is full.", "tag": "L4"}, {"t": "mcq", "q": "Electronegativity is the tendency of an atom to", "o": ["Lose an electron", "Attract the shared pair of a covalent bond", "Gain a free electron", "Form cations"], "a": 1, "e": "It is measured on a scale (Pauling), not in energy units.", "tag": "L4"}, {"t": "mcq", "q": "The difference between electron affinity and electronegativity is", "o": ["Free electron vs bonded (shared) electron", "Cations vs anions", "Metals vs nonmetals", "None"], "a": 0, "e": "Electron affinity: a free electron. Electronegativity: a bonded electron.", "tag": "L4"}, {"t": "mcq", "q": "Does electronegativity depend on half-filled/full-filled stability?", "o": ["Yes", "No: the electron is already in a bond"], "a": 1, "e": "Class: do not apply half/full-filled stability to electronegativity.", "tag": "L4"}, {"t": "mcq", "q": "The most electronegative element is", "o": ["Cl", "O", "F", "N"], "a": 2, "e": "F (4.0 on the Pauling scale).", "tag": "L4"}, {"t": "mcq", "q": "In OF₂ the oxidation state of oxygen is", "o": ["−2", "+2", "0", "−1"], "a": 1, "e": "F is more electronegative than O, so F = −1 and O = +2.", "tag": "L4"}, {"t": "mcq", "q": "Which pair is diagonally related?", "o": ["Li and Mg", "Li and Na", "Be and Mg", "C and S"], "a": 0, "e": "Li–Mg, Be–Al, B–Si. C is diagonal to P, not S.", "tag": "L4"}, {"t": "mcq", "q": "Which element is diagonally related to Be?", "o": ["Mg", "Al", "Si", "B"], "a": 1, "e": "Be (period 2, group 2) with Al (period 3, group 13).", "tag": "L4"}, {"t": "mcq", "q": "Carbon is diagonally related to", "o": ["S", "P", "Si", "N"], "a": 1, "e": "Valence electrons 4 in period 2 ↔ 5 in period 3 (phosphorus).", "tag": "L4"}, {"t": "mcq", "q": "Transition metals show colour because of", "o": ["s–p transition", "d–d transition within split d orbitals", "Nuclear decay", "Ionization"], "a": 1, "e": "Ligands split the d orbitals; electrons absorb light and go to the higher d level.", "tag": "L4"}, {"t": "mcq", "q": "Why do d-block elements readily form alloys?", "o": ["They are liquid", "Their large d orbitals have vacancies to accommodate other metals' electrons", "They have no electrons", "They are radioactive"], "a": 1, "e": "Space/vacancy in d orbitals lets other metals mix in.", "tag": "L4"}, {"t": "mcq", "q": "Zinc is not a transition metal because", "o": ["It has no d electrons", "Its d subshell is completely filled (d¹⁰)", "It is a liquid", "It is an alkali metal"], "a": 1, "e": "Zn still forms alloys (brass with copper).", "tag": "L4"}, {"t": "mcq", "q": "s-block metals have comparatively low melting and boiling points because", "o": ["They have only 1–2 valence electrons, so the metallic bond is weaker", "They are non-metals", "Their covalent bonds break easily", "They are radioactive"], "a": 0, "e": "Melting breaks weak interactions between particles, not strong chemical bonds.", "tag": "L4"}, {"t": "mcq", "q": "On melting a solid, what happens at the molecular level?", "o": ["Covalent bonds break", "The distance between particles increases (weak interactions overcome)", "Electrons are removed", "Atoms are destroyed"], "a": 1, "e": "Strong ionic/covalent/metallic bonds do not break.", "tag": "L4"}, {"t": "mcq", "q": "Which is NOT a listed defect of the periodic table?", "o": ["Position of hydrogen", "Lanthanides and actinides placed separately", "No fixed position for isotopes", "Elements ordered by atomic number"], "a": 3, "e": "Ordering by atomic number is the strength of the modern table.", "tag": "L4"}, {"t": "mcq", "q": "Hydrogen is difficult to place because it resembles", "o": ["Alkali metals only", "Halogens only", "Both alkali metals and halogens, yet is unique", "Noble gases"], "a": 2, "e": "It can form H⁺ (like Li) and H⁻ (like F⁻), exists as H₂, and forms hydrogen bonds.", "tag": "L4"}, {"t": "mcq", "q": "True or false: isotopes occupy separate positions in the periodic table.", "o": ["True", "False"], "a": 1, "e": "False. They share the same atomic number and the same place; the table does not distinguish them.", "tag": "L4"}, {"t": "mcq", "q": "Covalent radius is", "o": ["The ionic distance", "Half the internuclear distance between two covalently bonded atoms", "Twice the distance", "The nuclear radius"], "a": 1, "e": "Used for non-metals.", "tag": "L4"}, {"t": "mcq", "q": "Metallic (crystal) radius is", "o": ["Half the distance between nuclei of adjacent atoms in a metal lattice", "Twice the lattice spacing", "The same as ionic radius", "The size of the nucleus"], "a": 0, "e": "Used for metals.", "tag": "L4"}, {"t": "mcq", "q": "Which has the higher IE and lowest EA among He, Li, F, O?", "o": ["He", "Li", "F", "O"], "a": 0, "e": "Noble gas: check for it first.", "tag": "L4"}];
+function resetQuiz(){renderQuiz(QL,'qbox','score')}
+resetQuiz();printQuiz(QL,'quizprint');
+
+const EL=[ // sym, Z, period, group, IE1 kJ/mol, EA kJ/mol(released), EN Pauling, covalent radius pm
+["H",1,1,1,1312,73,2.20,31],["He",2,1,18,2372,0,null,28],["Li",3,2,1,520,60,0.98,128],["Be",4,2,2,899,0,1.57,96],["B",5,2,13,801,27,2.04,84],["C",6,2,14,1086,122,2.55,76],["N",7,2,15,1402,0,3.04,71],["O",8,2,16,1314,141,3.44,66],["F",9,2,17,1681,328,3.98,57],["Ne",10,2,18,2081,0,null,58],
+["Na",11,3,1,496,53,0.93,166],["Mg",12,3,2,738,0,1.31,141],["Al",13,3,13,578,42,1.61,121],["Si",14,3,14,787,134,1.90,111],["P",15,3,15,1012,72,2.19,107],["S",16,3,16,1000,200,2.58,105],["Cl",17,3,17,1251,349,3.16,102],["Ar",18,3,18,1521,0,null,106],["K",19,4,1,419,48,0.82,203],["Ca",20,4,2,590,2,1.00,176]];
+const PI={ie:4,ea:5,en:6,r:7};
+const PN={ie:'First ionization energy (kJ/mol)',ea:'Electron affinity (kJ/mol, released)',en:'Electronegativity',r:'Covalent radius (pm)'};
+const NOTE={ie:'Rises across each period, falls down the group. Note the dips at B (after Be) and O (after N), and Al, S. Noble gases (He, Ne, Ar) are the peaks.',
+ ea:'Generally rises across a period. Note N (≈0, half-filled), noble gases ≈ 0, Be/Mg ≈ 0; Cl is higher than F. (Values of 0 mean about zero or slightly negative.)',
+ en:'Rises across a period, falls down a group. F is highest. Noble gases have no standard value.',
+ r:'Falls across a period, jumps at each new period (He→Li, Ne→Na, Ar→K).'};
+function chart(){const p=$('prop').value,k=PI[p];const pts=EL.map(e=>[e[1],e[k],e[0]]).filter(x=>x[1]!==null);
+ const W=720,H=340,L=60,R=14,T=14,B=44;const ys=pts.map(x=>x[1]);const ymax=Math.max(...ys)*1.08;const sx=z=>L+(z-1)/19*(W-L-R),sy=v=>H-B-v/ymax*(H-T-B);
+ let s='';const step=p==='en'?0.5:p==='r'?50:p==='ie'?500:100;for(let v=0;v<=ymax;v+=step){s+=`<line x1="${L}" x2="${W-R}" y1="${sy(v)}" y2="${sy(v)}" stroke="var(--grid)"/><text x="${L-6}" y="${sy(v)+4}" text-anchor="end" font-size="11">${v}</text>`}
+ [2,10,18].forEach(z=>s+=`<line x1="${sx(z)+ (W-L-R)/38}" x2="${sx(z)+(W-L-R)/38}" y1="${T}" y2="${H-B}" stroke="var(--line)" stroke-dasharray="4 4"/>`);
+ s+=`<line x1="${L}" x2="${W-R}" y1="${H-B}" y2="${H-B}" stroke="currentColor"/><line x1="${L}" x2="${L}" y1="${T}" y2="${H-B}" stroke="currentColor"/>`;
+ let path='';pts.forEach((q,i)=>path+=(i?'L':'M')+sx(q[0])+' '+sy(q[1]));s+=`<path d="${path}" fill="none" stroke="var(--curve)" stroke-width="2"/>`;
+ pts.forEach(q=>{s+=`<circle cx="${sx(q[0])}" cy="${sy(q[1])}" r="4" fill="var(--curve)"><title>${q[2]} (Z=${q[0]}): ${q[1]}</title></circle><text x="${sx(q[0])}" y="${sy(q[1])-8}" text-anchor="middle" font-size="11">${q[2]}</text>`});
+ for(let z=1;z<=20;z+=1)s+=`<text x="${sx(z)}" y="${H-B+14}" text-anchor="middle" font-size="10">${z}</text>`;
+ s+=`<text x="${(L+W)/2}" y="${H-8}" text-anchor="middle" font-size="12">Atomic number Z (dashed lines separate periods)</text><text x="14" y="${(T+H-B)/2}" font-size="12" transform="rotate(-90 14 ${(T+H-B)/2})" text-anchor="middle">${PN[p]}</text>`;
+ $('chart').innerHTML=s;$('chartnote').textContent=NOTE[p]}
+$('prop').addEventListener('input',chart);chart();
+
+['cmpA','cmpB'].forEach((id,j)=>{EL.forEach(e=>{const o=document.createElement('option');o.value=e[0];o.textContent=e[0]+' ('+e[1]+')';$(id).appendChild(o)});$(id).value=j?'O':'N'});
+const EXC={ie:[['N','O','N has a half-filled 2p³ configuration, so its IE is higher than O (2p⁴).'],['Be','B','Be (2s²) is full-filled and stable, so IE(Be) > IE(B).'],['Mg','Al','Mg (3s²) is full-filled, so IE(Mg) > IE(Al).'],['P','S','P (3p³) is half-filled, so IE(P) > IE(S).']],
+ ea:[['C','N','N (2p³) is half-filled and does not take another electron, so EA(C) > EA(N).'],['F','Cl','F is too small: high charge density repels the incoming electron, so EA(Cl) > EA(F).'],['Si','P','P (3p³) is half-filled, so EA(Si) > EA(P).']]};
+function cmp(){const p=$('cmpP').value,a=EL.find(e=>e[0]===$('cmpA').value),b=EL.find(e=>e[0]===$('cmpB').value),out=$('cmpOut');
+ if(a===b){out.textContent='Choose two different elements.';return}
+ let rule='',ruleWinner=null,why='';
+ const bigR=p==='r';// radius: bigger earlier in period / lower in group; others: bigger later in period / higher in group
+ if(a[2]===b[2]){const left=a[3]<b[3]?a:b,right=left===a?b:a;ruleWinner=bigR?left:right;why=bigR?'Same period: Z_eff increases left to right, so the left element has the larger radius.':'Same period: Z_eff increases left to right, so the right element has the larger value.'}
+ else if(a[3]===b[3]){const up=a[2]<b[2]?a:b,low=up===a?b:a;ruleWinner=bigR?low:up;why=bigR?'Same group: shells (and shielding) increase down the group, so the lower element has the larger radius.':'Same group: size and shielding increase down the group, so the upper element has the larger value.'}
+ else{out.innerHTML='<b>Different period and group:</b> no direct rule. Compare through a common element or use the diagonal idea; the exam examples use the same period or the same group.';return}
+ const val=e=>e[PI[p]];const data=val(a)===null||val(b)===null?null:(val(a)>val(b)?a:b);
+ let t=`<b>Rule says:</b> ${ruleWinner[0]} has the larger ${PN[p].split('(')[0].trim().toLowerCase()}. ${why}<br>`;
+ t+=data?`<b>Data:</b> ${a[0]} = ${val(a)}, ${b[0]} = ${val(b)} → larger is <b>${data[0]}</b>.<br>`:'<b>Data:</b> no standard value for a noble gas.<br>';
+ if(data&&data!==ruleWinner){const ex=(EXC[p]||[]).find(x=>(x[0]===a[0]&&x[1]===b[0])||(x[0]===b[0]&&x[1]===a[0]));t+=`<span style="color:var(--warn)"><b>Exception!</b> ${ex?ex[2]:'The data differ from the simple trend (half-/full-filled stability or size effect).'}</span>`}
+ else if(data)t+='<span style="color:var(--ok)">Data agree with the rule.</span>';
+ if(p==='en')t+='<br><small>Reminder: electronegativity does not depend on half/full-filled stability.</small>';
+ out.innerHTML=t}
+['cmpP','cmpA','cmpB'].forEach(i=>$(i).addEventListener('input',cmp));cmp();
+
+const ISO=[["N³⁻",7,10],["O²⁻",8,10],["F⁻",9,10],["Ne",10,10],["Na⁺",11,10],["Mg²⁺",12,10],["Al³⁺",13,10],["S²⁻",16,18],["Cl⁻",17,18],["Ar",18,18],["K⁺",19,18],["Ca²⁺",20,18]];
+(function(){const box=$('isoBoxes');ISO.forEach((s,i)=>{const l=document.createElement('label');l.innerHTML=`<input type="checkbox" value="${i}" ${['O²⁻','F⁻','Na⁺','Al³⁻'].includes(s[0])||s[0]==='Al³⁺'?'checked':''}> ${s[0]}`;box.appendChild(l)});box.addEventListener('input',iso)})();
+function iso(){const sel=[...document.querySelectorAll('#isoBoxes input:checked')].map(c=>ISO[+c.value]);const out=$('isoOut');if(sel.length<2){out.textContent='Tick at least two species.';return}
+ const es=new Set(sel.map(s=>s[2]));if(es.size>1){out.innerHTML='<span style="color:var(--bad)">These are not isoelectronic (different numbers of electrons: '+[...es].join(' and ')+'). Compare within the 10-electron set or within the 18-electron set.</span>';return}
+ const ord=[...sel].sort((a,b)=>b[1]-a[1]);out.innerHTML=`All have ${[...es][0]} electrons, so the one with more protons is smaller:<div class="eq">${ord.map(s=>s[0]+' ('+s[1]+' p)').join(' &lt; ')}</div>smallest → largest.`}
+iso();
+
+</script>
+</body>
+</html>

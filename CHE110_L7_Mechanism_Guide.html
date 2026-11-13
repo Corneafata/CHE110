@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CHE110 · L7</title>
+<style>
+:root{--bg:#fafaf7;--card:#fff;--ink:#1d2330;--mute:#5c6577;--line:#e3e4ea;--acc:#2f5fd0;--accbg:#e8efff;--ok:#1b7f4b;--okbg:#e3f5ea;--bad:#b3261e;--badbg:#fde8e6;--warn:#8a5a00;--warnbg:#fff3d6;--class:#6a3fc4;--classbg:#efe8fb;--code:#f1f2f6;--grid:#d9dde8;--curve:#2f5fd0;--tan:#d6452f}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--ok:#5fd394;--okbg:#17301f;--bad:#ff8a80;--badbg:#3a1c1a;--warn:#f5c15a;--warnbg:#3a2e12;--class:#b79cff;--classbg:#2a2144;--code:#242837;--grid:#2c3040;--curve:#7da2ff;--tan:#ff8a6b}}
+:root[data-theme=dark]{--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--ok:#5fd394;--okbg:#17301f;--bad:#ff8a80;--badbg:#3a1c1a;--warn:#f5c15a;--warnbg:#3a2e12;--class:#b79cff;--classbg:#2a2144;--code:#242837;--grid:#2c3040;--curve:#7da2ff;--tan:#ff8a6b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}
+.layout{display:flex;max-width:1200px;margin:0 auto}
+nav{position:sticky;top:0;align-self:flex-start;height:100vh;overflow:auto;width:260px;flex:none;padding:18px 14px;border-right:1px solid var(--line)}
+nav h1{font-size:17px;margin:0 0 4px}
+nav small{color:var(--mute)}
+nav a{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--ink);font-size:14px}
+nav a:hover,nav a.on{background:var(--accbg);color:var(--acc)}
+nav .grp{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:14px 8px 4px}
+main{flex:1;min-width:0;padding:20px 28px 80px}
+section{margin-bottom:46px;scroll-margin-top:12px}
+h2{font-size:25px;margin:0 0 6px;border-bottom:2px solid var(--line);padding-bottom:6px}
+h3{font-size:18px;margin:22px 0 6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:1px 8px;border-radius:99px;vertical-align:middle;margin-right:6px}
+.t-class{background:var(--classbg);color:var(--class)}
+.t-slide{background:var(--accbg);color:var(--acc)}
+.t-exam{background:var(--warnbg);color:var(--warn)}
+.callout{border-left:4px solid var(--acc);background:var(--accbg);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0}
+.callout.class{border-color:var(--class);background:var(--classbg)}
+.callout.warn{border-color:var(--warn);background:var(--warnbg)}
+.callout.ok{border-color:var(--ok);background:var(--okbg)}
+.callout.bad{border-color:var(--bad);background:var(--badbg)}
+.eq{background:var(--code);border-radius:10px;padding:10px 14px;margin:10px 0;font-family:Cambria Math,Georgia,serif;font-size:19px;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--code)}
+ul,ol{padding-left:22px}li{margin:3px 0}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:7px 14px;cursor:pointer}
+button.ghost{background:var(--code);color:var(--ink);border:1px solid var(--line)}
+input,select,textarea{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+input[type=number],input[type=text]{width:105px}
+textarea{width:100%;max-width:360px;height:130px;font-family:ui-monospace,Consolas,monospace;font-size:13px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:820px){nav{display:none}main{padding:16px}.grid2{grid-template-columns:1fr}}
+.res{font-size:15px}
+.fc{perspective:900px;height:170px;cursor:pointer;margin:10px 0}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.fc.flip .in{transform:rotateY(180deg)}
+.fc .f,.fc .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;border:1px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;padding:18px;text-align:center;font-size:18px}
+.fc .b{transform:rotateY(180deg);background:var(--accbg);font-size:16px}
+.q{margin:14px 0}.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--line);margin:5px 0}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}.opt.bad{background:var(--badbg);border-color:var(--bad)}
+.exp{display:none;margin-top:6px;font-size:14.5px;color:var(--mute)}.exp.show{display:block}
+.pk{display:inline-block;background:var(--warnbg);color:var(--warn);border-radius:99px;padding:3px 12px;font-weight:600;margin:3px}
+.printonly{display:none}
+details{margin:8px 0}summary{cursor:pointer;font-weight:600}
+.timer{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;border-radius:99px;padding:1px 9px;font-size:12px;background:var(--code);border:1px solid var(--line);margin-left:6px;color:var(--mute)}
+@media print{
+ nav,.noprint,.fc,.q button,#toolbar{display:none!important}
+ .printonly{display:block}
+ details{display:block}details>*{display:block}summary{display:none}
+ body{background:#fff;color:#000;font-size:11.5pt}
+ :root{--bg:#fff;--card:#fff;--ink:#000}
+ main{padding:0}.layout{display:block}
+ .card,.callout,table,.eq{break-inside:avoid}
+ h2{break-after:avoid}
+}
+svg text{fill:var(--ink);font-family:system-ui}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav id="nav">
+<h1>CHE110 · L7</h1><small>Mechanism, PE diagram, Arrhenius</small>
+<div class="grp">Site</div><a href="index.html">← Hub (all guides)</a>
+<div class="grp">Start here</div>
+<a href="#exam">What the lecturer wants</a>
+<a href="#map">Slides ↔ class map</a>
+<div class="grp">Class notes</div>
+<a href="#elem">1 · Elementary vs composite</a>
+<a href="#mol">2 · Molecularity</a>
+<a href="#ovm">3 · Order vs molecularity</a>
+<a href="#mech">4 · Mechanism, RDS, intermediates</a>
+<a href="#comp">5 · Types of composite reactions</a>
+<a href="#pe">6 · Potential-energy diagrams</a>
+<a href="#theories">7 · Collision &amp; transition-state theory</a>
+<a href="#temp">8 · Temperature effect</a>
+<a href="#arr">9 · Arrhenius equation</a>
+<div class="grp">Interactive</div>
+<a href="#tools">PE diagram &amp; Arrhenius tools</a>
+<div class="grp">Practice</div>
+<a href="#cards">Flashcards</a>
+<a href="#quiz">Quiz</a>
+<a href="#cheat">Cheat sheet</a>
+<div class="grp">Other guides</div>
+<a href="CHE110_L5-6_Kinetics_Guide.html">Lecture 5–6 (slide 23+)</a>
+<a href="CHE110_L4_Periodicity_Guide.html">Lecture 4</a>
+<a href="CHE110_Quiz2_Prep.html">Quiz 2 prep</a>
+<div class="grp">&nbsp;</div><button class="ghost" onclick="toggleTheme()">Light / dark</button><button class="ghost" style="margin-top:6px" onclick="window.print()">Print / save PDF</button>
+</nav>
+<main>
+
+<section id="exam">
+<h2>CHE110 · Lecture 7: Mechanism, energy diagrams, Arrhenius</h2>
+<p>Built from the transcript "L6" (it covers <b>Lecture 7</b> on your slides) and the Lecture 7 slides.
+<span class="tag t-class">TAUGHT IN CLASS</span> <span class="tag t-exam">EXAM SIGNAL</span> <span class="tag t-slide">SLIDES</span></p>
+<div class="callout warn"><b>Quiz 2 (Monday 16 November, 10 marks, 15 minutes)</b> covers Lecture 4, Lecture 5–6 (slide 23 to the end) and Lecture 7. All of this page is in scope.</div>
+
+<h3>What the lecturer said about the exam</h3>
+<div class="callout class"><ol style="margin:4px 0">
+<li><b>Elementary vs composite:</b> a question tells you whether a reaction is elementary ("don't panic about these"; you won't be asked to memorise which reactions are elementary). If it is elementary, write the rate law with the coefficients as powers. If not stated, use x and y.</li>
+<li><b>Short 1–1.5 mark questions:</b> "Why are high-molecularity reactions rare?" and "Write two differences between molecularity and order."</li>
+<li><b>MCQs:</b> "What is the molecularity / overall order of this elementary reaction?" (options 0, 1, 2, 3) and the true/false <b>"In any reaction the slowest step is the rate-determining step"</b> (True: many wrongly mark it false).</li>
+<li><b>Potential-energy diagram questions are in the exam</b>, in "creative" style: a stem, then <b>draw the graph</b> (2 marks), <b>indicate</b> transition state, activated complex, reactant, product, activation energy and ΔH; state <b>exo/endo</b>; <b>find ΔH</b> or <b>find the activation energy</b> from given energies. "Small things, not heavy maths." The slides' labelling is not very good: follow the class.</li>
+<li><b>Mark the activation energy from the reactant level</b>, not from the axis.</li>
+<li><b>Activation energy does NOT decrease when you raise the temperature.</b> ("This is what you guys write.") Reactants gain kinetic energy and cross the barrier faster.</li>
+<li><b>Arrhenius:</b> 1–2 mark questions: slope of ln k vs 1/T gives −Ea/R; the two-temperature formula; MCQs. Derivations are not given but you should know how to derive so the formula doesn't go wrong.</li>
+<li>Maths pitfalls: <b>temperature in Kelvin (+273)</b>; <b>Ea in J/mol</b> (convert kJ by × 1000, since R is in J); <b>remove ln first</b> (use e^) before moving numbers; write units. Practice questions are at the end of the practice-problem PDF (answers may have typos; follow the method).</li>
+<li>Penalties noted for the last tutorial: missing units, wrong calculator entries, not dividing by the coefficient, tangents that pass through two points, extra writing.</li>
+</ol></div>
+<div class="card"><span class="pk">Elementary: powers = coefficients</span><span class="pk">Molecularity ≠ order (2 differences)</span><span class="pk">High molecularity is rare</span><span class="pk">RDS = slowest step (True)</span><span class="pk">Intermediate vs product</span><span class="pk">Draw &amp; label PE diagram</span><span class="pk">Ea from the reactant level</span><span class="pk">ΔH = product − reactant</span><span class="pk">T does not lower Ea</span><span class="pk">ln k vs 1/T: slope −Ea/R</span><span class="pk">T in K, Ea in J</span></div>
+</section>
+
+<section id="map">
+<h2>Slides ↔ class map</h2>
+<table>
+<tr><th>Slide</th><th>Topic</th><th>Class coverage</th></tr>
+<tr><td>3</td><td>Elementary vs composite; molecularity (1, 2, 3)</td><td>Yes</td></tr>
+<tr><td>4–5</td><td>Uni-, bi-, termolecular examples; why high molecularity is rare</td><td>Yes. Examples "should be memorised" only to the extent that a question says it's elementary (rate law/molecularity); you needn't memorise lists</td></tr>
+<tr><td>6</td><td>Order vs molecularity table; why molecularity of an elementary step equals its order</td><td>Yes (two differences as a 1-mark question)</td></tr>
+<tr><td>7</td><td>Reaction mechanism, rate-determining step, N₂O₅ example</td><td>Yes</td></tr>
+<tr><td>8</td><td>Composite reactions: parallel, reversible, consecutive</td><td>"Just give them a reading"</td></tr>
+<tr><td>9</td><td>Reaction intermediate; PE diagram intro</td><td>Yes</td></tr>
+<tr><td>10–12</td><td>PE diagrams: exothermic and endothermic; Ea, activated complex, terms</td><td>Yes (drawn and calculated in class; exam style)</td></tr>
+<tr><td>13</td><td>Collision theory</td><td>Yes</td></tr>
+<tr><td>14</td><td>Transition-state theory</td><td>Yes</td></tr>
+<tr><td>15–16</td><td>Arrhenius equation, ln form, two-temperature formula, slope problem, CH₄ + S₂ problem</td><td>Yes; maths</td></tr>
+</table>
+<p><small>Slides 17–22 of Lecture 5–6 (factors affecting rate, temperature, catalyst) and the Boltzmann curve are in the <a href="CHE110_Tutorial_Guide.html">Tutorial guide</a>.</small></p>
+</section>
+
+<section id="elem">
+<h2>1 · Elementary and composite reactions</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES 3–5</span>
+<ul>
+<li>All reaction types (excluding radioactive/nuclear) are <b>elementary</b> or <b>composite</b>.</li>
+<li><b>Elementary reaction</b> = a <b>single-step</b> reaction (<b>single collision</b>): reactants directly convert to products in one molecular event. No hidden steps, no intermediates. Example: H₂ + I₂ → 2HI (one H₂ and one I₂ collide and give two HI: 5 H₂ + 5 I₂ gives 10 HI).</li>
+<li><b>Composite (complex) reaction</b> = multi-step: several elementary reactions summed up, with <b>intermediates</b> and transition states before the final products. Real-life reactions are mostly composite (water splitting into H₂ and O₂ is not one collision). "Balancing with 10 or 20 coefficients" gives composite reactions.</li>
+<li>Elementary reactions are rare in real life (excluding radioactive ones). A single step doesn't mean slow: more steps with intermediates take <i>longer</i>.</li>
+<li><b>Why it matters:</b> for an elementary reaction you can tell the order by looking at the coefficients, which you cannot do for a composite one.</li>
+</ul>
+</section>
+
+<section id="mol">
+<h2>2 · Molecularity</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES 3–6</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li><b>Molecularity</b> = the number of <b>reactant particles (molecules or atoms) taking part</b> in an <b>elementary reaction</b>. Products don't count.</li>
+</ul>
+<table>
+<tr><th>Molecularity</th><th>Name</th><th>General form</th><th>Examples (slide)</th></tr>
+<tr><td>1</td><td><b>Unimolecular</b></td><td>A → products</td><td>Br₂ → 2Br; CaCO₃(s) → CaO(s) + CO₂(g); cyclopropane → propene</td></tr>
+<tr><td>2</td><td><b>Bimolecular</b></td><td>A + B → products; A + A → products</td><td>2HI → H₂ + I₂; CH₃COOC₂H₅ + H₂O → CH₃COOH + C₂H₅OH; 2NOCl → 2NO + Cl₂; H₂ + I₂ → 2HI</td></tr>
+<tr><td>3</td><td><b>Termolecular</b></td><td>A + B + C → products (A + 2B counts as 3)</td><td>2NO + O₂ → 2NO₂; 2NO + Cl₂ → 2NOCl</td></tr>
+</table>
+<ul>
+<li>In class: "A → products" has molecularity 1; "A + 2B → products" has 3 particles → termolecular. For H₂ + I₂ → 2HI: molecularity 2 (bimolecular).</li>
+<li><b>Why are high-molecularity reactions rare?</b> (1–1.5 marks) The reaction needs a <b>simultaneous collision</b> of the reacting particles with <b>enough energy</b> and <b>correct orientation</b>. As the number of particles increases, the chance of all colliding together effectively falls, so reactions of molecularity 4 or more essentially don't happen; molecularity 2 is the commonest, 3 is rare, 1 is easy (a particle breaks on its own).</li>
+<li>Molecularity is a <b>positive whole number</b>: never 0 and never a fraction (a reactant doesn't "come with its head but not its legs").</li>
+<li><b>Molecularity belongs only to elementary reactions</b> (or to each elementary step of a mechanism). It is meaningless for an overall composite reaction (at best it is the molecularity of the rate-determining step; the book example of N₂O₅ gives 2).</li>
+</ul>
+</section>
+
+<section id="ovm">
+<h2>3 · Order vs molecularity</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDE 6</span><span class="tag t-exam">1-MARK QUESTION: two differences</span>
+<table>
+<tr><th>Order</th><th>Molecularity</th></tr>
+<tr><td>Sum of the powers of the concentration terms in the rate law</td><td>Number of reacting species undergoing simultaneous collision in an elementary reaction</td></tr>
+<tr><td><b>Experimentally determined</b></td><td><b>Theoretical</b> (read from the elementary reaction)</td></tr>
+<tr><td>Can be <b>fractional</b></td><td>Always a <b>whole number</b></td></tr>
+<tr><td>Can be <b>zero</b></td><td>Cannot be zero</td></tr>
+<tr><td>Can change with conditions (pressure, temperature, concentration)</td><td>Invariant for a given chemical equation</td></tr>
+</table>
+<div class="callout class"><b>Why is the molecularity of an elementary step equal to its order?</b> Rate ∝ number of collisions ∝ concentration of each colliding species. For 2A + B → products: rate ∝ [A][A][B], so <b>rate = k[A]²[B]</b>: order 3 = molecularity 3. For H₂ + I₂ → 2HI: rate = k[H₂][I₂], order 2 = molecularity 2.</div>
+<ul>
+<li><b>Not equal for composite reactions:</b> the powers (orders) on the slides were found by experiment ("don't memorise them; they did experiments"). If a question says "elementary", use the coefficients; if not, write x and y and the overall order as x + y.</li>
+<li>MCQ style: "Given this elementary reaction, what is its molecularity / overall order?" Just add the coefficients of the reactants.</li>
+</ul>
+</section>
+
+<section id="mech">
+<h2>4 · Reaction mechanism, rate-determining step, intermediates</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES 7, 9</span><span class="tag t-exam">TRUE/FALSE SIGNAL</span>
+<ul>
+<li>A <b>reaction mechanism</b> is a step-by-step description of how a reaction occurs at the molecular level: the sequence of <b>elementary steps</b>, the formation and consumption of <b>intermediates</b>, and the role of catalysts.</li>
+<li>Some steps are fast, others slow. The <b>slowest step is the rate-determining step (RDS)</b>. It controls the overall rate. Analogy: a three-step reaction taking two hours where one step takes one and a half hours; or the traffic signal where you lose most of your journey time.</li>
+<li>Finding the mechanism of every step is impractical, so we study the slowest step and write the rate law <b>with respect to it</b>.</li>
+<li><b>True/false:</b> "In any reaction the slowest step is the rate-determining step." → <b>True</b>. If two steps are both slow, the one that is the <b>slowest</b> is the RDS.</li>
+<li><b>Speeding up a reaction:</b> apply the factors (catalyst, surface area, temperature, light, pressure for gases) <b>to the slowest step</b>. Example: Raney nickel in hydrogenation (alkyne → alkene): the H–H bond (≈ 435 kJ/mol) is strong, so breaking it is slow; H₂ adsorbs on the nickel surface, the H–H bond weakens and H atoms are added to carbon. So the catalyst helps the slow step.</li>
+</ul>
+<h3>Slide example: decomposition of N₂O₅</h3>
+<div class="card">Overall: <b>2N₂O₅ → 4NO₂ + O₂</b> (a composite reaction, 3 steps):<br>
+Step 1: 2N₂O₅ → 2NO₂ + 2NO₃ &nbsp;(slow)<br>
+Step 2: NO₂ + NO₃ → NO + NO₂ + O₂ &nbsp;(slow, the <b>slowest</b>: <b>rate-determining step</b>)<br>
+Step 3: NO + NO₃ → 2NO₂ &nbsp;(fast)<br>
+<b>Intermediates: NO₃ and NO</b> (formed in one step, used up in another; they don't appear in the net equation). Because intermediates matter, you can't write the order from the overall coefficients.</div>
+<ul>
+<li><b>Reaction intermediate:</b> a species produced during an elementary step but <b>not in the net reaction equation</b> (NO₃ in N₂O₅ decomposition).</li>
+</ul>
+</section>
+
+<section id="comp">
+<h2>5 · Types of composite reactions</h2>
+<span class="tag t-slide">SLIDE 8</span><span class="tag t-class">"GIVE IT A READING"</span>
+<table>
+<tr><th>Type</th><th>Meaning</th><th>Examples (slide)</th></tr>
+<tr><td><b>Parallel (side)</b></td><td>The same reactant gives different products by different reactions at once</td><td>2C₂H₄ + O₂ →(k₁) 2C₂H₄O and C₂H₄ + 3O₂ →(k₂) 2CO₂ + 2H₂O; ethanol → ethene + H₂O and ethanol → acetaldehyde + H₂</td></tr>
+<tr><td><b>Reversible (opposing)</b></td><td>The forward reaction is opposed by the backward one: A ⇌ B</td><td>CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O</td></tr>
+<tr><td><b>Consecutive</b></td><td>The final product forms through one or more intermediate steps: A → B → C</td><td>C₂H₅OH → CH₃CHO → CH₃COOH (with O₂)</td></tr>
+</table>
+<p>All are multi-step, "one linked with another".</p>
+</section>
+
+<section id="pe">
+<h2>6 · Potential-energy diagrams</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES 9–12</span><span class="tag t-exam">EXAM SIGNAL: draw, label, calculate</span>
+<ul>
+<li><b>Lower potential energy = more stable</b> (more stable the lower and the more negative). High potential energy = unstable and restless.</li>
+<li>The diagram plots <b>potential energy (y)</b> against <b>reaction progress (x)</b>. For an <b>elementary</b> reaction there is <b>one hump (one Ea)</b>; for a <b>multi-step</b> reaction there are several humps, one activation energy for each step.</li>
+<li>Every reaction must be spontaneous to proceed: <b>exothermic reactions are spontaneous</b> (no outside energy needed); <b>endothermic reactions</b> need energy from outside (temperature, light) to start and keep going.</li>
+</ul>
+<h3>What happens along the curve (class example: AB + C → A + BC)</h3>
+<ol>
+<li><b>Reactant</b> at some energy (10 J in the class example).</li>
+<li>When the reactants collide, their electron clouds <b>repel</b> and the bond in AB must start to break, so potential energy <b>rises</b> (rearrangement; this energy is taken from the system's stored energy).</li>
+<li>At the top is the <b>transition state</b> (50 J): bond breaking and forming at once. The grouping of atoms there (A···B···C) is the <b>activated complex</b>: unstable, momentary, <b>highest energy</b>. Slide: it has higher PE than reactants or products and decomposes at a definite rate to give products.</li>
+<li>Then bond formation <b>releases</b> energy and the energy falls to the <b>product</b>.</li>
+</ol>
+<table>
+<tr><th>Term</th><th>Meaning / how to find</th></tr>
+<tr><td><b>Activation energy, Eₐ</b></td><td>Minimum energy needed to start the reaction = <b>E(transition state) − E(reactant)</b>. Marked <b>from the reactant level</b> up to the peak, not from the axis ("I don't have any particle at that level").</td></tr>
+<tr><td><b>ΔH</b></td><td><b>E(product) − E(reactant)</b>.</td></tr>
+<tr><td><b>Exothermic</b></td><td>Product lower than reactant → <b>ΔH negative</b>; product is the most stable; energy released; spontaneous; no external energy.</td></tr>
+<tr><td><b>Endothermic</b></td><td>Product higher than reactant → <b>ΔH positive</b>; the reactant is more stable; energy absorbed from the surroundings.</td></tr>
+</table>
+<div class="callout ok"><b>Class numbers.</b> Exothermic: reactant 10 J, transition state 50 J, product 5 J → <b>Ea = 50 − 10 = 40 J</b>, <b>ΔH = 5 − 10 = −5 J</b> (5 J released). Another: reactant 200 J, transition state 300 J → <b>Ea = 100 J</b>; if product = 160 J, <b>ΔH = −40 J</b>, exothermic.</div>
+<ul>
+<li><b>Recognising exo/endo:</b> (i) the reaction proceeds spontaneously without external energy → exothermic; (ii) product energy lower than reactant → exothermic; (iii) ΔH negative → exothermic. The opposite for endothermic.</li>
+<li>The creative-style questions: (a) "State whether it is exothermic or endothermic", (b) "Draw the graph and indicate transition state, activated complex, reactant, product, Ea, ΔH", (c) "Find ΔH", (d) "Find the activation energy".</li>
+</ul>
+</section>
+
+<section id="theories">
+<h2>7 · Collision theory and transition-state theory</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES 13–14</span>
+<ul>
+<li><b>Collision theory:</b> a reaction takes place only by collisions between reacting molecules, but <b>not every collision gives a product</b>; only a small fraction (<b>effective collisions</b>). Two conditions: (1) the molecules must have <b>sufficient kinetic energy</b> (≥ activation energy); (2) they must collide with the <b>proper orientation</b>. Slide: A–B + A–B colliding head-on is effective; a collision where the right atoms don't meet is ineffective even with high energy.</li>
+<li><b>Transition-state theory:</b> a collision does not directly cause reaction; the colliding molecules first form a <b>transition state / activated complex</b> which then decomposes to products. Steps: (1) fast-approaching molecules slow down because their <b>electron clouds repel</b>; kinetic energy is converted to potential energy; (2) the clouds interpenetrate, allowing rearrangement of valence electrons; (3) a <b>partial bond</b> forms (A···B) while the B–C bond weakens: the activated complex, momentary, which then gives A–B + C.</li>
+<li>Orientation cannot be fully controlled from outside. Catalysts mostly speed reactions; a few (inhibitors) slow them.</li>
+</ul>
+</section>
+
+<section id="temp">
+<h2>8 · Effect of temperature and catalyst on the barrier</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li>To start the reaction the reactants need Ea (e.g. 40 J) but have only 10 J: they must "arrange" 40 J, which takes time. If you supply energy by raising the temperature (10 J → 40–50 J), they cross the barrier <b>quickly</b>.</li>
+<li><b>Explain:</b> raising the temperature increases the reactants' <b>kinetic energy</b>, so there are more <b>effective collisions</b> and the barrier is overcome more quickly. <b>The activation energy does NOT decrease</b> ("if you climb a mountain, can you cut it down? You energise yourself").</li>
+<li><b>Concentration and pressure</b> raise the rate by increasing effective collisions (pressure only for gases). Works the same way for exothermic or endothermic reactions.</li>
+<li><b>Catalyst:</b> gives an <b>alternative route with lower Eₐ</b> (the old path is unchanged); it also does not change ΔH.</li>
+<li>Normally we only think about the <b>forward</b> reaction; every reaction is reversible in principle, but we stop after the product forms.</li>
+</ul>
+<h3>Also said in the tutorial class (same ideas, extra detail; may reappear)</h3>
+<ul>
+<li><b>Activation energy</b> = the energy (not time) the reactants need to <b>start</b> the reaction: bonds must break and new ones form, and the outer electron clouds of colliding particles repel, so even a <b>spontaneous</b> reaction has a barrier at the start. Exothermic: the system supplies it itself; non-spontaneous/endothermic: energy must be supplied from outside (temperature, light), "otherwise the reaction never starts". Measure it <b>from the reactant level</b> ("many take it from the wrong place").</li>
+<li><b>Catalyst</b>: like choosing the easiest of many routes; the original route is not changed, the catalyst provides one with lower Ea. It can also add surface area (nanocatalysts) and weaken bonds. Typical catalysts: Ni, Fe, V₂O₅ (mostly d-block transition metals). A few catalysts are <b>inhibitors</b> (slow a reaction, e.g. to limit bacterial growth). Its main job is to <b>speed up</b>.</li>
+<li><b>Temperature</b>: Boltzmann distribution (number of molecules vs kinetic energy at a low and a high temperature; KE = ½mv²; higher T shifts the curve to higher KE). A barrier of 10 J with reactants raised from 10 J to 12 J: they cross more easily, but <b>the barrier has not become smaller</b>. Don't bring Le Chatelier's principle into this.</li>
+<li><b>Pressure</b> matters only for gases (more collisions); <b>light</b>: photochemical reactions (photons supply the activation energy, e.g. Cl₂ → 2Cl• radicals, photosynthesis); <b>surface area</b>: reaction occurs at the surface.</li>
+<li><b>Temperature coefficient</b> (slide 20): the ratio of the rate constants at two temperatures that differ by 10 °C.</li>
+</ul>
+</section>
+
+<section id="arr">
+<h2>9 · The Arrhenius equation</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES 15–16</span><span class="tag t-exam">1–2 MARK MATHS / MCQ</span>
+<ul>
+<li>Boltzmann's distribution (number of particles vs kinetic energy at two temperatures; a higher temperature shifts to higher energy) gave no equation. Arrhenius related the <b>rate constant</b> to temperature:
+<div class="eq">k = A e<sup>−E<sub>a</sub>/RT</sup></div></li>
+<li><b>k</b> = rate constant · <b>A</b> = frequency factor (collisions per second; treated as constant) · <b>Eₐ</b> = activation energy (fixed for a reaction) · <b>R</b> = 8.314 J mol⁻¹ K⁻¹ (given) · <b>T</b> = absolute temperature (K).</li>
+<li>Only <b>T and k</b> change. Increase T → k increases → rate increases (rate ∝ k: if the rate doubles, k doubles).</li>
+</ul>
+<h3>Linear form and the graph</h3>
+<div class="eq">ln k = ln A − (E<sub>a</sub>/R)(1/T) &nbsp;&nbsp; (y = mx + c)</div>
+<ul>
+<li><b>ln k (y) vs 1/T (x):</b> straight line with <b>negative slope</b> (goes down). <b>Slope = −Eₐ/R</b>; <b>intercept = ln A</b> (so A is found from the intercept). A 1-mark question may ask for a tentative sketch.</li>
+<li><b>Slope given:</b> Eₐ = −slope × R. <b>Slide example:</b> slope = −1.2×10⁴ K → Eₐ = 8.314 × 1.2×10⁴ = <b>1.0×10⁵ J mol⁻¹</b>. Unit: K cancels with R's K⁻¹, leaving J/mol. (When it says "slope", don't think of a tangent/instantaneous rate: think Arrhenius.)</li>
+</ul>
+<h3>Two temperatures (no graph)</h3>
+<div class="eq">ln(k₂/k₁) = (E<sub>a</sub>/R) (1/T₁ − 1/T₂) &nbsp;&nbsp; log(k₂/k₁) = E<sub>a</sub>/(2.303R) · (T₂ − T₁)/(T₁T₂)</div>
+<ul>
+<li>Derivation (not asked): write ln k₂ and ln k₁, subtract; A cancels (ratio); e's turn into ln; so you don't need A. The log form multiplies by 2.303 (log₁₀ vs ln). Logs are used to turn large or small numbers into manageable values.</li>
+<li><b>T₂ is the higher temperature</b> (with k₂); <b>T₁</b> the lower. Write 1/T₁ first.</li>
+</ul>
+<div class="callout bad"><b>Pitfalls the lecturer sees</b>
+<ol style="margin:4px 0">
+<li><b>Convert °C to K</b> (+273): 620 °C → 893 K.</li>
+<li><b>Convert kJ/mol to J/mol</b> (× 1000) because R is in J. (Ea = 10 kJ/mol → 10 000 J/mol.)</li>
+<li><b>Remove the ln operator before moving numbers.</b> If ln(k₂/1.1) = −2, write k₂/1.1 = e^(−2) (Shift + ln on the calculator), then multiply by 1.1. Don't carry the 1.1 across the ln.</li>
+<li>If Ea is asked, you don't need A. If A is asked, an intercept (ln A) will be given.</li>
+</ol></div>
+<h3>Worked problems</h3>
+<div class="card">
+<b>Slide 15.</b> 2N₂O₅ → 4NO₂ + O₂; slope of ln k vs 1/T = −1.2×10⁴ K. Eₐ = 8.314 × 1.2×10⁴ = 9.98×10⁴ ≈ <b>1.0×10⁵ J mol⁻¹</b>.<br><br>
+<b>Slide 16.</b> CH₄ + 2S₂ → CS₂ + 2H₂S. k = 1.1 L mol⁻¹s⁻¹ at 550 °C, 6.4 at 625 °C. T₁ = 823 K, T₂ = 898 K. ln(6.4/1.1) = 1.761. 1/T₁ − 1/T₂ = 1.015×10⁻⁴. Eₐ = 8.314 × 1.761/1.015×10⁻⁴ = 1.44×10⁵ J/mol (slide: <b>1.4×10⁵ J/mol</b>).<br><br>
+<b>Class question: "At 30 °C the rate is whatever; raise 10 °C and it doubles. Eₐ?"</b> The rate is proportional to k, so k₂ = 2k₁. T₁ = 303 K, T₂ = 313 K. Eₐ = R ln 2/(1/303 − 1/313) = 8.314 × 0.6931/1.0544×10⁻⁴ = <b>5.47×10⁴ J mol⁻¹ (54.7 kJ/mol)</b>.<br><br>
+<b>From the practice sheet.</b> k₁ = 1.2 s⁻¹ at 320 K, Eₐ = 60 kJ/mol → k₂ at 290 K: ln(k₂/k₁) = (60000/8.314)(1/320 − 1/290) = −2.33 → <b>k₂ = 0.116 s⁻¹</b>. And k₂ = 2k₁, T₁ = 280 K, Eₐ = 65 kJ/mol → <b>T₂ ≈ 287 K</b>.
+</div>
+</section>
+
+<section id="tools">
+<h2>Interactive tools</h2>
+<div class="card noprint"><b>1 · Potential-energy diagram drawer</b>
+<div class="row" style="margin-top:6px">
+<label>Reactant energy <input id="pr" type="text" value="10"></label>
+<label>Transition state <input id="pt" type="text" value="50"></label>
+<label>Product energy <input id="pp" type="text" value="5"></label>
+<label><input type="checkbox" id="pcat"> show catalysed path</label>
+<button class="ghost" onclick="peSet(10,50,5)">Class exo (10/50/5)</button><button class="ghost" onclick="peSet(10,50,30)">Endo example (10/50/30)</button><button class="ghost" onclick="peSet(200,300,160)">200/300/160</button>
+</div>
+<svg id="pesvg" viewBox="0 0 640 360" width="100%" style="max-width:760px;margin-top:8px" role="img" aria-label="Potential-energy diagram"></svg>
+<div class="res" id="peout"></div></div>
+
+<div class="card noprint"><b>2 · Arrhenius calculator</b>
+<div class="row" style="margin-top:6px"><label>Find <select id="am"><option value="ea">Eₐ from k₁, T₁, k₂, T₂</option><option value="k2">k₂ from k₁, T₁, T₂, Eₐ</option><option value="t2">T₂ from k₁, k₂, T₁, Eₐ</option><option value="slope">Eₐ from the slope of ln k vs 1/T</option><option value="dbl">Eₐ if k multiplies by a factor for a rise ΔT</option></select></label>
+<label>Temperature unit <select id="au"><option value="C">°C (add 273)</option><option value="K">K</option></select></label></div>
+<div class="row" style="margin-top:6px" id="aform"></div>
+<div class="res" id="aout" style="margin-top:8px"></div></div>
+
+<div class="card noprint"><b>3 · ln k vs 1/T plot (fit your own data)</b>
+<div class="row" style="align-items:flex-start;margin-top:6px"><div><textarea id="lk" spellcheck="false"></textarea><br><small style="color:var(--mute)">One "T (K), k" pair per line.</small></div>
+<div style="flex:1;min-width:300px"><svg id="lksvg" viewBox="0 0 420 280" width="100%" role="img" aria-label="ln k versus 1/T"></svg><div class="res" id="lkout"></div></div></div></div>
+<div class="printonly">Interactive tools are on the web version.</div>
+</section>
+<section id="cards">
+<h2>Flashcards</h2>
+<div class="noprint">
+<div class="row"><button class="ghost" onclick="fcPrev()">← Prev</button><span id="fcn"></span><button class="ghost" onclick="fcNext()">Next →</button><button class="ghost" onclick="fcShuf()">Shuffle</button></div>
+<div class="fc" id="fc" onclick="this.classList.toggle('flip')"><div class="in"><div class="f" id="fcf"></div><div class="b" id="fcb"></div></div></div>
+<small style="color:var(--mute)">Click the card to flip it.</small>
+</div>
+<div class="printonly" id="fcprint"></div>
+</section><section id="quiz">
+<h2>Practice quiz</h2>
+<div class="noprint">
+<div class="row"><button onclick="resetQuiz()">Restart</button><span id="score"></span></div>
+<div id="qbox"></div>
+</div>
+<div class="printonly" id="quizprint"></div>
+</section>
+<section id="cheat">
+<h2>Cheat sheet</h2>
+<div class="card"><div class="grid2"><div>
+<b>Elementary</b> = one step, no intermediates; rate law powers = coefficients (only if stated).<br>
+<b>Molecularity</b> = number of reactant particles in an elementary step (1, 2, 3; whole, never 0; theoretical).<br>
+<b>Order</b> = sum of powers (experimental; can be 0 or fraction).<br>
+<b>High molecularity rare:</b> simultaneous effective collisions improbable.<br>
+<b>RDS</b> = slowest step (True). <b>Intermediate</b> = made then used (not in the net equation; NO₃).<br>
+<b>Composite types:</b> parallel, reversible, consecutive.
+</div><div>
+<b>PE diagram:</b> Ea = TS − reactant; ΔH = product − reactant; exo: ΔH &lt; 0, product lower; endo: ΔH &gt; 0.<br>
+<b>Highest energy:</b> transition state/activated complex (unstable).<br>
+<b>Temperature:</b> raises KE, not lowers Ea. <b>Catalyst:</b> lower-Ea path.<br>
+<b>Collision theory:</b> energy + orientation.<br>
+<b>Arrhenius:</b> k = Ae^(−Ea/RT); ln k = ln A − (Ea/R)(1/T); slope −Ea/R; intercept ln A.<br>
+<b>Two-T:</b> ln(k₂/k₁) = (Ea/R)(1/T₁ − 1/T₂); T in K; Ea in J; remove ln first.
+</div></div></div>
+</section>
+
+</main>
+</div>
+<script>
+
+const $=id=>document.getElementById(id);
+const sup=n=>String(n).replace(/[0-9]/g,d=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[d]).replace('-','⁻');
+const fx=(x,p=3)=>{if(x===0)return '0';const [m,e]=x.toExponential(p-1).split('e');return +e===0?m:m+'×10'+sup(+e)};
+function toggleTheme(){const r=document.documentElement;const d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'}
+const links=[...document.querySelectorAll('#nav a[href^="#"]')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-20% 0px -70% 0px'});
+document.querySelectorAll('section').forEach(s=>io.observe(s));
+/* flashcards */
+let fi=0;
+function fcShow(){if(typeof cards==='undefined'||!$('fcf'))return;$('fcf').innerHTML=cards[fi][0];$('fcb').innerHTML=cards[fi][1];$('fc').classList.remove('flip');$('fcn').textContent=(fi+1)+' / '+cards.length}
+function fcNext(){fi=(fi+1)%cards.length;fcShow()}function fcPrev(){fi=(fi-1+cards.length)%cards.length;fcShow()}
+function fcShuf(){for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]]}fi=0;fcShow()}
+/* quiz renderer: items {t:'mcq',q,o,a,e} or {t:'num',q,a,tol,u,e} */
+function renderQuiz(list,boxId,scoreId,opts){opts=opts||{};const b=$(boxId);b.innerHTML='';let ans=0,done=0;
+ const upd=()=>{if($(scoreId))$(scoreId).textContent=`Score ${ans} / ${done} (of ${list.length})`;if(opts.onUpdate)opts.onUpdate(ans,done,list.length)};
+ list.forEach((q,i)=>{const d=document.createElement('div');d.className='card q';d.innerHTML=`<b>${i+1}. ${q.q}</b>${q.tag?`<span class="pill">${q.tag}</span>`:''}`;
+  const ex=document.createElement('div');ex.className='exp';ex.innerHTML=q.e||'';
+  if(q.t==='num'){const w=document.createElement('div');w.className='row';w.style.marginTop='8px';w.innerHTML=`<input type="text" placeholder="answer" style="width:120px"> <span>${q.u||''}</span>`;const bt=document.createElement('button');bt.textContent='Check';
+   bt.onclick=()=>{if(d.dataset.done)return;const v=parseFloat(w.querySelector('input').value.replace('−','-').replace(',','.'));if(isNaN(v))return;d.dataset.done=1;done++;const ok=Math.abs(v-q.a)<=Math.abs(q.a)*(q.tol||0.03);if(ok)ans++;w.querySelector('input').style.borderColor=ok?'var(--ok)':'var(--bad)';ex.innerHTML=(ok?'<b style="color:var(--ok)">Correct.</b> ':'<b style="color:var(--bad)">Not quite (answer ≈ '+q.a+' '+(q.u||'')+').</b> ')+(q.e||'');ex.classList.add('show');upd()};w.appendChild(bt);d.appendChild(w)}
+  else{q.o.forEach((o,j)=>{const bt=document.createElement('button');bt.className='opt';bt.innerHTML=o;bt.onclick=()=>{if(d.dataset.done)return;d.dataset.done=1;done++;[...d.querySelectorAll('.opt')].forEach((x,k)=>{if(k===q.a)x.classList.add('ok')});if(j===q.a)ans++;else bt.classList.add('bad');ex.classList.add('show');upd()};d.appendChild(bt)})}
+  d.appendChild(ex);b.appendChild(d)});upd();return{reveal(){list.forEach((q,i)=>{const c=b.children[i];if(!c.dataset.done){c.dataset.done=1;done++;[...c.querySelectorAll('.opt')].forEach((x,k)=>{if(k===q.a)x.classList.add('ok')});c.querySelector('.exp').classList.add('show');}});upd()}}}
+function printQuiz(list,id){if(!$(id))return;$(id).innerHTML='<ol>'+list.map(q=>q.t==='num'?`<li>${q.q} <i>Answer ≈ ${q.a} ${q.u||''}. ${q.e||''}</i></li>`:`<li>${q.q}<br>${q.o.map((o,j)=>String.fromCharCode(65+j)+') '+o).join(' &nbsp; ')}<br><i>Answer: ${String.fromCharCode(65+q.a)}. ${q.e||''}</i></li>`).join('')+'</ol>'}
+
+const cards=[["Elementary reaction?", "A single-step (single-collision) reaction; no intermediates (e.g. H₂ + I₂ → 2HI, Br₂ → 2Br)."], ["Composite reaction?", "A multi-step reaction made up of elementary steps, with intermediates; most real reactions."], ["Molecularity?", "Number of reactant particles in an elementary reaction (1 uni-, 2 bi-, 3 termolecular)."], ["Examples: uni-, bi-, termolecular?", "Br₂ → 2Br; 2HI → H₂ + I₂; 2NO + O₂ → 2NO₂."], ["Why are high-molecularity reactions rare?", "The chance of many particles colliding at once with enough energy and the right orientation is very low."], ["Order vs molecularity: five differences", "Order: sum of powers, experimental, can be a fraction, can be zero, can change with conditions. Molecularity: number of colliding species, theoretical, whole number, never zero, fixed for an equation."], ["Rate law of an elementary reaction?", "Powers = coefficients of the reactants: 2A + B → rate = k[A]²[B]; order = molecularity."], ["Rate law if the reaction is not elementary?", "Use unknown powers x, y; order from experiment."], ["Can a composite reaction have a molecularity?", "Only each elementary step has one; for the overall reaction it is meaningless (at best the RDS)."], ["Reaction mechanism?", "Step-by-step description of how a reaction occurs: elementary steps, intermediates and catalysts."], ["Rate-determining step?", "The slowest step of the mechanism; it controls the overall rate."], ["Reaction intermediate?", "A species produced in one step and consumed in another; not in the net equation (e.g. NO₃ in N₂O₅ decomposition)."], ["N₂O₅ mechanism on the slide?", "Step 1 (slow): 2N₂O₅ → 2NO₂ + 2NO₃; Step 2 (slow, RDS): NO₂ + NO₃ → NO + NO₂ + O₂; Step 3 (fast): NO + NO₃ → 2NO₂. Overall 2N₂O₅ → 4NO₂ + O₂."], ["Types of composite reactions?", "Parallel (side), reversible (opposing), consecutive."], ["How can factors speed up the RDS?", "Apply catalyst, surface area, temperature, light, pressure to the slowest step (e.g. Raney Ni weakens H–H bonds in hydrogenation)."], ["Why is lower PE better?", "Lower potential energy = more stable."], ["Activation energy on a PE diagram?", "From the reactant level to the peak (transition state)."], ["Transition state vs activated complex?", "The peak/highest-energy unstable state, where bonds are breaking and forming; the species there is the activated complex."], ["Exothermic PE diagram?", "Product lower than reactant; ΔH negative; spontaneous (no external energy)."], ["Endothermic PE diagram?", "Product higher than reactant; ΔH positive; energy absorbed; reactant more stable."], ["ΔH?", "Product − reactant."], ["How to calculate Ea from a diagram?", "Transition state energy − reactant energy."], ["Typical exam pattern (creative)?", "Stem + draw the PE graph, label TS/activated complex/reactant/product/Ea/ΔH, state exo/endo, find ΔH or Ea."], ["Effect of temperature on activation energy?", "None: Ea is fixed. Reactants gain kinetic energy and cross the barrier more easily."], ["How does a catalyst work?", "New path with lower Ea (original path unchanged), regenerated. It doesn't change ΔH."], ["Collision theory?", "Not every collision is effective: needs enough energy and proper orientation."], ["Transition-state theory?", "Colliding molecules form an activated complex (partial bonds), which decomposes to products."], ["Arrhenius equation?", "k = A e^(−Ea/RT); A = frequency factor; R = 8.314 J mol⁻¹ K⁻¹; T in K."], ["Linear form and graph?", "ln k = ln A − (Ea/R)(1/T): ln k vs 1/T, slope −Ea/R, intercept ln A."], ["Two-temperature formula?", "ln(k₂/k₁) = (Ea/R)(1/T₁ − 1/T₂); log form: log(k₂/k₁) = Ea/(2.303R) · (T₂ − T₁)/(T₁T₂)."], ["Arrhenius pitfalls?", "Temperatures in K (+273); convert kJ to J; remove ln before moving numbers; T₂ is the higher temperature."], ["Rate doubles for a 10° rise: how to find Ea?", "Take k₂/k₁ = 2, T₂ = T₁ + 10 (in K), then use the two-temperature formula."], ["Boltzmann distribution?", "Number of particles vs kinetic energy at two temperatures; higher T shifts right: more molecules exceed Ea."], ["Why did Arrhenius matter after Boltzmann?", "Boltzmann gave the distribution but no equation; Arrhenius related k to T mathematically."], ["Six factors affecting rate?", "Concentration, pressure (gases only), temperature, catalyst, light, surface area."], ["Catalyst in one line?", "Alters the rate without being consumed; new route with lower Ea; participates and is regenerated; the old route is unchanged."], ["Temperature coefficient?", "Ratio of the rate constants at two temperatures 10 °C apart."], ["Why do order problems use initial rates?", "Later on several reactants and products change at once, so the effect of each concentration is unclear; the start is clean."], ["Straight-line [A] vs t?", "Average rate = instantaneous rate (constant slope)."], ["'Rate of disappearance of A' vs 'rate of the reaction'?", "Disappearance: |d[A]/dt| only. Reaction rate: divide by the coefficient."]];
+fcShow();
+if($('fcprint'))$('fcprint').innerHTML='<table><tr><th>Question</th><th>Answer</th></tr>'+cards.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td></tr>`).join('')+'</table>';
+const QL=[{"t": "mcq", "q": "An elementary reaction is", "o": ["A multi-step reaction with intermediates", "A single-step reaction (one collision)", "Always a radioactive reaction", "A reaction with a catalyst"], "a": 1, "e": "Reactants convert directly to products in one molecular event.", "tag": "L7"}, {"t": "mcq", "q": "A composite (complex) reaction", "o": ["Occurs in one step", "Occurs in several elementary steps with intermediates", "Has no activation energy", "Is always second order"], "a": 1, "e": "Most real reactions are composite.", "tag": "L7"}, {"t": "mcq", "q": "Molecularity is", "o": ["The experimentally found sum of powers", "The number of reactant particles taking part in an elementary reaction", "The number of products", "The coefficient of the catalyst"], "a": 1, "e": "It applies to elementary reactions (or elementary steps) only.", "tag": "L7"}, {"t": "mcq", "q": "Br₂ → 2Br is", "o": ["Unimolecular", "Bimolecular", "Termolecular", "Zero molecularity"], "a": 0, "e": "One reactant particle.", "tag": "L7"}, {"t": "mcq", "q": "H₂ + I₂ → 2HI is (elementary)", "o": ["Unimolecular", "Bimolecular", "Termolecular", "Composite"], "a": 1, "e": "Two reactant particles: molecularity 2.", "tag": "L7"}, {"t": "mcq", "q": "2NO + O₂ → 2NO₂ has molecularity", "o": ["1", "2", "3", "4"], "a": 2, "e": "Three reactant particles collide: termolecular.", "tag": "L7"}, {"t": "mcq", "q": "Why are high-molecularity reactions rare?", "o": ["Products are unstable", "The chance of simultaneous collision with enough energy and correct orientation of many particles is very low", "Catalysts prevent them", "They are exothermic"], "a": 1, "e": "Collisions of more than two or three particles at once are very improbable.", "tag": "L7"}, {"t": "mcq", "q": "Molecularity can be", "o": ["Zero", "A fraction", "Any whole number ≥ 1 (usually 1, 2 or 3)", "Negative"], "a": 2, "e": "It is a positive whole number.", "tag": "L7"}, {"t": "mcq", "q": "Order can be", "o": ["Only a positive integer", "Zero or fractional", "Only 1", "Only 2"], "a": 1, "e": "Order is experimental and can be 0, fractional, etc.", "tag": "L7"}, {"t": "mcq", "q": "Which statement is TRUE?", "o": ["Order is theoretical, molecularity experimental", "Order is experimental, molecularity theoretical", "Both are always equal", "Both are experimental"], "a": 1, "e": "Order is determined by experiment; molecularity is read from the elementary step.", "tag": "L7"}, {"t": "mcq", "q": "For an elementary reaction 2A + B → products the rate law is", "o": ["Rate = k[A][B]", "Rate = k[A]²[B]", "Rate = k[A]^x[B]^y with unknown x, y", "Rate = k[2A][B]"], "a": 1, "e": "For an elementary reaction the powers equal the coefficients, so the overall order is 3 (equal to the molecularity).", "tag": "L7"}, {"t": "mcq", "q": "If a reaction is not stated to be elementary, the rate law powers are", "o": ["The coefficients", "Unknown variables x, y found by experiment", "Always 1", "Always 2"], "a": 1, "e": "Don't assume coefficients.", "tag": "L7"}, {"t": "mcq", "q": "True or false: the molecularity of an overall composite reaction can be assigned from its overall equation.", "o": ["True", "False"], "a": 1, "e": "False. Molecularity belongs to each elementary step (at best, to the rate-determining step).", "tag": "L7"}, {"t": "mcq", "q": "The rate-determining step is", "o": ["The fastest step", "The slowest step", "The last step", "The first step always"], "a": 1, "e": "The slowest step controls the overall rate.", "tag": "L7"}, {"t": "mcq", "q": "True or false: in any reaction the slowest step is the rate-determining step.", "o": ["True", "False"], "a": 0, "e": "True (the lecturer: many wrongly marked it false).", "tag": "L7"}, {"t": "mcq", "q": "A reaction intermediate is a species that", "o": ["Appears in the net equation as a reactant", "Is formed in one step and consumed in a later step, so is absent from the overall equation", "Is the catalyst", "Is the product"], "a": 1, "e": "Example: NO₃ in the decomposition of N₂O₅.", "tag": "L7"}, {"t": "mcq", "q": "In the decomposition of N₂O₅ (slide), which species is a reaction intermediate?", "o": ["N₂O₅", "NO₃", "O₂", "NO₂ (final product)"], "a": 1, "e": "NO₃ is produced and consumed (NO also). NO₂ and O₂ are final products.", "tag": "L7"}, {"t": "mcq", "q": "In the N₂O₅ mechanism on the slide, the rate-determining step is", "o": ["Step 1", "Step 2", "Step 3", "All equally"], "a": 1, "e": "Step 2 is the slowest.", "tag": "L7"}, {"t": "mcq", "q": "The reaction A → B → C is", "o": ["Parallel", "Consecutive", "Reversible", "Elementary"], "a": 1, "e": "A consecutive reaction forms the final product through intermediate steps (e.g. ethanol → acetaldehyde → acetic acid).", "tag": "L7"}, {"t": "mcq", "q": "A ⇌ B (forward opposed by backward) is a", "o": ["Parallel reaction", "Reversible (opposing) reaction", "Consecutive reaction", "Unimolecular reaction"], "a": 1, "e": "E.g. esterification: CH₃COOH + C₂H₅OH ⇌ ester + water.", "tag": "L7"}, {"t": "mcq", "q": "Ethanol giving ethene + water and acetaldehyde + H₂ simultaneously is a", "o": ["Parallel (side) reaction", "Reversible reaction", "Consecutive reaction", "Elementary reaction"], "a": 0, "e": "Two competing reactions from the same reactant.", "tag": "L7"}, {"t": "mcq", "q": "Lower potential energy means", "o": ["Less stable", "More stable", "Always endothermic", "Unreactive only"], "a": 1, "e": "The lower the potential energy, the higher the stability.", "tag": "L7"}, {"t": "mcq", "q": "Activation energy is measured from", "o": ["Zero energy to the peak", "The reactant level up to the transition state (peak)", "The product level to the peak", "The product to the reactant"], "a": 1, "e": "It is the minimum energy needed to start the reaction, from the reactant.", "tag": "L7"}, {"t": "mcq", "q": "On a potential-energy diagram, the highest-energy, unstable state is the", "o": ["Reactant", "Product", "Transition state (activated complex)", "Intermediate always"], "a": 2, "e": "Bonds are partly broken and partly formed.", "tag": "L7"}, {"t": "mcq", "q": "The activated complex", "o": ["Is the product", "Is a momentary species with partial bonds, higher in energy than reactants and products", "Is stable and isolable", "Has the lowest energy"], "a": 1, "e": "It decomposes to give the products.", "tag": "L7"}, {"t": "mcq", "q": "In an exothermic reaction", "o": ["Products have higher PE than reactants; ΔH > 0", "Products have lower PE than reactants; ΔH < 0", "ΔH = 0", "The reactant is more stable"], "a": 1, "e": "ΔH = product − reactant is negative; the product is more stable.", "tag": "L7"}, {"t": "mcq", "q": "In an endothermic reaction", "o": ["Products have lower PE", "ΔH is positive and the reactant is more stable than the product", "No activation energy", "ΔH is negative"], "a": 1, "e": "Energy must be absorbed (from the surroundings) to make the reaction go.", "tag": "L7"}, {"t": "mcq", "q": "A reaction proceeds spontaneously without any external energy. It is", "o": ["Endothermic", "Exothermic", "Impossible", "Zero order"], "a": 1, "e": "Endothermic reactions need energy from outside.", "tag": "L7"}, {"t": "mcq", "q": "ΔH is defined as", "o": ["Reactant − product", "Product − reactant", "Activation energy", "Transition state − reactant"], "a": 1, "e": "ΔH = H(products) − H(reactants).", "tag": "L7"}, {"t": "num", "q": "Reactant PE = 10 J, transition state = 50 J, product = 5 J. Activation energy (J)?", "a": 40, "u": "J", "e": "Ea = 50 − 10 = 40 J (from the reactant level).", "tol": 0.03, "tag": "L7"}, {"t": "num", "q": "Same diagram: ΔH (J)?", "a": -5, "u": "J", "e": "ΔH = product − reactant = 5 − 10 = −5 J (exothermic).", "tol": 0.01, "tag": "L7"}, {"t": "num", "q": "Reactant = 200 J, transition state = 300 J, product = 160 J. Activation energy (J)?", "a": 100, "u": "J", "e": "Ea = 300 − 200 = 100 J.", "tol": 0.03, "tag": "L7"}, {"t": "num", "q": "Same diagram: ΔH (J)?", "a": -40, "u": "J", "e": "ΔH = 160 − 200 = −40 J: exothermic.", "tol": 0.01, "tag": "L7"}, {"t": "mcq", "q": "A reaction has reactant 50 J, product 90 J. It is", "o": ["Exothermic", "Endothermic", "Neither", "Cannot say"], "a": 1, "e": "Product higher than reactant: ΔH = +40 J.", "tag": "L7"}, {"t": "mcq", "q": "Increasing temperature speeds a reaction because", "o": ["The activation energy decreases", "Reactant kinetic energy increases, so more molecules cross the barrier", "The catalyst forms", "Products are removed"], "a": 1, "e": "The barrier (Ea) is not lowered: 'you can energise yourself but you cannot cut down the mountain'.", "tag": "L7"}, {"t": "mcq", "q": "True or false: raising the temperature lowers the activation energy.", "o": ["True", "False"], "a": 1, "e": "False. Ea is fixed for a reaction; more particles have enough energy.", "tag": "L7"}, {"t": "mcq", "q": "A catalyst", "o": ["Raises the barrier", "Provides an alternative path with lower activation energy and is regenerated", "Changes ΔH", "Is consumed"], "a": 1, "e": "The original path is unchanged; the new one has lower Ea. ΔH stays the same.", "tag": "L7"}, {"t": "mcq", "q": "Collision theory says a collision is effective only if", "o": ["Reactants are in contact", "The molecules have enough energy and the correct orientation", "The temperature is above 100 °C", "A catalyst is present"], "a": 1, "e": "Two conditions: sufficient kinetic energy and proper orientation.", "tag": "L7"}, {"t": "mcq", "q": "Transition-state theory assumes", "o": ["Reaction occurs without any intermediate", "Colliding molecules form an activated complex that decomposes to products", "Molecules never collide", "The activation energy is zero"], "a": 1, "e": "Electron clouds repel, KE becomes PE, partial bonds form, then the complex breaks up.", "tag": "L7"}, {"t": "mcq", "q": "The Arrhenius equation is", "o": ["k = A e^(−Ea/RT)", "k = A e^(Ea/RT)", "k = ln A − Ea", "k = Ea/RT"], "a": 0, "e": "k increases with T.", "tag": "L7"}, {"t": "mcq", "q": "In the Arrhenius equation A is the", "o": ["Activation energy", "Frequency factor (collisions per second)", "Gas constant", "Rate"], "a": 1, "e": "It is treated as constant.", "tag": "L7"}, {"t": "mcq", "q": "A plot of ln k vs 1/T is a straight line with slope", "o": ["Ea/R", "−Ea/R", "−Ea", "ln A"], "a": 1, "e": "ln k = ln A − (Ea/R)(1/T); intercept = ln A.", "tag": "L7"}, {"t": "mcq", "q": "The intercept of the ln k vs 1/T graph is", "o": ["−Ea/R", "ln A", "Ea", "k"], "a": 1, "e": "y = mx + c with c = ln A.", "tag": "L7"}, {"t": "mcq", "q": "In ln k vs 1/T, the dependent and independent variables are", "o": ["1/T dependent", "ln k dependent, 1/T independent", "Both dependent", "Both independent"], "a": 1, "e": "Temperature is the independent variable.", "tag": "L7"}, {"t": "mcq", "q": "The unit of the activation energy obtained from the slope is", "o": ["K", "J mol⁻¹", "s⁻¹", "J K⁻¹"], "a": 1, "e": "Slope (K) × R (J mol⁻¹ K⁻¹) = J mol⁻¹.", "tag": "L7"}, {"t": "num", "q": "The slope of ln k vs 1/T is −1.2×10⁴ K. Find Ea in kJ/mol (R = 8.314 J mol⁻¹ K⁻¹).", "a": 99.8, "u": "kJ/mol", "e": "Ea = −slope × R = 1.2×10⁴ × 8.314 = 9.98×10⁴ J/mol ≈ 1.0×10⁵ J/mol.", "tol": 0.03, "tag": "L7"}, {"t": "num", "q": "CH₄ + 2S₂ → CS₂ + 2H₂S: k = 1.1 at 550 °C and 6.4 at 625 °C. Find Ea in kJ/mol (use T = °C + 273).", "a": 144, "u": "kJ/mol", "e": "ln(6.4/1.1) = 1.761; (1/823 − 1/898) = 1.015×10⁻⁴; Ea = 8.314 × 1.761/1.015×10⁻⁴ = 1.44×10⁵ J/mol (slide: 1.4×10⁵).", "tol": 0.03, "tag": "L7"}, {"t": "num", "q": "The rate constant doubles when the temperature rises from 30 °C to 40 °C. Find Ea in kJ/mol.", "a": 54.7, "u": "kJ/mol", "e": "k₂/k₁ = 2; Ea = R ln2/(1/303 − 1/313) = 5.46×10⁴ J/mol.", "tol": 0.03, "tag": "L7"}, {"t": "num", "q": "k₁ = 1.2 s⁻¹ at 320 K, Ea = 60 kJ/mol. Find k₂ at 290 K (answer in 10⁻² s⁻¹).", "a": 11.6, "u": "×10⁻² s⁻¹", "e": "ln(k₂/k₁) = (60000/8.314)(1/320 − 1/290) = −2.33, so k₂ = 1.2 × e^(−2.33) = 0.116 s⁻¹.", "tol": 0.03, "tag": "L7"}, {"t": "num", "q": "k₂ = 2k₁, T₁ = 280 K, Ea = 65 kJ/mol. Find T₂ (K).", "a": 287, "u": "K", "e": "1/T₂ = 1/280 − R ln2/65000 → T₂ ≈ 287 K.", "tol": 0.03, "tag": "L7"}, {"t": "mcq", "q": "In an Arrhenius calculation Ea is given as 60 kJ/mol. Before using R = 8.314 J mol⁻¹ K⁻¹ you must", "o": ["Divide by 1000", "Multiply by 1000 (convert to J/mol)", "Do nothing", "Convert R to kJ only"], "a": 1, "e": "Units must match: 60 kJ = 60 000 J.", "tag": "L7"}, {"t": "mcq", "q": "Temperatures in Arrhenius problems must be in", "o": ["°C", "K (add 273 to °C)", "°F", "Either"], "a": 1, "e": "Convert to Kelvin.", "tag": "L7"}, {"t": "mcq", "q": "Solving ln(k₂/1.1) = −2 for k₂, the correct first step is", "o": ["Move 1.1 to the other side", "Remove the ln by writing k₂/1.1 = e^(−2)", "Divide by 2", "Take log base 10"], "a": 1, "e": "Remove the logarithm operator first, then move numbers.", "tag": "L7"}, {"t": "mcq", "q": "In the two-temperature Arrhenius formula ln(k₂/k₁) = (Ea/R)(1/T₁ − 1/T₂), which temperature is T₂?", "o": ["The lower", "The higher (with k₂)", "Always 273", "Either, with no change"], "a": 1, "e": "Normally the higher temperature is T₂ and its rate constant k₂.", "tag": "L7"}, {"t": "mcq", "q": "The log₁₀ form of the two-temperature formula contains", "o": ["2.303 in the denominator with R", "2.303 added to ln A", "No change", "Only Ea"], "a": 0, "e": "log(k₂/k₁) = Ea/(2.303R) × (T₂ − T₁)/(T₁T₂).", "tag": "L7"}, {"t": "mcq", "q": "The Boltzmann distribution curve at higher temperature", "o": ["Moves to higher kinetic energy and flattens: more molecules exceed Ea", "Moves left", "Narrows with a higher peak", "Is unchanged"], "a": 0, "e": "Number of particles vs kinetic energy at two temperatures.", "tag": "L7"}];
+function resetQuiz(){renderQuiz(QL,'qbox','score')}
+resetQuiz();printQuiz(QL,'quizprint');
+
+/* PE diagram */
+function peSet(a,b,c){$('pr').value=a;$('pt').value=b;$('pp').value=c;pe()}
+function pe(){const R=parseFloat($('pr').value),TS=parseFloat($('pt').value),P=parseFloat($('pp').value);const out=$('peout'),svg=$('pesvg');
+ if([R,TS,P].some(isNaN)){out.textContent='Enter three numbers.';return}
+ if(TS<Math.max(R,P)){out.innerHTML='<span style="color:var(--bad)">The transition state must have the highest energy (higher than reactant and product).</span>'}
+ const W=640,H=360,L=70,Rr=30,T=24,B=50;const emax=Math.max(R,TS,P,1)*1.15,emin=Math.min(0,R,P);
+ const sy=e=>H-B-(e-emin)/(emax-emin)*(H-T-B);const x0=L+20,x1=W-Rr-20,xm=(x0+x1)/2;
+ const path=(ts)=>`M${x0} ${sy(R)} L${x0+60} ${sy(R)} C${x0+130} ${sy(R)} ${xm-70} ${sy(ts)} ${xm} ${sy(ts)} C${xm+70} ${sy(ts)} ${x1-130} ${sy(P)} ${x1-60} ${sy(P)} L${x1} ${sy(P)}`;
+ let s=`<line x1="${L}" x2="${L}" y1="${T}" y2="${H-B}" stroke="currentColor"/><line x1="${L}" x2="${W-Rr}" y1="${H-B}" y2="${H-B}" stroke="currentColor"/><text x="${(L+W)/2}" y="${H-12}" text-anchor="middle" font-size="13">Reaction progress</text><text x="16" y="${(T+H-B)/2}" font-size="13" transform="rotate(-90 16 ${(T+H-B)/2})" text-anchor="middle">Potential energy</text>`;
+ s+=`<line x1="${x0}" x2="${x1}" y1="${sy(R)}" y2="${sy(R)}" stroke="var(--mute)" stroke-dasharray="5 4"/>`;
+ s+=`<path d="${path(TS)}" fill="none" stroke="var(--curve)" stroke-width="3"/>`;
+ if($('pcat').checked){const tc=R+(TS-R)*0.55;s+=`<path d="${path(tc)}" fill="none" stroke="var(--ok)" stroke-width="2.5" stroke-dasharray="7 4"/><text x="${xm+90}" y="${sy(tc)+4}" font-size="12" style="fill:var(--ok)">catalysed path (lower Ea)</text>`}
+ // Ea arrow
+ const ax=xm-45;s+=`<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="#d6452f"/></marker></defs><line x1="${ax}" x2="${ax}" y1="${sy(R)}" y2="${sy(TS)}" stroke="#d6452f" stroke-width="2" marker-end="url(#ar)"/><text x="${ax-6}" y="${(sy(R)+sy(TS))/2}" text-anchor="end" font-size="13" style="fill:#d6452f">Eₐ = ${+(TS-R).toPrecision(4)}</text>`;
+ const dx=x1-20;s+=`<line x1="${dx}" x2="${dx}" y1="${sy(R)}" y2="${sy(P)}" stroke="#7a3fc4" stroke-width="2" marker-end="url(#ar)"/><text x="${dx-6}" y="${(sy(R)+sy(P))/2+4}" text-anchor="end" font-size="13" style="fill:#7a3fc4">ΔH = ${+(P-R).toPrecision(4)}</text>`;
+ s+=`<text x="${x0}" y="${sy(R)-8}" font-size="13">Reactants (${R})</text><text x="${xm}" y="${sy(TS)-10}" text-anchor="middle" font-size="13">Transition state / activated complex (${TS})</text><text x="${x1}" y="${sy(P)+(P<R?22:-8)}" text-anchor="end" font-size="13">Products (${P})</text>`;
+ svg.innerHTML=s;
+ const dH=P-R,Ea=TS-R,Er=TS-P;out.innerHTML=`Activation energy Eₐ = TS − reactant = ${TS} − ${R} = <b>${+Ea.toPrecision(4)}</b><br>ΔH = product − reactant = ${P} − ${R} = <b>${+dH.toPrecision(4)}</b> → <b>${dH<0?'exothermic (products more stable, energy released)':dH>0?'endothermic (reactant more stable, energy absorbed)':'thermoneutral'}</b><br>Eₐ of the reverse reaction = TS − product = ${+Er.toPrecision(4)}${$('pcat').checked?'<br>A catalyst lowers Eₐ (new path) but leaves ΔH unchanged.':''}`}
+['pr','pt','pp','pcat'].forEach(i=>$(i).addEventListener('input',pe));pe();
+
+/* Arrhenius calculator */
+const AR=8.314;
+const AF={ea:[['k₁','1.1'],['T₁','550'],['k₂','6.4'],['T₂','625']],k2:[['k₁','1.2'],['T₁','320'],['T₂','290'],['Eₐ (kJ/mol)','60']],t2:[['k₁','1'],['k₂','2'],['T₁','280'],['Eₐ (kJ/mol)','65']],slope:[['slope of ln k vs 1/T (K)','-1.2e4']],dbl:[['k₂/k₁ factor','2'],['T₁','30'],['ΔT (°)','10']]};
+function aForm(){const m=$('am').value;$('aform').innerHTML=AF[m].map((f,i)=>`<label>${f[0]} <input type="text" value="${f[1]}" data-i="${i}"></label>`).join('');arr()}
+function toK(t){return $('au').value==='C'?t+273:t}
+function arr(){const m=$('am').value,v=[...$('aform').querySelectorAll('input')].map(i=>parseFloat(i.value));const out=$('aout');if(v.some(isNaN)){out.textContent='Enter numbers in every box.';return}
+ let t='';
+ if(m==='ea'){const [k1,T1,k2,T2]=[v[0],toK(v[1]),v[2],toK(v[3])];const Ea=AR*Math.log(k2/k1)/(1/T1-1/T2);t=`ln(k₂/k₁) = ${Math.log(k2/k1).toFixed(4)}; 1/T₁ − 1/T₂ = ${fx(1/T1-1/T2)} (T₁ = ${T1} K, T₂ = ${T2} K)<br>Eₐ = <b>${fx(Ea)} J/mol = ${(Ea/1000).toFixed(1)} kJ/mol</b>`}
+ else if(m==='k2'){const [k1,T1,T2,Ea]=[v[0],toK(v[1]),toK(v[2]),v[3]*1000];const l=Ea/AR*(1/T1-1/T2);t=`ln(k₂/k₁) = (${Ea}/8.314)(1/${T1} − 1/${T2}) = ${l.toFixed(4)}<br>k₂ = k₁ × e^(${l.toFixed(4)}) = <b>${fx(k1*Math.exp(l))}</b>`}
+ else if(m==='t2'){const [k1,k2,T1,Ea]=[v[0],v[1],toK(v[2]),v[3]*1000];const inv=1/T1-AR*Math.log(k2/k1)/Ea;t=`1/T₂ = 1/T₁ − R ln(k₂/k₁)/Eₐ = ${fx(inv)}<br>T₂ = <b>${(1/inv).toFixed(1)} K</b> (${(1/inv-273).toFixed(1)} °C using −273)`}
+ else if(m==='slope'){const Ea=-v[0]*AR;t=`Eₐ = −slope × R = ${-v[0]} × 8.314 = <b>${fx(Ea)} J/mol (${(Ea/1000).toFixed(1)} kJ/mol)</b>`}
+ else{const [f,T1,dT]=[v[0],toK(v[1]),v[2]];const T2=T1+dT;const Ea=AR*Math.log(f)/(1/T1-1/T2);t=`k₂/k₁ = ${f}, T₁ = ${T1} K, T₂ = ${T2} K<br>Eₐ = R ln(${f})/(1/${T1} − 1/${T2}) = <b>${fx(Ea)} J/mol = ${(Ea/1000).toFixed(1)} kJ/mol</b>`}
+ out.innerHTML=t}
+$('am').addEventListener('input',aForm);$('au').addEventListener('input',arr);$('aform').addEventListener('input',arr);aForm();
+
+/* ln k vs 1/T */
+(function(){const Ts=[300,320,340,360,380],Ea=100000,A=1e13;$('lk').value=Ts.map(T=>T+', '+(A*Math.exp(-Ea/(AR*T))).toExponential(3)).join('\n')})();
+function lk(){const P=$('lk').value.split('\n').map(l=>l.split(/[,\s;]+/).map(Number).filter(x=>isFinite(x))).filter(r=>r.length>=2&&r[0]>0&&r[1]>0);const out=$('lkout'),svg=$('lksvg');
+ if(P.length<2){out.textContent='Enter at least two (T, k) pairs.';svg.innerHTML='';return}
+ const xs=P.map(p=>1/p[0]),ys=P.map(p=>Math.log(p[1]));const n=xs.length,mx=xs.reduce((a,b)=>a+b)/n,my=ys.reduce((a,b)=>a+b)/n;
+ const sl=xs.reduce((s,x,i)=>s+(x-mx)*(ys[i]-my),0)/xs.reduce((s,x)=>s+(x-mx)**2,0),ic=my-sl*mx;
+ const W=420,H=280,L=60,Rr=14,T=14,B=44;const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);const pad=(x1-x0)*.08,py=(y1-y0)*.12||1;
+ const sx=x=>L+(x-(x0-pad))/((x1+pad)-(x0-pad))*(W-L-Rr),sy=y=>H-B-(y-(y0-py))/((y1+py)-(y0-py))*(H-T-B);
+ let s=`<line x1="${L}" x2="${W-Rr}" y1="${H-B}" y2="${H-B}" stroke="currentColor"/><line x1="${L}" x2="${L}" y1="${T}" y2="${H-B}" stroke="currentColor"/><text x="${(L+W)/2}" y="${H-8}" text-anchor="middle" font-size="12">1/T (K⁻¹)</text><text x="14" y="${(T+H-B)/2}" font-size="12" transform="rotate(-90 14 ${(T+H-B)/2})" text-anchor="middle">ln k</text>`;
+ s+=`<line x1="${sx(x0-pad)}" y1="${sy(ic+sl*(x0-pad))}" x2="${sx(x1+pad)}" y2="${sy(ic+sl*(x1+pad))}" stroke="var(--tan)" stroke-width="2"/>`;
+ xs.forEach((x,i)=>s+=`<circle cx="${sx(x)}" cy="${sy(ys[i])}" r="4" fill="var(--curve)"/>`);
+ s+=`<text x="${L+6}" y="${T+10}" font-size="11">x: ${x0.toExponential(2)} to ${x1.toExponential(2)}</text>`;svg.innerHTML=s;
+ const Ea=-sl*AR;out.innerHTML=`Slope = ${fx(sl)} K → Eₐ = −slope × R = <b>${fx(Ea)} J/mol (${(Ea/1000).toFixed(1)} kJ/mol)</b><br>Intercept ln A = ${ic.toFixed(2)} → A = ${fx(Math.exp(ic))}`}
+$('lk').addEventListener('input',lk);lk();
+
+</script>
+</body>
+</html>

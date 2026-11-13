@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CHE110 · L5–6</title>
+<style>
+:root{--bg:#fafaf7;--card:#fff;--ink:#1d2330;--mute:#5c6577;--line:#e3e4ea;--acc:#2f5fd0;--accbg:#e8efff;--ok:#1b7f4b;--okbg:#e3f5ea;--bad:#b3261e;--badbg:#fde8e6;--warn:#8a5a00;--warnbg:#fff3d6;--class:#6a3fc4;--classbg:#efe8fb;--code:#f1f2f6;--grid:#d9dde8;--curve:#2f5fd0;--tan:#d6452f}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--ok:#5fd394;--okbg:#17301f;--bad:#ff8a80;--badbg:#3a1c1a;--warn:#f5c15a;--warnbg:#3a2e12;--class:#b79cff;--classbg:#2a2144;--code:#242837;--grid:#2c3040;--curve:#7da2ff;--tan:#ff8a6b}}
+:root[data-theme=dark]{--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--ok:#5fd394;--okbg:#17301f;--bad:#ff8a80;--badbg:#3a1c1a;--warn:#f5c15a;--warnbg:#3a2e12;--class:#b79cff;--classbg:#2a2144;--code:#242837;--grid:#2c3040;--curve:#7da2ff;--tan:#ff8a6b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}
+.layout{display:flex;max-width:1200px;margin:0 auto}
+nav{position:sticky;top:0;align-self:flex-start;height:100vh;overflow:auto;width:260px;flex:none;padding:18px 14px;border-right:1px solid var(--line)}
+nav h1{font-size:17px;margin:0 0 4px}
+nav small{color:var(--mute)}
+nav a{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--ink);font-size:14px}
+nav a:hover,nav a.on{background:var(--accbg);color:var(--acc)}
+nav .grp{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:14px 8px 4px}
+main{flex:1;min-width:0;padding:20px 28px 80px}
+section{margin-bottom:46px;scroll-margin-top:12px}
+h2{font-size:25px;margin:0 0 6px;border-bottom:2px solid var(--line);padding-bottom:6px}
+h3{font-size:18px;margin:22px 0 6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:1px 8px;border-radius:99px;vertical-align:middle;margin-right:6px}
+.t-class{background:var(--classbg);color:var(--class)}
+.t-slide{background:var(--accbg);color:var(--acc)}
+.t-exam{background:var(--warnbg);color:var(--warn)}
+.callout{border-left:4px solid var(--acc);background:var(--accbg);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0}
+.callout.class{border-color:var(--class);background:var(--classbg)}
+.callout.warn{border-color:var(--warn);background:var(--warnbg)}
+.callout.ok{border-color:var(--ok);background:var(--okbg)}
+.callout.bad{border-color:var(--bad);background:var(--badbg)}
+.eq{background:var(--code);border-radius:10px;padding:10px 14px;margin:10px 0;font-family:Cambria Math,Georgia,serif;font-size:19px;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--code)}
+ul,ol{padding-left:22px}li{margin:3px 0}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:7px 14px;cursor:pointer}
+button.ghost{background:var(--code);color:var(--ink);border:1px solid var(--line)}
+input,select,textarea{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+input[type=number],input[type=text]{width:105px}
+textarea{width:100%;max-width:360px;height:130px;font-family:ui-monospace,Consolas,monospace;font-size:13px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:820px){nav{display:none}main{padding:16px}.grid2{grid-template-columns:1fr}}
+.res{font-size:15px}
+.fc{perspective:900px;height:170px;cursor:pointer;margin:10px 0}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.fc.flip .in{transform:rotateY(180deg)}
+.fc .f,.fc .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;border:1px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;padding:18px;text-align:center;font-size:18px}
+.fc .b{transform:rotateY(180deg);background:var(--accbg);font-size:16px}
+.q{margin:14px 0}.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--line);margin:5px 0}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}.opt.bad{background:var(--badbg);border-color:var(--bad)}
+.exp{display:none;margin-top:6px;font-size:14.5px;color:var(--mute)}.exp.show{display:block}
+.pk{display:inline-block;background:var(--warnbg);color:var(--warn);border-radius:99px;padding:3px 12px;font-weight:600;margin:3px}
+.printonly{display:none}
+details{margin:8px 0}summary{cursor:pointer;font-weight:600}
+.timer{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;border-radius:99px;padding:1px 9px;font-size:12px;background:var(--code);border:1px solid var(--line);margin-left:6px;color:var(--mute)}
+@media print{
+ nav,.noprint,.fc,.q button,#toolbar{display:none!important}
+ .printonly{display:block}
+ details{display:block}details>*{display:block}summary{display:none}
+ body{background:#fff;color:#000;font-size:11.5pt}
+ :root{--bg:#fff;--card:#fff;--ink:#000}
+ main{padding:0}.layout{display:block}
+ .card,.callout,table,.eq{break-inside:avoid}
+ h2{break-after:avoid}
+}
+svg text{fill:var(--ink);font-family:system-ui}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav id="nav">
+<h1>CHE110 · L5–6</h1><small>Rate law, order, integrated laws (slide 23+)</small>
+<div class="grp">Site</div><a href="index.html">← Hub (all guides)</a>
+<div class="grp">Start here</div>
+<a href="#exam">What the lecturer wants</a>
+<a href="#map">Slides ↔ class map</a>
+<div class="grp">Class notes</div>
+<a href="#law">1 · Writing the rate law</a>
+<a href="#order">2 · Order of reaction</a>
+<a href="#rvc">3 · Rate vs concentration graphs</a>
+<a href="#zero">4 · Zero order</a>
+<a href="#first">5 · First order</a>
+<a href="#second">6 · Second order</a>
+<a href="#summary">7 · Summary table &amp; graphs</a>
+<a href="#data">8 · Order from data</a>
+<a href="#tips">9 · Exam technique</a>
+<div class="grp">Interactive</div>
+<a href="#tools">Order finder &amp; calculators</a>
+<div class="grp">Practice</div>
+<a href="#cards">Flashcards</a>
+<a href="#quiz">Quiz</a>
+<a href="#cheat">Cheat sheet</a>
+<div class="grp">Other guides</div>
+<a href="CHE110_Tutorial_Guide.html">Tutorial guide (slides 1–22)</a>
+<a href="CHE110_L4_Periodicity_Guide.html">Lecture 4</a>
+<a href="CHE110_L7_Mechanism_Guide.html">Lecture 7</a>
+<a href="CHE110_Quiz2_Prep.html">Quiz 2 prep</a>
+<div class="grp">&nbsp;</div><button class="ghost" onclick="toggleTheme()">Light / dark</button><button class="ghost" style="margin-top:6px" onclick="window.print()">Print / save PDF</button>
+</nav>
+<main>
+
+<section id="exam">
+<h2>CHE110 · Lecture 5–6, slide 23 to the end</h2>
+<p>Built from the transcripts "L4" and "L5" (they cover <b>Lecture 5–6, slides 23–36</b>) and the slides. Slides 1–22 (reaction types, rate definitions, graphs, factors) are in the <a href="CHE110_Tutorial_Guide.html">Tutorial guide</a>; Quiz 2 starts at slide 23.
+<span class="tag t-class">TAUGHT IN CLASS</span> <span class="tag t-exam">EXAM SIGNAL</span> <span class="tag t-slide">SLIDES</span></p>
+
+<h3>What the lecturer said about the exam</h3>
+<div class="callout class"><ol style="margin:4px 0">
+<li><b>"Rate law and the graphs of the orders are definitely in the final.</b> There is no scope to skip them." They come as <b>1–1.5 mark short questions</b>, MCQs, and as sub-parts of broad questions.</li>
+<li><b>Write "Rate = …"</b> (a law is a <i>relationship</i>). Writing only the right-hand side loses half the marks.</li>
+<li><b>Only reactants</b> appear in the rate law, never products.</li>
+<li><b>Never use the coefficients as powers</b> unless the question says the reaction is <b>elementary</b> or gives the order. Otherwise use unknowns x, y, z.</li>
+<li><b>Graphs:</b> "rate vs concentration" for zero, first and second order, sometimes all three on <b>one graph</b>; and "concentration vs time". They can be <b>tentative graphs without scale</b>. Intersections of the three curves don't matter; "as long as your trends are right".</li>
+<li><b>True/false signals:</b> "In a first-order reaction the slope of rate vs concentration is the rate constant." (True)</li>
+<li><b>Know the unit of k for zero, first and second order.</b> You may be asked "what is the order?" just from the unit (1 mark).</li>
+<li><b>Derivations are not asked</b> but know the equations: if you can write the rate law you can derive it in two minutes. "Many people don't remember so many formulas, so derive."</li>
+<li><b>Maths questions are small</b> (3–4 minutes each): find k, find time, find half-life, find concentration after t, find order from data. "From what I taught today you will definitely get one broad question (about 5 marks) in the midterm."</li>
+<li><b>Calculator, units and extra writing cost marks:</b> a wrong calculator entry costs 0.25–0.5; a missing unit costs 0.25; not dividing by the coefficient cost 0.25; unnecessary explanations are penalised. No unit conversion (min → s, etc.) is ever asked.</li>
+<li>The lecturer said a <b>second tutorial</b> will include these order questions (MCQ and short; "even without maths, understand them by looking"). Date not stated in the recordings.</li>
+<li>The midterm broad questions are "creative style" (a stem with 3–4 parts), short answers of 2–5 lines, tiny answer space.</li>
+</ol></div>
+<div class="card"><span class="pk">Rate = k[A]^x[B]^y</span><span class="pk">Reactants only</span><span class="pk">Elementary ⇒ powers = coefficients</span><span class="pk">1st order: slope of rate vs [A] = k</span><span class="pk">Zero order: k = rate</span><span class="pk">Unit of k ⇒ order</span><span class="pk">t½ = 0.693/k (first)</span><span class="pk">% complete → use remaining</span><span class="pk">Doubling → ×2, ×4</span><span class="pk">Ratio of two experiments</span></div>
+</section>
+
+<section id="map">
+<h2>Slides ↔ class map</h2>
+<table>
+<tr><th>Slide</th><th>Topic</th><th>Class coverage</th></tr>
+<tr><td>23</td><td>The rate law; rate = k[A]^m[B]^n</td><td>Yes; writing rules and mistakes</td></tr>
+<tr><td>24</td><td>Order of a reaction; possible values; 2NO₂ + F₂ → 2NO₂F</td><td>Yes; elementary exception</td></tr>
+<tr><td>25</td><td>(table image: "collected" experimental data)</td><td>"Don't memorise; they did experiments"</td></tr>
+<tr><td>26</td><td>Zero order + problem</td><td>Yes (derivation, half-life, unit, graph, problem)</td></tr>
+<tr><td>27–28</td><td>First order, unit of k, half-life + problems</td><td>Yes (derivation, forms, problems)</td></tr>
+<tr><td>29–30</td><td>Second order, half-life + problems</td><td>"Read second order on your own"; formulas on the slide</td></tr>
+<tr><td>31</td><td>Summary table of the three orders</td><td>Yes (keep it)</td></tr>
+<tr><td>32</td><td>Rate vs [A] and [A] vs t graphs for the three orders</td><td>Yes; the two important graphs</td></tr>
+<tr><td>33–35</td><td>Order from experimental data (NO + H₂; SO₂Cl₂; O₃)</td><td>Yes (worked in class)</td></tr>
+</table>
+</section>
+
+<section id="law">
+<h2>1 · Writing the rate law</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDE 23</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li>The reaction rate is proportional to each reactant concentration raised to some power. Found by <b>varying one reactant concentration while keeping the other constant</b>.</li>
+</ul>
+<div class="eq">rate = k [A]<sup>m</sup> [B]<sup>n</sup></div>
+<ul>
+<li>A <b>law</b> is a relationship: here between the <b>rate</b> and the <b>concentration</b> of the reactants. <b>k</b> = rate constant (replaces the proportionality sign).</li>
+<li>The powers (<b>m, n</b>) are the <b>orders</b> with respect to A and B. We cannot know them without an experiment, so use unknown variables (x, y, z, a, b, c, in small letters). Different letters for different reactants ("sometimes the order can be the same too").</li>
+</ul>
+<table>
+<tr><th>Reaction (order not given)</th><th>Rate law</th></tr>
+<tr><td>CaCO₃ → CaO + CO₂</td><td>Rate = k[CaCO₃]<sup>x</sup></td></tr>
+<tr><td>H₂ + I₂ → 2HI</td><td>Rate = k[H₂]<sup>x</sup>[I₂]<sup>y</sup></td></tr>
+<tr><td>2NO + 2H₂ → N₂ + 2H₂O</td><td>Rate = k[NO]<sup>x</sup>[H₂]<sup>y</sup></td></tr>
+<tr><td>A → B, zero / first / second order given</td><td>Rate = k[A]⁰ = k; Rate = k[A]¹; Rate = k[A]²</td></tr>
+</table>
+<div class="callout bad"><b>Mistakes the lecturer sees every semester</b>
+<ol style="margin:4px 0"><li>Writing only "k[A]…" without <b>Rate =</b> (loses half the marks).</li>
+<li>Including the <b>product</b> concentration. Only reactants.</li>
+<li>Using the <b>coefficients as powers</b> (e.g. putting [H₂]² because there is a 2). Don't, unless told it is elementary or the order is given.</li></ol></div>
+<div class="callout"><b>Elementary reactions (single step, one collision).</b> Only for these can the order be read from the coefficients. Example: H₂ + I₂ → 2HI (one H₂ collides with one I₂), so <b>Rate = k[H₂]¹[I₂]¹</b>, overall order 2. The question will <b>say</b> "elementary"; you are not expected to memorise which reactions are elementary. Multi-step (composite) reactions can have intermediates, so the order can't be read off. (More in the <a href="CHE110_L7_Mechanism_Guide.html">Lecture 7 guide</a>.)</div>
+<p><b>Why only reactants?</b> We look at the forward reaction and how the reactant concentration changes the rate (the reaction is usually stopped after some time). If the reactant concentration keeps increasing, the rate increases. Each reactant changes the rate differently, hence individual powers.</p>
+<div class="callout"><b>Don't mix up two things (tutorial class).</b> "The rate of disappearance of A" = |d[A]/dt| only (no coefficient). "The rate of the reaction" expressed through A = |d[A]/dt| ÷ (coefficient of A). For 2A → 3B: ½|d[A]/dt| = ⅓ d[B]/dt. Rates are always positive (use the modulus for a reactant).</div>
+<p><b>Average, instantaneous or initial rate:</b> the "rate" in the law can be any of the three. Averages and instantaneous rates are found from a given reactant/product concentration vs time (tutorial work); the order tells how the rate depends on concentration.</p>
+</section>
+
+<section id="order">
+<h2>2 · Order of a reaction</h2>
+<span class="tag t-slide">SLIDE 24</span><span class="tag t-class">CLASS</span>
+<ul>
+<li><b>Order</b> = the <b>power</b> to which a concentration is raised in the rate law. <b>Overall order</b> = the sum of the powers (x + y). If x = 2 and y = 1 the reaction is third order overall. Order is <b>experimentally determined</b>.</li>
+<li>Possible values: <b>0, 1, 2, 3, 3/2, 1/2</b>. 3/2 and 1/2 occur for <b>gas-phase</b> reactions only; third order is rare; <b>most reactions are first order</b>; zero and third order (A + A + A → product) are rare.</li>
+<li><b>Slide example:</b> 2NO₂ + F₂ → 2NO₂F, rate = k[NO₂][F₂] (found by experiment). First order in NO₂, first order in F₂, <b>overall order = 2</b>. The coefficient 2 on NO₂ does <b>not</b> become a power.</li>
+<li>Don't memorise the orders shown on slides; "they did experiments to get them."</li>
+<li>Orders can differ if conditions (temperature) change.</li>
+</ul>
+</section>
+
+<section id="rvc">
+<h2>3 · Rate vs concentration graphs</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDE 32</span><span class="tag t-exam">SHORT QUESTION (1–1.5 marks)</span>
+<p>k is a constant, so the <b>dependent</b> variable <b>rate</b> goes on the <b>y-axis</b> and concentration [A] on the x-axis.</p>
+<table>
+<tr><th>Order</th><th>Rate law</th><th>Equation form</th><th>Graph (rate vs [A])</th></tr>
+<tr><td>0</td><td>Rate = k[A]⁰ = k</td><td>y = b</td><td><b>Horizontal line</b>, parallel to the x-axis (height = k)</td></tr>
+<tr><td>1</td><td>Rate = k[A]</td><td>y = mx</td><td><b>Straight line through the origin</b>; <b>slope = k</b></td></tr>
+<tr><td>2</td><td>Rate = k[A]²</td><td>y = mx²</td><td><b>Parabola</b> (curved up)</td></tr>
+</table>
+<ul>
+<li>Questions: "Draw the rate vs concentration graph for a second-order reaction", or "for the same reaction draw zero, first and second order on a single graph" (do all three).</li>
+<li><b>True/false:</b> for first order the slope of the rate–concentration graph is the rate constant → <b>True</b>.</li>
+</ul>
+<div class="card noprint"><b>Plot of rate vs [A] and [A] vs t (shapes)</b>
+<div class="row" style="margin-top:6px"><label>k <input id="shk" type="number" step="0.05" value="0.5"></label></div>
+<div class="grid2"><svg id="sh1" viewBox="0 0 340 250" width="100%" role="img" aria-label="Rate versus concentration for orders 0,1,2"></svg><svg id="sh2" viewBox="0 0 340 250" width="100%" role="img" aria-label="Concentration versus time for orders 0,1,2"></svg></div>
+<small>Left: rate vs [A] (0: horizontal, 1: line through the origin, 2: parabola). Right: [A] vs t from the same start with the same k (0: straight, 1: exponential curve, 2: curve lying above it). Shapes matter, not the numbers.</small></div>
+</section>
+
+<section id="zero">
+<h2>4 · Zero-order reactions</h2>
+<span class="tag t-slide">SLIDE 26</span><span class="tag t-class">CLASS</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li>The rate does <b>not</b> depend on the concentration of the reactant: <b>Rate = k[A]⁰ = k</b>. Real examples are very rare (a few cases only).</li>
+<li><b>Derivation</b> (not asked, but good to know): rate = −d[A]/dt = k → d[A] = −k dt → integrate from [A]₀ (t = 0) to [A] (t): <div class="eq">[A] = [A]₀ − kt</div> (the lecturer's approach: write the rate law, integrate; "doesn't take two minutes").</li>
+<li><b>Half-life</b> ([A] = [A]₀/2): <div class="eq">t½ = [A]₀ / 2k</div></li>
+<li><b>Unit of k = unit of rate</b> (mol L⁻¹ s⁻¹ = M s⁻¹): the rate and k have the same unit only for zero order. In data tables, if the rate does not change when concentration changes, it is zero order and <b>k = the rate</b>.</li>
+<li><b>[A] vs t:</b> a <b>straight line</b>, slope = −k. Because it is a straight line, <b>average rate = instantaneous rate = initial rate</b> (any two points give the same slope).</li>
+<li><b>Slide problem.</b> [A]₀ = 1.5 M, [A] = 0.75 M after 120 s. Find k: k = ([A]₀ − [A])/t = 0.75/120 = <b>6.25×10⁻³ M s⁻¹</b>. (The lecturer also warned: "in the calculator it shows 0.556 and some wrote 0.005 or 25.something": copy values carefully. Estimate first: e.g. 20/5 = 4.)</li>
+</ul>
+</section>
+
+<section id="first">
+<h2>5 · First-order reactions</h2>
+<span class="tag t-slide">SLIDES 27–28</span><span class="tag t-class">CLASS</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li><b>Rate = k[A]</b> (depends linearly on one reactant). For A → products: at t = 0, [A] = [A]₀ (or a); after time t, [A] = a − x.</li>
+<li><b>Derivation:</b> −d[A]/dt = k[A] → d[A]/[A] = −k dt → ∫ from [A]₀ to [A] gives ln[A]₀ − ln[A] = kt:
+<div class="eq">ln([A]₀/[A]) = kt &nbsp;⇔&nbsp; [A] = [A]₀ e<sup>−kt</sup> &nbsp;⇔&nbsp; ln[A] = ln[A]₀ − kt</div>
+Same form as radioactive decay N = N₀e^(−λt). Use whichever form you like; the <b>ratio form</b> is easiest because [A]₀ cancels in percentage problems.</li>
+<li><b>Half-life</b> ([A] = [A]₀/2): ln 2 = kt½, so <div class="eq">t½ = ln 2 / k = 0.693 / k</div> <b>No concentration term</b>, so the half-life is independent of the initial concentration (a way to recognise first order).</li>
+<li><b>Unit of k: time⁻¹ (s⁻¹, min⁻¹).</b> The concentration units cancel (M / M). Seeing per-second tells you "first order".</li>
+<li><b>Log version (slide 27 graphs):</b> log₁₀ form: log([A]₀/[A]) = kt/2.303. The slide plots log(a/(a−x)) vs t (labelled "slope = k"; strictly the slope is k/2.303 for log₁₀) and log(a − x) vs t (slope −k/2.303). With natural logs the slopes are exactly k and −k.</li>
+<li><b>Radioactive decay is first order.</b> One particle breaks down on its own (the nucleus), in one step: no collisions, so temperature and concentration don't affect it. Used in carbon dating (age determination). You don't need to find the order for radioactive materials; say "first order". Only the form differs: particle numbers (via Avogadro's number) vs concentration.</li>
+</ul>
+<h3>Slide problems (worked)</h3>
+<div class="card">
+<b>Slide 27: "35.5% complete in 4.90 min. Find k."</b> <br>Use the <b>remaining</b> amount: 100 − 35.5 = <b>64.5%</b>. (Don't plug the percentage used.) No need for [A]₀: ratio [A]₀/[A] = 100/64.5. k = (1/4.90) ln(100/64.5) = 0.4385/4.90 = <b>0.0895 min⁻¹</b>. <i>Why remaining?</i> Order is measured from what is left in the beaker, which is easy to measure.<br><br>
+<b>Slide 28: "k = 0.450 s⁻¹. Half-life?"</b> t½ = 0.693/0.450 = <b>1.54 s</b> (no concentration needed).<br><br>
+<b>Slide 28: "50% complete in 23 min. Time for 90%?"</b> "50% complete" means one half-life: t½ = 23 min, so k = 0.693/23 = 0.0301 min⁻¹ (note the unit). For 90% complete, 10% remains: t = (1/k) ln(100/10) = 2.303/0.0301 = <b>76.4 min</b>. Whether you put [A]₀ = 100 and [A] = 10, or [A]₀ and 0.10[A]₀, it cancels. Write the unit.
+</div>
+</section>
+
+<section id="second">
+<h2>6 · Second-order reactions</h2>
+<span class="tag t-slide">SLIDES 29–30</span><span class="tag t-class">CLASS (read on your own)</span>
+<ul>
+<li>Rate depends on [A]² (or on two different reactants, each to the first power). For 2A → products: <b>Rate = k[A]²</b>.</li>
+<li>From the slide summary table:<div class="eq">1/[A] = 1/[A]₀ + kt &nbsp;&nbsp; t½ = 1 / (k[A]₀)</div></li>
+<li><b>Unit of k: L mol⁻¹ s⁻¹ (M⁻¹ s⁻¹).</b></li>
+<li><b>[A] vs t:</b> a curve like first order, but "the change in concentration is a bit greater", so it lies slightly <b>above</b> the first-order curve.</li>
+<li><b>Slide problems.</b> k = 0.025 M⁻¹s⁻¹, [A]₀ = 0.80 M, t = 200 s: 1/[A] = 1/0.80 + 0.025 × 200 = 1.25 + 5 = 6.25, so <b>[A] = 0.16 M</b>. k = 0.010 M⁻¹s⁻¹, [A]₀ = 0.50 M: <b>t½ = 1/(0.010 × 0.50) = 200 s</b>.</li>
+</ul>
+</section>
+
+<section id="summary">
+<h2>7 · Summary table and graphs</h2>
+<span class="tag t-slide">SLIDES 31–32</span><span class="tag t-class">KEEP THIS</span>
+<table>
+<tr><th>Order</th><th>Rate law</th><th>Concentration–time equation</th><th>Half-life</th><th>Unit of k</th><th>Straight-line plot</th></tr>
+<tr><td>0</td><td>rate = k</td><td>[A] = [A]₀ − kt</td><td>[A]₀/2k</td><td>M s⁻¹</td><td>[A] vs t (slope −k)</td></tr>
+<tr><td>1</td><td>rate = k[A]</td><td>ln[A] = ln[A]₀ − kt</td><td>ln2/k</td><td>s⁻¹</td><td>ln[A] vs t (slope −k)</td></tr>
+<tr><td>2</td><td>rate = k[A]²</td><td>1/[A] = 1/[A]₀ + kt</td><td>1/(k[A]₀)</td><td>M⁻¹ s⁻¹</td><td>1/[A] vs t (slope k)</td></tr>
+</table>
+<p>General unit of k: <b>M<sup>(1−n)</sup> s<sup>−1</sup></b> (concentration appears n times in the rate law, so n − 1 more concentration units remain in the denominator).</p>
+<p>The slide's [A]-vs-t half-life figures show each half-life: for first order the time for each halving is the same (t½ constant); for second order each successive half-life is longer.</p>
+<div class="callout class"><b>Two graphs to study for the exam:</b> (1) rate vs [A], (2) [A] vs time, for 0, 1, 2. Zero: horizontal / straight line down. First: straight line through the origin / exponential curve. Second: parabola / curve above the first-order one. "Draw whichever one you are asked to draw."</div>
+</section>
+
+<section id="data">
+<h2>8 · Finding the order from data</h2>
+<span class="tag t-slide">SLIDES 33–35</span><span class="tag t-class">CLASS</span><span class="tag t-exam">EXAM SIGNAL</span>
+<div class="callout class"><b>Why initial rates are used (tutorial class).</b> The initial rate (at t = 0) is used to find the order of reactions with several reactants or steps. As the reaction proceeds, each reactant changes differently and product accumulates, so you can't tell which concentration change caused which change in rate. At the start only your chosen change matters. "Most order problems are done with the initial rate."</div>
+<h3>The method</h3>
+<ol>
+<li><b>Write the rate law first</b> (marks are for it): Rate = k[NO]^x[H₂]^y. Unknowns: k, x, y.</li>
+<li><b>Ratio of two experiments</b> so that k cancels.</li>
+<li>With two reactants, <b>hold one concentration fixed</b>, choose experiments where it does not change, and find the other's order. Then swap.</li>
+<li>Overall order = x + y. Find <b>k</b> from <b>any one experiment</b> (you now know the powers), and find its <b>unit</b>.</li>
+</ol>
+<div class="card"><b>Slide 33: 2NO + 2H₂ → N₂ + 2H₂O</b>
+<table><tr><th>Exp</th><th>[NO] (M)</th><th>[H₂] (M)</th><th>Initial rate (M s⁻¹)</th></tr>
+<tr><td>1</td><td>0.10</td><td>0.20</td><td>2.4×10⁻³</td></tr><tr><td>2</td><td>0.10</td><td>0.10</td><td>1.2×10⁻³</td></tr><tr><td>3</td><td>0.20</td><td>0.20</td><td>9.6×10⁻³</td></tr></table>
+Rate law: Rate = k[NO]^x[H₂]^y.<br>
+<b>Find x:</b> [H₂] fixed in experiments 1 and 3. Rate₁/Rate₃ = 2.4/9.6 = 1/4 = (0.10/0.20)^x = (1/2)^x → x = 2.<br>
+<b>Find y:</b> [NO] fixed in experiments 1 and 2. Rate₁/Rate₂ = 2.4/1.2 = 2 = (0.20/0.10)^y → y = 1.<br>
+<b>Rate = k[NO]²[H₂]; overall order = 3.</b> k = 2.4×10⁻³/(0.10² × 0.20) = <b>1.2 M⁻² s⁻¹</b>.<br>
+<b>Unit of k:</b> overall order 3 → concentration appears three times; rate (M s⁻¹) ÷ M³ = M⁻² s⁻¹ (carries half a mark).</div>
+<h3>Without maths (MCQ style)</h3>
+<table><tr><th>Concentration changes by</th><th>Rate changes by</th><th>Order</th></tr>
+<tr><td>×2</td><td>×1 (no change)</td><td>0</td></tr><tr><td>×2</td><td>×2</td><td>1</td></tr><tr><td>×2</td><td>×4</td><td>2</td></tr><tr><td>×3</td><td>×27</td><td>3</td></tr></table>
+Think: what power on the concentration ratio gives the rate ratio? (1/2 → 1/4 needs a square.) You can state the reasoning in one line instead of the maths.
+<div class="card"><b>Slide 34: SO₂Cl₂ → SO₂ + Cl₂</b>: rate = 3.60×10⁻⁶ M s⁻¹ at [SO₂Cl₂] = 0.25, 0.50, 0.75 M.<br>
+Rate law: Rate = k[SO₂Cl₂]^x. The rate does not change with concentration → <b>zero order</b> (write the one-line reason). Rate = k, so <b>k = 3.60×10⁻⁶ M s⁻¹</b>. Graphs: rate vs [A] is a horizontal line; [A] vs t is a straight line sloping down.</div>
+<div class="card"><b>Slide 35: decomposition of O₃</b>: [O₃] = 0.020, 0.040, 0.060 M; rate = 1.0, 2.0, 3.0 ×10⁻⁵ M s⁻¹.<br>
+Rate law: Rate = k[O₃]^x. Concentration ratios 1/2 and 2/3 give identical rate ratios 1/2 and 2/3 → <b>first order</b>. (You may state "rate increases in the same proportion as concentration".) k = rate/[O₃] = 1.0×10⁻⁵/0.020 = <b>5.0×10⁻⁴ s⁻¹</b>. Unit: M s⁻¹ ÷ M = s⁻¹.</div>
+<div class="callout warn">The lecturer cautioned: "Does decomposition always happen in a single step? Most don't." The order here comes from the table, not from the reaction type.</div>
+</section>
+
+<section id="tips">
+<h2>9 · Exam technique (from the transcripts)</h2>
+<ul>
+<li>For any maths problem: <b>(1)</b> write the rate law, <b>(2)</b> identify the order (stated, from the unit of k, or from data), <b>(3)</b> write the equation for that order, <b>(4)</b> substitute, <b>(5)</b> write the answer <b>with a unit</b>.</li>
+<li><b>Order from the unit of k:</b> s⁻¹ → 1; M s⁻¹ → 0; M⁻¹ s⁻¹ → 2.</li>
+<li>If the order is stated but you forget the equation, <b>derive it</b> (write the rate law as −d[A]/dt and integrate).</li>
+<li>Substitute <b>remaining</b> amounts for percentage problems. [A]₀ cancels.</li>
+<li>When k is given and you need [A] after t: use [A] = [A]₀e^(−kt) for first order or the relevant form. When solving ln(x) = −2 you must first remove the ln (use e^(−2)); don't move numbers across before that.</li>
+<li><b>Calculator:</b> bring your own. Estimate the answer first (20/5 is about 4). Several students entered correct values but copied 0.556 as 0.005. Take care.</li>
+<li><b>No unit conversion.</b> Write the unit that comes out of k (e.g. minutes).</li>
+<li><b>Short graph questions:</b> label axes, show trends, no scale needed.</li>
+<li><b>Writing:</b> be brief and legible. For "why zero order" write one line: "rate does not change with concentration".</li>
+</ul>
+</section>
+
+<section id="tools">
+<h2>Interactive tools</h2>
+
+<div class="card noprint"><b>1 · Order finder (experiments → rate law)</b>
+<div class="row" style="margin-top:6px"><button class="ghost" onclick="loadOF(0)">NO + H₂ (slide 33)</button><button class="ghost" onclick="loadOF(1)">SO₂Cl₂ (slide 34)</button><button class="ghost" onclick="loadOF(2)">O₃ (slide 35)</button></div>
+<table><thead><tr><th>Exp</th><th>[A] (M)</th><th>[B] (M, optional)</th><th>Rate (M s⁻¹)</th></tr></thead><tbody id="ofrows"></tbody></table>
+<div class="row"><button class="ghost" onclick="addOF()">+ row</button><span style="color:var(--mute);font-size:13px">Leave [B] empty for a single reactant. Use plain numbers or e-notation (2.4e-3).</span></div>
+<div class="res" id="ofout" style="margin-top:8px"></div></div>
+
+<div class="card noprint"><b>2 · Integrated rate-law calculator</b>
+<div class="row" style="margin-top:6px">
+<label>Order <select id="icn"><option value="0">0</option><option value="1" selected>1</option><option value="2">2</option></select></label>
+<label>[A]₀ (M) <input id="ica0" type="text" value="1.0"></label>
+<label>k <input id="ick" type="text" value="0.0301"></label>
+<label>t <input id="ict" type="text" value="76.4"></label></div>
+<div class="res" id="icout" style="margin-top:8px"></div>
+<div class="row" style="margin-top:8px"><label>Time for x % complete (x = <input id="icx" type="text" value="90">%)</label></div>
+<div class="res" id="icout2" style="margin-top:4px"></div>
+<small>k must be in matching units (zero: M s⁻¹, first: s⁻¹ or min⁻¹, second: M⁻¹ s⁻¹); t in the same time unit.</small></div>
+
+<div class="card noprint"><b>3 · Unit of k</b>
+<div class="row" style="margin-top:6px"><label>Overall order n <input id="ukn" type="number" step="0.5" value="3"></label></div><div class="res" id="ukout" style="margin-top:6px"></div></div>
+<div class="printonly">Interactive tools are on the web version.</div>
+</section>
+<section id="cards">
+<h2>Flashcards</h2>
+<div class="noprint">
+<div class="row"><button class="ghost" onclick="fcPrev()">← Prev</button><span id="fcn"></span><button class="ghost" onclick="fcNext()">Next →</button><button class="ghost" onclick="fcShuf()">Shuffle</button></div>
+<div class="fc" id="fc" onclick="this.classList.toggle('flip')"><div class="in"><div class="f" id="fcf"></div><div class="b" id="fcb"></div></div></div>
+<small style="color:var(--mute)">Click the card to flip it.</small>
+</div>
+<div class="printonly" id="fcprint"></div>
+</section><section id="quiz">
+<h2>Practice quiz</h2>
+<div class="noprint">
+<div class="row"><button onclick="resetQuiz()">Restart</button><span id="score"></span></div>
+<div id="qbox"></div>
+</div>
+<div class="printonly" id="quizprint"></div>
+</section>
+<section id="cheat">
+<h2>Cheat sheet</h2>
+<div class="card"><div class="grid2"><div>
+<b>Write:</b> Rate = k[A]^x[B]^y (reactants only, unknown powers unless elementary/stated).<br>
+<b>Overall order</b> = x + y.<br>
+<b>Zero:</b> rate = k · [A]=[A]₀−kt · t½=[A]₀/2k · unit M s⁻¹.<br>
+<b>First:</b> rate = k[A] · ln([A]₀/[A])=kt · t½=0.693/k · unit s⁻¹.<br>
+<b>Second:</b> rate = k[A]² · 1/[A]=1/[A]₀+kt · t½=1/(k[A]₀) · unit M⁻¹s⁻¹.<br>
+<b>Unit of k:</b> M^(1−n) s⁻¹.
+</div><div>
+<b>Rate vs [A]:</b> 0 horizontal; 1 line through origin (slope k); 2 parabola.<br>
+<b>[A] vs t:</b> 0 straight line; 1 curve; 2 curve above 1.<br>
+<b>Zero order:</b> avg = inst = initial rate; k = rate.<br>
+<b>Data:</b> ratio of two experiments, hold one concentration fixed. ×2→×2: 1st; ×2→×4: 2nd; no change: 0.<br>
+<b>Percent complete:</b> use the remaining %.<br>
+<b>Radioactive:</b> first order.<br>
+<b>Write units; no conversions; brief answers.</b>
+</div></div></div>
+</section>
+
+</main>
+</div>
+<script>
+
+const $=id=>document.getElementById(id);
+const sup=n=>String(n).replace(/[0-9]/g,d=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[d]).replace('-','⁻');
+const fx=(x,p=3)=>{if(x===0)return '0';const [m,e]=x.toExponential(p-1).split('e');return +e===0?m:m+'×10'+sup(+e)};
+function toggleTheme(){const r=document.documentElement;const d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'}
+const links=[...document.querySelectorAll('#nav a[href^="#"]')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-20% 0px -70% 0px'});
+document.querySelectorAll('section').forEach(s=>io.observe(s));
+/* flashcards */
+let fi=0;
+function fcShow(){if(typeof cards==='undefined'||!$('fcf'))return;$('fcf').innerHTML=cards[fi][0];$('fcb').innerHTML=cards[fi][1];$('fc').classList.remove('flip');$('fcn').textContent=(fi+1)+' / '+cards.length}
+function fcNext(){fi=(fi+1)%cards.length;fcShow()}function fcPrev(){fi=(fi-1+cards.length)%cards.length;fcShow()}
+function fcShuf(){for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]]}fi=0;fcShow()}
+/* quiz renderer: items {t:'mcq',q,o,a,e} or {t:'num',q,a,tol,u,e} */
+function renderQuiz(list,boxId,scoreId,opts){opts=opts||{};const b=$(boxId);b.innerHTML='';let ans=0,done=0;
+ const upd=()=>{if($(scoreId))$(scoreId).textContent=`Score ${ans} / ${done} (of ${list.length})`;if(opts.onUpdate)opts.onUpdate(ans,done,list.length)};
+ list.forEach((q,i)=>{const d=document.createElement('div');d.className='card q';d.innerHTML=`<b>${i+1}. ${q.q}</b>${q.tag?`<span class="pill">${q.tag}</span>`:''}`;
+  const ex=document.createElement('div');ex.className='exp';ex.innerHTML=q.e||'';
+  if(q.t==='num'){const w=document.createElement('div');w.className='row';w.style.marginTop='8px';w.innerHTML=`<input type="text" placeholder="answer" style="width:120px"> <span>${q.u||''}</span>`;const bt=document.createElement('button');bt.textContent='Check';
+   bt.onclick=()=>{if(d.dataset.done)return;const v=parseFloat(w.querySelector('input').value.replace('−','-').replace(',','.'));if(isNaN(v))return;d.dataset.done=1;done++;const ok=Math.abs(v-q.a)<=Math.abs(q.a)*(q.tol||0.03);if(ok)ans++;w.querySelector('input').style.borderColor=ok?'var(--ok)':'var(--bad)';ex.innerHTML=(ok?'<b style="color:var(--ok)">Correct.</b> ':'<b style="color:var(--bad)">Not quite (answer ≈ '+q.a+' '+(q.u||'')+').</b> ')+(q.e||'');ex.classList.add('show');upd()};w.appendChild(bt);d.appendChild(w)}
+  else{q.o.forEach((o,j)=>{const bt=document.createElement('button');bt.className='opt';bt.innerHTML=o;bt.onclick=()=>{if(d.dataset.done)return;d.dataset.done=1;done++;[...d.querySelectorAll('.opt')].forEach((x,k)=>{if(k===q.a)x.classList.add('ok')});if(j===q.a)ans++;else bt.classList.add('bad');ex.classList.add('show');upd()};d.appendChild(bt)})}
+  d.appendChild(ex);b.appendChild(d)});upd();return{reveal(){list.forEach((q,i)=>{const c=b.children[i];if(!c.dataset.done){c.dataset.done=1;done++;[...c.querySelectorAll('.opt')].forEach((x,k)=>{if(k===q.a)x.classList.add('ok')});c.querySelector('.exp').classList.add('show');}});upd()}}}
+function printQuiz(list,id){if(!$(id))return;$(id).innerHTML='<ol>'+list.map(q=>q.t==='num'?`<li>${q.q} <i>Answer ≈ ${q.a} ${q.u||''}. ${q.e||''}</i></li>`:`<li>${q.q}<br>${q.o.map((o,j)=>String.fromCharCode(65+j)+') '+o).join(' &nbsp; ')}<br><i>Answer: ${String.fromCharCode(65+q.a)}. ${q.e||''}</i></li>`).join('')+'</ol>'}
+
+const cards=[["How do you write a rate law when the order is not given?", "Rate = k[A]^x[B]^y with unknown powers (reactants only). Always write 'Rate =' first."], ["Why only reactant concentrations in the rate law?", "We study the forward reaction and how reactant concentration changes the rate; products don't appear."], ["When can you use the coefficients as powers?", "Only for an elementary (single-step) reaction, when the question says so (e.g. H₂ + I₂ → 2HI: rate = k[H₂][I₂])."], ["Why not use the coefficients for ordinary reactions?", "Most reactions are multi-step with intermediates; the order must be found by experiment."], ["Overall order?", "The sum of the powers (x + y)."], ["Zero order: rate law and graph?", "Rate = k; rate vs [A] is horizontal; [A] vs t is a straight line (slope −k)."], ["First order: rate law and rate vs [A] graph?", "Rate = k[A]; straight line through the origin, slope = k."], ["Second order: rate law and rate vs [A] graph?", "Rate = k[A]²; parabola."], ["Which variable is on which axis (rate vs conc)?", "Rate (dependent) on y; concentration on x."], ["Zero-order k?", "Equal to the rate (same unit as rate)."], ["Zero-order integrated law and half-life?", "[A] = [A]₀ − kt; t½ = [A]₀/2k."], ["First-order integrated law and half-life?", "ln([A]₀/[A]) = kt, [A] = [A]₀e^(−kt); t½ = ln2/k = 0.693/k (independent of [A]₀)."], ["Second-order integrated law and half-life?", "1/[A] = 1/[A]₀ + kt; t½ = 1/(k[A]₀)."], ["Units of k for orders 0, 1, 2?", "0: M s⁻¹ (unit of rate). 1: s⁻¹. 2: M⁻¹ s⁻¹ (L mol⁻¹ s⁻¹). General: M^(1−n) s⁻¹."], ["How to identify the order from the unit of k?", "Match: M s⁻¹ → 0; s⁻¹ → 1; L mol⁻¹ s⁻¹ → 2."], ["Which order has a half-life independent of concentration?", "First order."], ["Why are radioactive reactions first order?", "A single particle breaks down on its own, in one step; no collisions, so concentration and temperature don't matter."], ["Zero order: average vs instantaneous vs initial rate?", "All equal (the [A]–t graph is a straight line)."], ["Shapes of [A] vs t for orders 0, 1, 2 (same start)?", "Zero: straight line down; first: curve; second: curve lying above first (changes more slowly later)."], ["Concentration doubles and the rate doubles/quadruples/no change?", "First order / second order / zero order. Triples → ×27 means third order."], ["How to find the orders from a data table?", "Take a ratio of two experiments where one concentration is fixed; k cancels. Then find k from any experiment."], ["Percent complete problems: which value goes in [A]?", "The amount remaining (e.g. 35.5% done → 64.5%; 90% done → 10%)."], ["Do you need [A]₀ in percent problems?", "No; it cancels in the ratio."], ["Do you convert units of time?", "No unit conversion is asked; write the unit given by k."], ["How many marks does the unit of k carry?", "Roughly half of a 1-mark question (0.5 for value, 0.5 for unit)."], ["What does the lecturer deduct marks for?", "Missing units (0.25), calculator slips, not dividing by the coefficient, unnecessary writing."], ["If rate is unchanged when concentration changes, what do you write?", "Zero order, with a one-line reason; k = rate."], ["Which midterm question comes from this section?", "One broad (about 5-mark) question: finding time, half-life, order, k, plus short graph questions."]];
+fcShow();
+if($('fcprint'))$('fcprint').innerHTML='<table><tr><th>Question</th><th>Answer</th></tr>'+cards.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td></tr>`).join('')+'</table>';
+const QL=[{"t": "mcq", "q": "The rate law for A + B → products (order unknown) should be written as", "o": ["Rate = k[A][B]", "Rate = k[A]^x[B]^y", "k = [A]^x[B]^y", "Rate = [A][B]"], "a": 1, "e": "Always start with 'Rate =' and use unknown powers unless the order or an elementary reaction is stated.", "tag": "L5–6"}, {"t": "mcq", "q": "In a rate law the concentrations of which species appear?", "o": ["Reactants only", "Products only", "Both reactants and products", "Catalyst only"], "a": 0, "e": "We study how the reactant concentration changes the rate (forward reaction).", "tag": "L5–6"}, {"t": "mcq", "q": "True or false: the powers in a rate law are the stoichiometric coefficients.", "o": ["True", "False"], "a": 1, "e": "False in general. They are found experimentally. The exception: an elementary (single-step) reaction, where the coefficients are the powers.", "tag": "L5–6"}, {"t": "mcq", "q": "For the elementary reaction H₂ + I₂ → 2HI the rate law is", "o": ["Rate = k[H₂][I₂]", "Rate = k[H₂]²[I₂]", "Rate = k[HI]²", "Rate = k"], "a": 0, "e": "Elementary: powers equal the coefficients of the reactants.", "tag": "L5–6"}, {"t": "mcq", "q": "For a reaction with rate = k[A]^x[B]^y the overall order is", "o": ["x · y", "x + y", "x − y", "x / y"], "a": 1, "e": "Add the individual orders.", "tag": "L5–6"}, {"t": "mcq", "q": "A student writes 'k[A]²' without 'Rate =' for the rate law. This", "o": ["Is fully correct", "Loses marks: the law is a relationship, so write Rate = …", "Is a zero-order law", "Shows the units"], "a": 1, "e": "Write Rate = k[A]^n.", "tag": "L5–6"}, {"t": "mcq", "q": "In a zero-order reaction the rate", "o": ["Doubles when [A] doubles", "Is independent of [A]", "Quadruples when [A] doubles", "Is zero"], "a": 1, "e": "Rate = k[A]⁰ = k.", "tag": "L5–6"}, {"t": "mcq", "q": "For zero order, the value of the rate constant equals", "o": ["The rate", "[A]₀", "Half-life", "Zero"], "a": 0, "e": "Rate = k, so k has the units of rate.", "tag": "L5–6"}, {"t": "mcq", "q": "Rate vs [A] graph for a first-order reaction is", "o": ["A horizontal line", "A straight line through the origin with slope k", "A parabola", "A decreasing curve"], "a": 1, "e": "Rate = k[A] is y = mx; the slope is the rate constant.", "tag": "L5–6"}, {"t": "mcq", "q": "Rate vs [A] graph for a zero-order reaction is", "o": ["A line parallel to the concentration axis", "A straight line through the origin", "A parabola", "A vertical line"], "a": 0, "e": "Rate = k (constant).", "tag": "L5–6"}, {"t": "mcq", "q": "Rate vs [A] graph for a second-order reaction is", "o": ["Horizontal", "Straight through the origin", "A parabola (curved upward)", "Vertical"], "a": 2, "e": "Rate = k[A]².", "tag": "L5–6"}, {"t": "mcq", "q": "On a rate vs concentration graph, which variable goes on the y-axis?", "o": ["Concentration", "Rate (the dependent variable)", "k", "Time"], "a": 1, "e": "Rate depends on concentration.", "tag": "L5–6"}, {"t": "mcq", "q": "True or false: for first order, the slope of rate vs [A] is the rate constant.", "o": ["True", "False"], "a": 0, "e": "True.", "tag": "L5–6"}, {"t": "mcq", "q": "The unit of k for a zero-order reaction is the same as the unit of", "o": ["Concentration", "Rate", "Time", "Half-life"], "a": 1, "e": "For example mol L⁻¹ s⁻¹.", "tag": "L5–6"}, {"t": "mcq", "q": "A reaction has k with units s⁻¹. Its order is", "o": ["0", "1", "2", "3"], "a": 1, "e": "First order: time⁻¹.", "tag": "L5–6"}, {"t": "mcq", "q": "A reaction has k with units L mol⁻¹ s⁻¹ (M⁻¹ s⁻¹). Its order is", "o": ["0", "1", "2", "3"], "a": 2, "e": "Second order.", "tag": "L5–6"}, {"t": "mcq", "q": "For overall order 3 the unit of k is", "o": ["s⁻¹", "M⁻¹ s⁻¹", "M⁻² s⁻¹", "M s⁻¹"], "a": 2, "e": "Unit = M^(1−n) s⁻¹: concentration appears n times in the denominator.", "tag": "L5–6"}, {"t": "mcq", "q": "Zero-order integrated rate law", "o": ["[A] = [A]₀ − kt", "ln[A] = ln[A]₀ − kt", "1/[A] = 1/[A]₀ + kt", "[A] = [A]₀e^(−kt)"], "a": 0, "e": "[A] vs t is a straight line with slope −k.", "tag": "L5–6"}, {"t": "mcq", "q": "First-order integrated rate law (ratio form)", "o": ["ln([A]₀/[A]) = kt", "[A] = [A]₀ − kt", "1/[A] = 1/[A]₀ + kt", "[A]₀/[A] = kt"], "a": 0, "e": "Equivalent: [A] = [A]₀e^(−kt) or ln[A] = ln[A]₀ − kt.", "tag": "L5–6"}, {"t": "mcq", "q": "Second-order integrated rate law", "o": ["1/[A] = 1/[A]₀ + kt", "ln[A] = ln[A]₀ − kt", "[A] = [A]₀ − kt", "[A] = [A]₀e^(−kt)"], "a": 0, "e": "From the slide summary table.", "tag": "L5–6"}, {"t": "mcq", "q": "The half-life of a first-order reaction", "o": ["Depends on [A]₀", "Is 0.693/k and independent of [A]₀", "Is [A]₀/2k", "Is 1/(k[A]₀)"], "a": 1, "e": "No concentration term appears in t½ = ln2/k.", "tag": "L5–6"}, {"t": "mcq", "q": "Half-life of a zero-order reaction", "o": ["[A]₀/2k", "ln2/k", "1/(k[A]₀)", "k/2"], "a": 0, "e": "Depends on the initial concentration.", "tag": "L5–6"}, {"t": "mcq", "q": "Half-life of a second-order reaction", "o": ["[A]₀/2k", "ln2/k", "1/(k[A]₀)", "2k"], "a": 2, "e": "Slide summary table.", "tag": "L5–6"}, {"t": "mcq", "q": "Zero-order reaction: average rate, instantaneous rate and initial rate are", "o": ["All different", "All equal (straight [A] vs t line)", "Zero", "Only the initial is nonzero"], "a": 1, "e": "The slope is constant.", "tag": "L5–6"}, {"t": "mcq", "q": "[A] vs time graph for zero order is", "o": ["A straight line with slope −k", "An exponential decay", "A curve above the first-order one", "A horizontal line"], "a": 0, "e": "[A] = [A]₀ − kt.", "tag": "L5–6"}, {"t": "mcq", "q": "Plotted from the same starting concentration, which [A] vs t curve is highest?", "o": ["Zero order", "First order", "Second order", "All the same"], "a": 2, "e": "Slide: zero (straight) is lowest, first is a curve, second lies above it.", "tag": "L5–6"}, {"t": "mcq", "q": "Radioactive decay is first order because", "o": ["Many particles collide", "It is a single particle breaking on its own in a single step, unaffected by concentration or temperature", "It is zero order", "It needs a catalyst"], "a": 1, "e": "No collisions are involved; used in carbon dating (N = N₀e^(−λt)).", "tag": "L5–6"}, {"t": "mcq", "q": "Doubling [A] makes the rate four times. The order in A is", "o": ["0", "1", "2", "3"], "a": 2, "e": "2² = 4.", "tag": "L5–6"}, {"t": "mcq", "q": "Doubling [A] doubles the rate. The order is", "o": ["0", "1", "2", "3"], "a": 1, "e": "2¹ = 2.", "tag": "L5–6"}, {"t": "mcq", "q": "Tripling [A] makes the rate 27 times. The order is", "o": ["1", "2", "3", "4"], "a": 2, "e": "3³ = 27.", "tag": "L5–6"}, {"t": "mcq", "q": "Changing [A] does not change the rate. The order is", "o": ["0", "1", "2", "3"], "a": 0, "e": "The rate is independent of concentration.", "tag": "L5–6"}, {"t": "mcq", "q": "When the rate and [A] change by the same ratio (e.g. both ×2/3), the reaction is", "o": ["Zero order", "First order", "Second order", "Third order"], "a": 1, "e": "Rate ∝ [A].", "tag": "L5–6"}, {"t": "mcq", "q": "In a 'percent complete' problem for first order, which concentration do you use?", "o": ["The amount reacted", "The amount remaining", "Always 100%", "The product"], "a": 1, "e": "E.g. 35.5% complete → 64.5% remains. [A]₀ cancels in the ratio.", "tag": "L5–6"}, {"t": "mcq", "q": "90% of a first-order reaction is complete. In ln([A]₀/[A]), the ratio [A]₀/[A] is", "o": ["10/90", "100/10", "90/100", "1/9"], "a": 1, "e": "10% remains, so 100/10 = 10.", "tag": "L5–6"}, {"t": "mcq", "q": "True or false: you must convert the time unit to seconds in these maths problems.", "o": ["True", "False"], "a": 1, "e": "False. Leave the unit as it comes from k (e.g. min); write the unit.", "tag": "L5–6"}, {"t": "mcq", "q": "Why take a ratio of two experiments when finding order?", "o": ["To cancel the rate constant k and the fixed concentration", "To find the activation energy", "To add the powers", "To avoid units"], "a": 0, "e": "Choose two experiments where one concentration is fixed.", "tag": "L5–6"}, {"t": "mcq", "q": "Most reactions are", "o": ["Zero order", "First order", "Fourth order", "Fractional only"], "a": 1, "e": "Zero and third order are rare; fractional orders occur only for gas-phase reactions.", "tag": "L5–6"}, {"t": "num", "q": "Zero-order reaction: [A]₀ = 1.5 M falls to 0.75 M in 120 s. Find k (answer in 10⁻³ M s⁻¹).", "a": 6.25, "u": "×10⁻³ M s⁻¹", "e": "k = ([A]₀ − [A])/t = 0.75/120 = 6.25×10⁻³ M s⁻¹.", "tol": 0.03, "tag": "L5–6"}, {"t": "num", "q": "A first-order reaction is 35.5% complete in 4.90 min. Find k (answer in 10⁻² min⁻¹).", "a": 8.95, "u": "×10⁻² min⁻¹", "e": "64.5% remains: k = (1/4.90) ln(1/0.645) = 0.0895 min⁻¹.", "tol": 0.03, "tag": "L5–6"}, {"t": "num", "q": "A first-order reaction has k = 0.450 s⁻¹. Find t½.", "a": 1.54, "u": "s", "e": "t½ = 0.693/0.450 = 1.54 s.", "tol": 0.03, "tag": "L5–6"}, {"t": "num", "q": "50% of a first-order reaction completes in 23 min. How long (min) for 90%?", "a": 76.4, "u": "min", "e": "k = 0.693/23 = 0.0301 min⁻¹; t = ln(10)/k = 76.4 min.", "tol": 0.03, "tag": "L5–6"}, {"t": "num", "q": "Second order: k = 0.025 M⁻¹ s⁻¹, [A]₀ = 0.80 M. Find [A] after 200 s.", "a": 0.16, "u": "M", "e": "1/[A] = 1/0.80 + 0.025×200 = 6.25, so [A] = 0.16 M.", "tol": 0.03, "tag": "L5–6"}, {"t": "num", "q": "Second order: k = 0.010 M⁻¹ s⁻¹, [A]₀ = 0.50 M. Find the half-life.", "a": 200, "u": "s", "e": "t½ = 1/(k[A]₀) = 1/(0.010×0.50) = 200 s.", "tol": 0.03, "tag": "L5–6"}, {"t": "num", "q": "2NO + 2H₂ → N₂ + 2H₂O. Experiments: [NO] 0.10, [H₂] 0.20, rate 2.4×10⁻³; [NO] 0.10, [H₂] 0.10, rate 1.2×10⁻³; [NO] 0.20, [H₂] 0.20, rate 9.6×10⁻³. Find the overall order.", "a": 3, "u": "", "e": "Exp 1 vs 2: H₂ halves, rate halves → first order. Exp 1 vs 3: NO doubles, rate ×4 → second order. Overall 2 + 1 = 3.", "tol": 0.03, "tag": "L5–6"}, {"t": "num", "q": "Same data: find k (M⁻² s⁻¹).", "a": 1.2, "u": "M⁻² s⁻¹", "e": "k = rate/([NO]²[H₂]) = 2.4×10⁻³/(0.10² × 0.20) = 1.2.", "tol": 0.03, "tag": "L5–6"}, {"t": "num", "q": "Decomposition of O₃: [O₃] = 0.020 M gives rate 1.0×10⁻⁵ M s⁻¹ (first order). Find k (answer in 10⁻⁴ s⁻¹).", "a": 5.0, "u": "×10⁻⁴ s⁻¹", "e": "k = rate/[O₃] = 1.0×10⁻⁵/0.020 = 5.0×10⁻⁴ s⁻¹.", "tol": 0.03, "tag": "L5–6"}, {"t": "num", "q": "SO₂Cl₂ → SO₂ + Cl₂: the rate is 3.60×10⁻⁶ M s⁻¹ at every concentration. Find k (answer in 10⁻⁶ M s⁻¹).", "a": 3.6, "u": "×10⁻⁶ M s⁻¹", "e": "Zero order, so k equals the rate.", "tol": 0.03, "tag": "L5–6"}];
+function resetQuiz(){renderQuiz(QL,'qbox','score')}
+resetQuiz();printQuiz(QL,'quizprint');
+
+/* shape plots */
+function shapes(){const k=Math.max(0.05,+$('shk').value||0.5);
+ const W=340,H=250,L=36,B=30,T=14,R=10;const axes=(xl,yl)=>`<line x1="${L}" x2="${W-R}" y1="${H-B}" y2="${H-B}" stroke="currentColor"/><line x1="${L}" x2="${L}" y1="${T}" y2="${H-B}" stroke="currentColor"/><text x="${(L+W)/2}" y="${H-8}" text-anchor="middle" font-size="12">${xl}</text><text x="12" y="${(T+H-B)/2}" font-size="12" transform="rotate(-90 12 ${(T+H-B)/2})" text-anchor="middle">${yl}</text>`;
+ const col=['#d6452f','#2f9d57','#2f5fd0'];let s1=axes('[A]','Rate'),s2=axes('Time','[A]');
+ const xs=i=>L+i*(W-L-R),ys=(v,m)=>H-B-v/m*(H-B-T-6);
+ const curves=n=>{let p='';for(let i=0;i<=60;i++){const x=i/60;const v=n===0?k:n===1?k*x:k*x*x;p+=(i?'L':'M')+xs(x).toFixed(1)+' '+ys(v,Math.max(k,0.01)).toFixed(1)}return p};
+ [0,1,2].forEach(n=>s1+=`<path d="${curves(n)}" fill="none" stroke="${col[n]}" stroke-width="2.2"/>`);
+ s1+=`<text x="${xs(.5)}" y="${ys(k,k)-6}" font-size="11" fill="${col[0]}" style="fill:${col[0]}">0th: rate = k</text><text x="${xs(.55)}" y="${ys(k*.55,k)+16}" font-size="11" style="fill:${col[1]}">1st: rate = k[A]</text><text x="${xs(.55)}" y="${ys(k*.3,k)+24}" font-size="11" style="fill:${col[2]}">2nd: rate = k[A]²</text>`;
+ const kk=0.1;const f=[t=>Math.max(0,1-kk*t),t=>Math.exp(-kk*t),t=>1/(1+kk*t)];
+ [0,1,2].forEach(n=>{let p='';for(let i=0;i<=60;i++){const t=i/6;p+=(i?'L':'M')+xs(i/60).toFixed(1)+' '+ys(f[n](t),1).toFixed(1)}s2+=`<path d="${p}" fill="none" stroke="${col[n]}" stroke-width="2.2"/>`});
+ s2+=`<text x="${xs(.55)}" y="${ys(.28,1)}" font-size="11" style="fill:${col[0]}">zero</text><text x="${xs(.7)}" y="${ys(.46,1)}" font-size="11" style="fill:${col[1]}">first</text><text x="${xs(.7)}" y="${ys(.62,1)}" font-size="11" style="fill:${col[2]}">second</text>`;
+ $('sh1').innerHTML=s1;$('sh2').innerHTML=s2}
+$('shk').addEventListener('input',shapes);shapes();
+
+/* order finder */
+const OF=[{rows:[[0.10,0.20,2.4e-3],[0.10,0.10,1.2e-3],[0.20,0.20,9.6e-3]]},{rows:[[0.25,'',3.6e-6],[0.50,'',3.6e-6],[0.75,'',3.6e-6]]},{rows:[[0.020,'',1.0e-5],[0.040,'',2.0e-5],[0.060,'',3.0e-5]]}];
+function rowsHTML(rs){$('ofrows').innerHTML=rs.map((r,i)=>`<tr><td>${i+1}</td><td><input type="text" value="${r[0]}"></td><td><input type="text" value="${r[1]}"></td><td><input type="text" value="${r[2]}"></td></tr>`).join('')}
+function loadOF(i){rowsHTML(OF[i].rows);ofCalc()}function addOF(){const rs=readOF(true);rs.push(['','','']);rowsHTML(rs);}
+function readOF(raw){return [...$('ofrows').children].map(tr=>[...tr.querySelectorAll('input')].map(i=>raw?i.value:parseFloat(i.value)))}
+function nearest(x){const r=Math.round(x*2)/2;return Math.abs(x-r)<0.12?r:x}
+function ofCalc(){const rs=readOF(false).filter(r=>!isNaN(r[0])&&!isNaN(r[2]));const out=$('ofout');if(rs.length<2){out.textContent='Need at least two complete experiments.';return}
+ const twoB=rs.every(r=>!isNaN(r[1]));const ord=(ix,fix)=>{const est=[];for(let i=0;i<rs.length;i++)for(let j=i+1;j<rs.length;j++){const a=rs[i],b=rs[j];const same=fix===null||Math.abs(a[fix]-b[fix])<1e-12*Math.max(1,Math.abs(a[fix]));if(same&&a[ix]!==b[ix]&&a[2]>0&&b[2]>0)est.push(Math.log(b[2]/a[2])/Math.log(b[ix]/a[ix]))}return est.length?nearest(est.reduce((s,x)=>s+x,0)/est.length):null};
+ let x=ord(0,twoB?1:null),y=twoB?ord(1,0):0;let t='';
+ if(x===null||(twoB&&y===null)){out.innerHTML='<span style="color:var(--bad)">Not enough pairs with one concentration held constant.</span>';return}
+ const N=x+(twoB?y:0);const ks=rs.map(r=>r[2]/(Math.pow(r[0],x)*(twoB?Math.pow(r[1],y):1)));const k=ks.reduce((s,v)=>s+v,0)/ks.length;
+ const un=N===1?'s⁻¹':(1-N===0?'M s⁻¹':'M'+sup(1-N)+' s⁻¹');
+ t+=`<b>Order in A: ${x}</b>${twoB?`, <b>order in B: ${y}</b>`:''}. <b>Overall order ${N}</b>.<br>Rate = k[A]${x===1?'':sup(x)}${twoB?'[B]'+(y===1?'':sup(y)):''}${x===0&&!twoB?' (= k)':''}<br><b>k ≈ ${fx(k)} ${un}</b><br>Unit of k = M${sup(1-N)} s⁻¹ for overall order ${N}.`;
+ if(x===0&&!twoB)t+='<br>The rate does not change with concentration → zero order, k = rate.';
+ out.innerHTML=t}
+$('ofrows').addEventListener('input',ofCalc);loadOF(0);
+
+/* integrated */
+function ic(){const n=+$('icn').value,a0=parseFloat($('ica0').value),k=parseFloat($('ick').value),t=parseFloat($('ict').value);const out=$('icout');
+ if(!(a0>0&&k>0&&t>=0)){out.textContent='Enter positive numbers.';return}
+ let a,th;if(n===0){a=Math.max(0,a0-k*t);th=a0/(2*k)}else if(n===1){a=a0*Math.exp(-k*t);th=Math.log(2)/k}else{a=1/(1/a0+k*t);th=1/(k*a0)}
+ out.innerHTML=`[A] at t = <b>${+a.toPrecision(4)}</b> (${(a/a0*100).toFixed(1)}% remaining) · half-life = <b>${+th.toPrecision(4)}</b>${n===0&&k*t>a0?' <span style="color:var(--warn)">(zero-order reaction would already be finished: [A] cannot go below 0)</span>':''}`;
+ const x=parseFloat($('icx').value);if(x>0&&x<100){const f=1-x/100;let tt=n===0?a0*x/100/k:n===1?Math.log(1/f)/k:(1/(a0*f)-1/a0)/k;$('icout2').innerHTML=`Time for ${x}% complete (${(f*100).toFixed(1)}% remains) = <b>${+tt.toPrecision(4)}</b>`}else $('icout2').textContent=''}
+['icn','ica0','ick','ict','icx'].forEach(i=>$(i).addEventListener('input',ic));ic();
+function uk(){const n=+$('ukn').value;$('ukout').innerHTML=`Unit of k for overall order ${n}: <b>M${sup(1-n)} s⁻¹</b>${n===0?' (= unit of rate)':n===1?' (= s⁻¹)':n===2?' (= L mol⁻¹ s⁻¹)':''}`}
+$('ukn').addEventListener('input',uk);uk();
+
+</script>
+</body>
+</html>
