@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CHE110 · L8</title>
+<style>
+:root{--bg:#fafaf7;--card:#fff;--ink:#1d2330;--mute:#5c6577;--line:#e3e4ea;--acc:#2f5fd0;--accbg:#e8efff;--ok:#1b7f4b;--okbg:#e3f5ea;--bad:#b3261e;--badbg:#fde8e6;--warn:#8a5a00;--warnbg:#fff3d6;--class:#6a3fc4;--classbg:#efe8fb;--code:#f1f2f6;--grid:#d9dde8;--curve:#2f5fd0;--tan:#d6452f}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--ok:#5fd394;--okbg:#17301f;--bad:#ff8a80;--badbg:#3a1c1a;--warn:#f5c15a;--warnbg:#3a2e12;--class:#b79cff;--classbg:#2a2144;--code:#242837;--grid:#2c3040;--curve:#7da2ff;--tan:#ff8a6b}}
+:root[data-theme=dark]{--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--ok:#5fd394;--okbg:#17301f;--bad:#ff8a80;--badbg:#3a1c1a;--warn:#f5c15a;--warnbg:#3a2e12;--class:#b79cff;--classbg:#2a2144;--code:#242837;--grid:#2c3040;--curve:#7da2ff;--tan:#ff8a6b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}
+.layout{display:flex;max-width:1200px;margin:0 auto}
+nav{position:sticky;top:0;align-self:flex-start;height:100vh;overflow:auto;width:265px;flex:none;padding:18px 14px;border-right:1px solid var(--line)}
+nav h1{font-size:17px;margin:0 0 4px}
+nav small{color:var(--mute)}
+nav a{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--ink);font-size:14px}
+nav a:hover,nav a.on{background:var(--accbg);color:var(--acc)}
+nav .grp{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:14px 8px 4px}
+main{flex:1;min-width:0;padding:20px 28px 80px}
+section{margin-bottom:46px;scroll-margin-top:12px}
+h2{font-size:25px;margin:0 0 6px;border-bottom:2px solid var(--line);padding-bottom:6px}
+h3{font-size:18px;margin:22px 0 6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:1px 8px;border-radius:99px;vertical-align:middle;margin-right:6px}
+.t-class{background:var(--classbg);color:var(--class)}
+.t-slide{background:var(--accbg);color:var(--acc)}
+.t-exam{background:var(--warnbg);color:var(--warn)}
+.callout{border-left:4px solid var(--acc);background:var(--accbg);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0}
+.callout.class{border-color:var(--class);background:var(--classbg)}
+.callout.warn{border-color:var(--warn);background:var(--warnbg)}
+.callout.ok{border-color:var(--ok);background:var(--okbg)}
+.callout.bad{border-color:var(--bad);background:var(--badbg)}
+.eq{background:var(--code);border-radius:10px;padding:10px 14px;margin:10px 0;font-family:Cambria Math,Georgia,serif;font-size:19px;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--code)}
+ul,ol{padding-left:22px}li{margin:3px 0}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:7px 14px;cursor:pointer}
+button.ghost{background:var(--code);color:var(--ink);border:1px solid var(--line)}
+input,select,textarea{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+input[type=number],input[type=text]{width:105px}
+textarea{width:100%;max-width:360px;height:130px;font-family:ui-monospace,Consolas,monospace;font-size:13px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:820px){nav{display:none}main{padding:16px}.grid2{grid-template-columns:1fr}}
+.res{font-size:15px}
+.fc{perspective:900px;height:170px;cursor:pointer;margin:10px 0}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.fc.flip .in{transform:rotateY(180deg)}
+.fc .f,.fc .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;border:1px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;padding:18px;text-align:center;font-size:18px}
+.fc .b{transform:rotateY(180deg);background:var(--accbg);font-size:16px}
+.q{margin:14px 0}.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--line);margin:5px 0}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}.opt.bad{background:var(--badbg);border-color:var(--bad)}
+.exp{display:none;margin-top:6px;font-size:14.5px;color:var(--mute)}.exp.show{display:block}
+.pk{display:inline-block;background:var(--warnbg);color:var(--warn);border-radius:99px;padding:3px 12px;font-weight:600;margin:3px}
+.printonly{display:none}
+details{margin:8px 0}summary{cursor:pointer;font-weight:600}
+.timer{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;border-radius:99px;padding:1px 9px;font-size:12px;background:var(--code);border:1px solid var(--line);margin-left:6px;color:var(--mute)}
+@media print{
+ nav,.noprint,.fc,.q button,#toolbar{display:none!important}
+ .printonly{display:block}
+ details{display:block}details>*{display:block}summary{display:none}
+ body{background:#fff;color:#000;font-size:11.5pt}
+ :root{--bg:#fff;--card:#fff;--ink:#000}
+ main{padding:0}.layout{display:block}
+ .card,.callout,table,.eq{break-inside:avoid}
+ h2{break-after:avoid}
+}
+svg text{fill:var(--ink);font-family:system-ui}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav id="nav">
+<h1>CHE110 · L8</h1><small>Chemical bonding</small>
+<div class="grp">Site</div><a href="index.html">← Hub (all guides)</a>
+<div class="grp">Start here</div>
+<a href="#exam">What the lecturer wants</a>
+<a href="#map">Slides ↔ class map</a>
+<div class="grp">Class notes</div>
+<a href="#why">1 · Why bonds form (PE curve)</a>
+<a href="#ionic">2 · Ionic bond</a>
+<a href="#covalent">3 · Covalent bond</a>
+<a href="#coord">4 · Coordinate covalent bond</a>
+<a href="#metallic">5 · Metallic bond</a>
+<a href="#hbond">6 · Hydrogen bond</a>
+<a href="#compare">7 · Comparison &amp; answer tips</a>
+<div class="grp">Interactive</div>
+<a href="#tools">Bond curve &amp; tools</a>
+<div class="grp">Practice</div>
+<a href="#cards">Flashcards</a>
+<a href="#quiz">Quiz</a>
+<a href="#cheat">Cheat sheet</a>
+<div class="grp">All guides</div>
+<a href="CHE110_L1_Study_Guide.html">L1 · Atomic models</a>
+<a href="CHE110_L2_Study_Guide.html">L2 · Bohr, quantum ideas</a>
+<a href="CHE110_L3_Guide.html">L3 · Quantum numbers, configuration</a>
+<a href="CHE110_L4_Periodicity_Guide.html">L4 · Periodicity</a>
+<a href="CHE110_L5_Rate_Guide.html">L5 · Rate of reaction</a>
+<a href="CHE110_L6_Kinetics_Guide.html">L6 · Rate law &amp; order</a>
+<a href="CHE110_L7_Mechanism_Guide.html">L7 · Mechanism &amp; Arrhenius</a>
+<a href="CHE110_L8_Bonding_Guide.html">L8 · Chemical bonding</a>
+<a href="CHE110_Midterm_Prep.html">★ Midterm prep</a>
+<div class="grp">&nbsp;</div><button class="ghost" onclick="toggleTheme()">Light / dark</button><button class="ghost" style="margin-top:6px" onclick="window.print()">Print / save PDF</button>
+</nav>
+<main>
+
+<section id="exam">
+<h2>Lecture 8: Chemical bonding</h2>
+<p>Built from the five Lecture 8 transcript parts (L8 P1–P5) and the Lecture 8 slides (30 slides).
+<span class="tag t-class">TAUGHT IN CLASS</span> <span class="tag t-exam">EXAM SIGNAL</span> <span class="tag t-slide">SLIDES</span></p>
+<div class="callout warn"><b>Midterm:</b> the syllabus is <b>completely up to Lecture 8</b>, and "the whole of Lecture 8 will be included". Lecture 9 is for the final. Format (20 marks, 1 hour): <a href="CHE110_Midterm_Prep.html">Midterm prep</a>.</div>
+
+<h3>What the lecturer said about the exam</h3>
+<div class="callout class"><ol style="margin:4px 0">
+<li><b>"This graph comes in your exam very often."</b> You may be asked to <b>draw</b> (or explain) the potential energy vs internuclear distance curve for H–H or H–Cl and <b>mark</b>: the most stable point, bond energy, bond length, the repulsive region and the attractive region. You <b>must draw the zero line and label the axes</b> (internuclear distance on x; positive and negative potential energy on y).</li>
+<li><b>Bond formation = exothermic</b> and <b>bond breaking = endothermic</b> ("these come in your exam").</li>
+<li><b>Lattice energy comparisons</b> come as short questions: order several ionic compounds and give the reason (<b>charge or size</b>). Don't bring in electronegativity or electron affinity ("I have to Google your answers").</li>
+<li><b>Force on a crystal:</b> "Magnesium chloride crystal, HCl and a magnesium strip: force is applied to all three. What changes happen and why?" Ionic: breaks (like charges face each other and repel). Covalent: little change (gas/liquid/soft). Metal: deforms but doesn't break (electrons rearrange quickly).</li>
+<li><b>Recognise ionic vs covalent from the formula</b> (metal + non-metal; polyatomic ions behave like a metal/non-metal). NH₄Cl is ionic; sulfuryl chloride is covalent. A question may only say "ammonium chloride crystal".</li>
+<li><b>Solubility and conductivity:</b> "Will NaCl dissolve in CCl₄?" (true/false trap: CCl₄ is non-polar). "Will ammonium chloride crystal conduct electricity?" (not as a solid; yes if molten or aqueous).</li>
+<li><b>Hydrogen bonding:</b> "Whose boiling point is abnormally high, water or H₂S, and why?" (intermolecular hydrogen bonding); "Why does ice float on water?"; given a structure, say whether the hydrogen bond is intermolecular or intramolecular (true/false). <b>Draw the hydrogen bond as the dotted line</b>, not the covalent bond.</li>
+<li>Lone pair electrons are <b>not</b> free electrons (a student wrote "has a lone pair so it conducts").</li>
+<li>Only what was taught in class: "if you study the properties I taught well, that's enough; don't memorise the slides line by line". Slide structures needn't be drawn.</li>
+</ol></div>
+<div class="card"><span class="pk">PE vs internuclear distance (draw &amp; label)</span><span class="pk">Bond formation: exothermic</span><span class="pk">Lattice energy: charge &amp; size</span><span class="pk">MgCl₂ vs HCl vs Mg under force</span><span class="pk">Ionic or covalent? (NH₄Cl)</span><span class="pk">NaCl in CCl₄: false</span><span class="pk">Conductivity: molten/aqueous only</span><span class="pk">Lone pair ≠ free electron</span><span class="pk">Coordinate bond: NH₄⁺, NH₃→BF₃</span><span class="pk">Delocalised electrons</span><span class="pk">Intermolecular H-bond → high bp</span><span class="pk">Why ice floats</span></div>
+</section>
+
+<section id="map">
+<h2>Slides ↔ class map</h2>
+<table>
+<tr><th>Slide</th><th>Topic</th><th>Class coverage</th></tr>
+<tr><td>3–5</td><td>What a bond is; why atoms combine (attraction, octet, energy lowering; PE curve)</td><td>Yes; the PE graph is emphasised</td></tr>
+<tr><td>8–11</td><td>Ionic bond, conditions, factors, lattice energy</td><td>Yes (IE low, EA high, lattice energy; examples compared)</td></tr>
+<tr><td>12–15</td><td>Properties of ionic compounds</td><td>Yes (solid, high mp, brittle, solubility, conductivity)</td></tr>
+<tr><td>16–20</td><td>Covalent bond, properties, sigma/pi, polar covalent</td><td>Yes (unpaired electrons, opposite spins, properties; sigma/pi "look through")</td></tr>
+<tr><td>21–22</td><td>Coordinate covalent bond and examples</td><td>Yes</td></tr>
+<tr><td>23–26</td><td>Hydrogen bond, types, effects, ice</td><td>Yes (intermolecular/intramolecular, boiling point, ice floats)</td></tr>
+<tr><td>27–29</td><td>Metallic bond, electron sea, properties</td><td>Yes (delocalised electrons, conduction, ductility; others "just read")</td></tr>
+</table>
+</section>
+
+<section id="why">
+<h2>1 · Why do atoms form bonds? The potential-energy curve</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES 3–5</span><span class="tag t-exam">EXAM SIGNAL: DRAW IT</span>
+<ul>
+<li><b>Chemical bond</b> = the attractive force that holds two or more atoms together in a molecule or ion; atoms interact by losing, gaining or sharing electrons to reach a stable outer shell.</li>
+<li><b>Three reasons (slide):</b> (1) a <b>net attractive force</b> between atoms (attraction and repulsion between nuclei and electrons; the net can be either); (2) the <b>octet rule</b> (noble-gas outer shell of 8; the duplet of 2 for H and He); (3) <b>lowering of energy</b>: the combining atoms' potential energy decreases and they become more stable.</li>
+<li>Class explanation: <b>stability = lower potential energy</b> (the lower, even below zero, the more stable). An isolated hydrogen atom is reactive, "fighting with whoever it meets"; as H₂ its potential energy is lower. Gold, platinum and the noble gases are fine as single atoms (rarely bond). Most others bond: metals as metallic lattices; non-metals as diatomic molecules or S₈, P₄.</li>
+<li>For a bond to start, atoms need an <b>attractive pull</b> (tendency to fill the octet/duplet). Atoms far apart (Chittagong and Dhaka) don't bond.</li>
+</ul>
+<h3>The graph (potential energy vs internuclear distance, r)</h3>
+<ol>
+<li><b>Large r:</b> free atoms, no interaction, <b>PE = 0</b> (zero line).</li>
+<li>As the atoms approach, <b>attraction dominates</b> and PE <b>falls below zero</b>: energy is released.</li>
+<li>Closer still, the electron clouds (and nuclei) <b>repel</b>; repulsion rises until it <b>equals the attraction</b>. At that point the PE is at its <b>minimum</b>: the most stable state; the bond is formed. Tug-of-war analogy: equal pulls, so the ribbon doesn't move.</li>
+<li><b>Bond length</b> = the internuclear distance at the minimum ("an optimum distance, not a minimum distance"; the atoms vibrate about it).</li>
+<li><b>Bond energy</b> = the depth of the minimum below zero: the energy released on forming the bond = the energy needed to break it.</li>
+<li><b>Closer than the bond length:</b> repulsion dominates: PE shoots up on the positive side (<b>repulsive region</b>; bond-breaking by squeezing, "one on another's shoulders"). <b>Farther than the bond length</b> (up to where PE returns to 0): the <b>attractive region</b>.</li>
+</ol>
+<div class="callout ok"><b>Bond formation is exothermic (energy released); bond breaking is endothermic (energy supplied).</b> Slide example: H₂ has bond energy 103.2 kcal/mol and bond length 0.74 Å.<br><b>In the exam draw:</b> the zero line (x-axis), the vertical PE axis with positive and negative sides, a curve starting at zero at large r, dipping to a minimum and rising steeply at small r. Label: <i>most stable point/minimum, bond length (r₀), bond energy, attractive region, repulsive region</i>. You can show all in one graph; "definitely denote the axes".</div>
+</section>
+
+<section id="ionic">
+<h2>2 · The ionic bond</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES 8–15</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li><b>Definition:</b> the bond formed by <b>transfer</b> of one or more valence electrons from one atom to another: the <b>electrostatic attraction between cation (+) and anion (−)</b>. Metals form cations (lose electrons); non-metals form anions (gain electrons). Cations and anions in two separate beakers don't form a bond: it is the attraction between them that makes the bond (and the bond becomes stable when attraction and repulsion balance).</li>
+<li><b>Forming the ions:</b> removing an electron needs energy (<b>ionization energy, endothermic</b>), so it should be <b>low</b> for the metal. Adding an electron releases energy (<b>electron affinity</b>), so it should be <b>high</b> for the non-metal. Don't mix up four properties: metals have <b>low IE</b> and <b>low EA</b> (they give electrons away); non-metals have <b>high IE</b> and <b>high EA</b> (they won't give electrons; they attract them). Think with Na and Cl: Na gives its single electron easily; Cl, with 7 electrons, gladly takes one.</li>
+<li><b>Slide conditions:</b> (1) atom A has 1, 2 or 3 valence electrons and atom B has 5, 6 or 7; (2) net lowering of energy (low IE, high EA, high lattice energy); (3) electronegativity difference of about <b>2 or more</b> (Na 0.9, Cl 3.0: difference 2.1).</li>
+<li><b>Lattice energy</b> (also called electrical energy): the energy released when one mole of an ionic compound forms from its gaseous ions. The greater the lattice energy, the stronger the ionic bond.</li>
+</ul>
+<h3>Lattice energy: charge and size (and Coulomb's law)</h3>
+<div class="eq">F ∝ q₁q₂ / r²</div>
+<ul>
+<li><b>Higher charge</b> → stronger attraction → higher lattice energy.</li>
+<li><b>Smaller size</b> (of the cation or the anion) → smaller r → higher lattice energy.</li>
+<li><b>NaCl vs MgCl₂:</b> MgCl₂ is higher. Chlorine is common, so compare the metals: Mg²⁺ has the higher charge (higher Z<sub>eff</sub>) and is smaller than Na⁺. In the Coulomb picture: charges 2 and 2 (two Cl⁻) vs 1 and 1.</li>
+<li><b>NaF vs NaCl:</b> NaF is higher because the F⁻ ion is smaller. <b>Don't say</b> "F has higher electron affinity than Cl": the ions already exist, so affinity no longer matters ("it's the pulling now").</li>
+<li><b>MgCl₂ vs AlCl₃:</b> AlCl₃ is higher: charges 3 and 3 vs 2 and 2, and Al is smaller than Mg.</li>
+<li>The transcript compares these in pairs. If all appear together, charge matters most: MgCl₂ (≈2526 kJ/mol) &gt; NaF (≈923) &gt; NaCl (≈787).</li>
+<li>Exam: you get a list and are asked to <b>order</b> them and sometimes to <b>explain</b>: use <b>charge or size</b>, in one or two lines.</li>
+</ul>
+<h3>Properties of ionic compounds</h3>
+<table>
+<tr><th>Property</th><th>Reason (class)</th></tr>
+<tr><td><b>Solids at room temperature; crystal lattice</b></td><td>Strong electrostatic forces lock the ions in a regular <b>3D crystal lattice</b> (+ − + − in all directions); no freedom of movement. Soft in some cases but mostly solid.</td></tr>
+<tr><td><b>High melting and boiling points</b></td><td>Many ions in a lattice; the ions need much more kinetic energy to separate (higher temperature).</td></tr>
+<tr><td><b>Hard but brittle</b></td><td>Layers of alternating + and − ions: force shifts one layer so that <b>like charges come face to face and repel</b>; the crystal cleaves along a plane. (Write: "like charges come close, repulsion increases, it breaks".)</td></tr>
+<tr><td><b>Soluble in water</b></td><td>Water is <b>polar</b>: it attracts the ions and pulls them out of the lattice ("like dissolves like"). Slide: hydration energy (energy released when ions are solvated) compensates the lattice energy.</td></tr>
+<tr><td><b>Insoluble in non-polar solvents</b></td><td>CCl₄ (polar bonds cancel, so it is non-polar) and benzene (C₆H₆) can't separate the ions: low dielectric constant. <b>True/false trap: "NaCl dissolves in CCl₄" is False.</b></td></tr>
+<tr><td><b>Conductivity</b></td><td>Conduction needs <b>free electrons or mobile ions</b>. Solid: ions fixed → no. <b>Molten or aqueous</b>: ions are free → yes. Answer with the state: "not as a solid, yes if molten or dissolved".</td></tr>
+<tr><td>Ionic reactions are fast (slide)</td><td>Reactions between ions are very fast; molecular (covalent) reactions are slow.</td></tr>
+</table>
+<h3>Recognising ionic compounds</h3>
+<ul>
+<li>Ionic = <b>metal + non-metal</b>. S, O, Cl are all non-metals → <b>covalent</b> (sulfuryl chloride, SO₂Cl₂).</li>
+<li><b>Polyatomic ions (radicals)</b> act as one unit: ammonium (NH₄⁺) acts like a metal; sulfate, carbonate, phosphate, nitrate act as anions. So <b>NH₄Cl</b> (and Na₂SO₄, CaCO₃) are <b>ionic</b> even though all atoms in NH₄Cl are non-metals. Inside the ion the bonds are covalent. "Only the common ones are asked; nothing uncommon."</li>
+<li>If a question says "ammonium chloride crystal" you should understand it is ionic just from the name.</li>
+</ul>
+</section>
+
+<section id="covalent">
+<h2>3 · The covalent bond</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES 16–20</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li><b>Definition:</b> the attractive force between atoms resulting from <b>sharing an electron pair</b> (each atom contributes one electron and has an equal claim on the pair). Formed between <b>non-metals</b>.</li>
+<li><b>Conditions (class + slide):</b> (1) the atoms taking part must have <b>unpaired electrons</b> (a pair already filled won't bond); (2) they are non-metals of equal or nearly equal electronegativity with 5, 6 or 7 valence electrons (H has one and attains a duplet); (3) while bonding the shared electrons must have <b>opposite spins</b> (e.g. H 1s¹ + 1s¹ overlap, one up and one down), so the clouds rearrange without repelling.</li>
+<li>Octet filling happens <b>after</b> the bond is formed, it is not the condition for participating.</li>
+</ul>
+<h3>Properties</h3>
+<table>
+<tr><th>Property</th><th>Reason</th></tr>
+<tr><td>Gases, liquids or soft solids at room temperature; no ionic crystal lattice</td><td>Atoms in a molecule are firmly held, but molecules attract each other only by weak (van der Waals) forces.</td></tr>
+<tr><td>Low and variable melting/boiling points</td><td>Weak intermolecular forces: easy to separate molecules.</td></tr>
+<tr><td>Applying force: not much change (neither hard nor brittle)</td><td>No layers of ions; layers slip with no repulsion.</td></tr>
+<tr><td><b>Non-conductors</b></td><td>No ions and no free electrons. Water is a poor conductor (very little dissociation into H⁺ and OH⁻). <b>Lone pair electrons are not free electrons.</b></td></tr>
+<tr><td>Solubility (slide)</td><td>Generally soluble in non-polar organic solvents (benzene, ether); insoluble in water, except some (alcohols, amines) that hydrogen bond with water. Class rule: polar dissolves polar, non-polar dissolves non-polar.</td></tr>
+<tr><td>Isomerism; slow molecular reactions (slide)</td><td>Rigid, directional bonds allow spatial arrangements (stereoisomerism).</td></tr>
+</table>
+<h3>Lone pairs vs free electrons</h3>
+<div class="callout class"><b>Localised:</b> the electron is in a specific orbital of one atom (e.g. the lone pair on nitrogen after it forms 3 bonds, 5 − 3 = 2 left). <b>Delocalised (free):</b> not in any specific orbital or atom; it roams the vacant orbitals. A student once wrote "it has a lone pair, so it conducts": wrong. Lone pairs stay on the atom (shown as dots); bonding pairs are shown as lines.</div>
+<h3>Sigma and pi bonds (slides 19–20)</h3>
+<ul>
+<li><b>Sigma (σ):</b> end-to-end (head-on, axial) overlap along the internuclear axis: s–s (H₂), s–p (HF, HCl), p–p (F₂, Cl₂, Br₂). <b>Pi (π):</b> sidewise (lateral) overlap of half-filled orbitals perpendicular to the axis. <b>Sigma is stronger than pi.</b></li>
+<li><b>Polar covalent bond:</b> electrons shared unequally; the bonded atoms acquire partial positive and negative charges (δ⁺, δ⁻). The greater the electronegativity difference, the greater the polarity.</li>
+<li>Both are "look through" (the lecturer said to read them; more detail wasn't taught).</li>
+</ul>
+</section>
+
+<section id="coord">
+<h2>4 · Coordinate covalent (dative) bond</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES 21–22</span>
+<ul>
+<li>In a normal covalent bond each atom gives one electron. In a <b>coordinate covalent (dative) bond both electrons of the shared pair come from one atom</b>: the <b>donor</b> (has a lone pair) → the <b>acceptor</b> (has an empty orbital or an incomplete octet). It is drawn with an <b>arrow</b> from donor to acceptor.</li>
+<li><b>Why does it form?</b> Boron in BF₃ has only 3 valence electrons (6 around it): an <b>octet deficiency</b>, so it is electron-seeking (an electrophile) and bonds to a lone pair, e.g. from NH₃ (N has the lone pair): NH₃ → BF₃ complex.</li>
+<li><b>Examples:</b> NH₄⁺ (NH₃ donates its lone pair to H⁺, which has no electron), H₃O⁺ (H₂O donates to H⁺), BF₄⁻, NH₃–BCl₃ addition compound, nitromethane (CH₃NO₂), Al₂Cl₆, ozone (O₃).</li>
+<li>After formation, you cannot tell where the electrons came from: it behaves just like a normal covalent bond (all four N–H bonds in NH₄⁺ are the same).</li>
+<li>So the four strong bond types studied: <b>covalent, ionic, metallic, coordinate covalent</b>.</li>
+</ul>
+</section>
+
+<section id="metallic">
+<h2>5 · The metallic bond</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES 27–29</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li>Ionic, covalent and metallic bonds are strong, <b>atom-to-atom (or atom-to-electron)</b> interactions, not molecule-to-molecule.</li>
+<li><b>Electron-sea model:</b> metal atoms give up their valence electrons (low ionization energy); the electrons become <b>delocalised</b> and move in the <b>vacant orbitals</b> of the surrounding metal ions (e.g. Mg 1s²2s²2p⁶3s²3p⁰ has vacant 3p orbitals). The positive ions sit in a <b>3D lattice</b> (a crystal), "immersed in a sea of electrons". The attraction between the cations (higher Z<sub>eff</sub> after losing electrons) and the delocalised electrons is the metallic bond.</li>
+<li>Delocalised electrons stay in the region of nearby atoms; "free" means free within that region, not travelling across the whole piece.</li>
+</ul>
+<h3>Properties (with the class reasons)</h3>
+<table>
+<tr><th>Property</th><th>Reason</th></tr>
+<tr><td><b>Electrical conductivity</b></td><td>Mobile electrons are displaced when a voltage is applied. Electrons pass the energy/push to their neighbours; they don't run the whole length of the wire (like balls in a tube: push one in, another comes out).</td></tr>
+<tr><td><b>Heat conductivity</b></td><td>Electrons absorb heat, vibrate more, collide with neighbours and pass the energy along (aluminium pots, copper wires).</td></tr>
+<tr><td><b>Ductile and malleable</b></td><td>When one layer is forced across another the electron sea <b>rearranges quickly</b>, so like charges (cation–cation) don't come together and the lattice isn't broken; the metal deforms instead of breaking (unlike an ionic crystal). Electrons are tiny and can move through vacant orbitals; a chloride ion can't.</td></tr>
+<tr><td>Luster (slide)</td><td>Delocalised electrons absorb light, jump up and fall back, re-emitting light of the same frequency, seen as reflection.</td></tr>
+<tr><td>Electron emission (slide)</td><td>Enough heat or light energy removes an outer electron: <b>photoelectric effect</b> (Einstein's Nobel Prize).</td></tr>
+</table>
+<div class="callout ok"><b>Class question: "force is applied to MgCl₂ crystal, HCl, and a Mg strip".</b> <b>MgCl₂ (ionic crystal):</b> layers shift, like charges come close, repulsion increases, it breaks (draw the layers shifting). <b>HCl (covalent; gas or liquid, at most soft solid):</b> no real application of force; little change. <b>Mg (metallic):</b> deformation (don't say "no change"); it doesn't break, because the negatively charged electrons rearrange very fast so + and + (or − and −) are never brought together.</div>
+</section>
+
+<section id="hbond">
+<h2>6 · The hydrogen bond</h2>
+<span class="tag t-class">CLASS</span><span class="tag t-slide">SLIDES 23–26</span><span class="tag t-exam">EXAM SIGNAL</span>
+<ul>
+<li>The earlier bonds are strong and atom-to-atom. The <b>hydrogen bond is a weaker molecule-to-molecule interaction</b> (the major covalent bond has already formed). Drawn as a <b>dotted line</b> ("not a real bond").</li>
+<li><b>How:</b> in HF, F (electronegativity 4.0 on the Pauling scale) pulls the shared pair so strongly that F becomes δ⁻ and H δ⁺ (a polar molecule, a dipole). The δ⁺ hydrogen of one molecule is attracted to the δ⁻ F of the next. Since hydrogen is common to this interaction, it is a <b>hydrogen bond</b>. Polar molecules interact pole-to-pole.</li>
+<li><b>Conditions (slide):</b> (1) hydrogen bonded to a highly electronegative atom: <b>F, O or N</b> (HF, H₂O, NH₃); (2) the electronegative atom must be <b>small</b>: the smaller, the stronger the pull and the H-bond. N and Cl both have EN 3.0, but H-bonding is more effective in NH₃ than in HCl.</li>
+<li>H₂S does <b>not</b> form H-bonds (S is larger, less electronegative). Chlorine only weakly.</li>
+<li>It is <b>directional</b> (like a covalent bond): H bonds from specific directions.</li>
+</ul>
+<div class="callout bad"><b>Common mistake:</b> in a drawing, the solid line between H and F (or O) is the <b>covalent bond</b>. The hydrogen bond is the <b>dotted line</b> from H to the neighbouring molecule's F/O/N.</div>
+<h3>Intermolecular vs intramolecular</h3>
+<ul>
+<li><b>Intermolecular:</b> between different molecules (HF, H₂O, NH₃).</li>
+<li><b>Intramolecular:</b> within one molecule between two groups of the same molecule (2-nitrophenol, 2-nitrobenzoic acid, salicylaldehyde). A question may give a structure and ask (true/false) which type it can form: look at whether the + and − parts are inside the same molecule. "Inter-university vs intra-university" analogy.</li>
+<li><b>Effect on properties:</b> <b>intermolecular</b> H-bonding raises melting and boiling points abnormally: extra energy must break the interactions between molecules when they separate (distance increases on melting/boiling). <b>Intramolecular</b> H-bonding has <b>no effect</b> on melting point, boiling point, viscosity, surface tension, solubility.</li>
+</ul>
+<h3>Water vs H₂S, H₂Se, H₂Te (exam question)</h3>
+<ul>
+<li>Down group 16 the size and mass of the molecule rise, so boiling points should rise (H₂O should be the lowest). Instead <b>water's is abnormally high</b>, because of <b>intermolecular hydrogen bonding</b> that must be broken. The other hydrides can't H-bond. The graph (boiling point vs molar mass) shows water far above the trend (same for HF and NH₃ in their groups).</li>
+</ul>
+<h3>Why does ice float on water? (exam question)</h3>
+<div class="callout class">In ice each water molecule is bonded to two H atoms by covalent bonds and to two others by hydrogen bonds (<b>tetrahedral</b> arrangement, each molecule linked to four). This builds an <b>open hexagonal cage</b> with a lot of vacant space, so the <b>volume increases and the density decreases</b>: ice floats. In liquid water the hydrogen bonds form <b>randomly</b> (no 3D cage), so the density is higher. <b>Write the term "intermolecular hydrogen bonding"</b>; otherwise the reason isn't clear. (A bottle of water cracks or its cap tightens on freezing because the volume increases.)</div>
+<p><b>Other characteristics (slide):</b> high solubility of some covalent compounds containing O, N, F in H-containing solvents (NH₃ and CH₃OH dissolve in water); hydrogen bonds are directional and strong enough to build a 3D lattice.</p>
+</section>
+
+<section id="compare">
+<h2>7 · Comparison table and answer tips</h2>
+<table>
+<tr><th></th><th>Ionic</th><th>Covalent</th><th>Metallic</th><th>Hydrogen bond</th></tr>
+<tr><td>Between</td><td>cation and anion (metal + non-metal)</td><td>non-metals sharing electrons</td><td>metal cations and delocalised electrons</td><td>molecules (H on F/O/N and a lone pair on another)</td></tr>
+<tr><td>Strength</td><td>strong</td><td>strong</td><td>strong</td><td>weak</td></tr>
+<tr><td>State</td><td>crystalline solid</td><td>gas, liquid, soft solid</td><td>solid (Hg liquid)</td><td>raises mp/bp</td></tr>
+<tr><td>Force applied</td><td>breaks (brittle)</td><td>little change</td><td>deforms (ductile, malleable)</td><td>-</td></tr>
+<tr><td>Conducts?</td><td>molten/aqueous only</td><td>no</td><td>yes (solid)</td><td>-</td></tr>
+<tr><td>Water</td><td>soluble</td><td>mostly not (polar ones yes)</td><td>no</td><td>-</td></tr>
+</table>
+<h3>How to write the answers (the lecturer's rules)</h3>
+<div class="callout warn"><ul style="margin:4px 0">
+<li>Space is small: <b>answer, then one line of reason</b>. Don't copy the question. If it is yes/no, write "Yes" or "No" and go straight to the reason.</li>
+<li>Divide the space for the number of parts. No four-page essays; "write only as much as asked, with the reason".</li>
+<li>Maths: write the <b>formula</b>, substitute, give the answer <b>with the unit</b> (0.25 for the unit). Explain how you got the order in one line.</li>
+<li>Read the <b>whole</b> true/false statement; if half is false, the whole is false.</li>
+<li>Think with an example (Na and Cl); don't change answers because of what the person next to you says.</li>
+<li>She checks your rough work and gives 0.5 for a good attempt.</li>
+</ul></div>
+</section>
+
+<section id="tools">
+<h2>Interactive tools</h2>
+<div class="card noprint"><b>1 · Bond potential-energy curve</b>
+<div class="row" style="margin-top:6px"><label>Bond length (pm) <input id="bre" type="text" value="74"></label><label>Bond energy (kJ/mol) <input id="bde" type="text" value="432"></label>
+<button class="ghost" onclick="bset(74,432)">H–H</button><button class="ghost" onclick="bset(127,431)">H–Cl</button><button class="ghost" onclick="bset(199,243)">Cl–Cl</button><button class="ghost" onclick="bset(143,159)">F–F</button></div>
+<svg id="bsvg" viewBox="0 0 680 400" width="100%" style="max-width:780px;margin-top:8px" role="img" aria-label="Potential energy versus internuclear distance"></svg>
+<small style="color:var(--mute)">A model curve (Morse form) to practise the labels; values are approximate textbook bond lengths and energies. H–H on the slide: 0.74 Å and 103.2 kcal/mol (≈ 432 kJ/mol).</small></div>
+
+<div class="card noprint"><b>2 · Lattice-energy comparer (charge and size)</b>
+<div class="row" style="margin-top:6px"><span>Compound A:</span><select id="la_c"></select><select id="la_a"></select><span>Compound B:</span><select id="lb_c"></select><select id="lb_a"></select></div>
+<div class="res" id="lout" style="margin-top:8px"></div>
+<table style="max-width:560px"><tr><th>Compound</th><th>Lattice energy (kJ/mol, textbook)</th></tr><tr><td>LiF</td><td>≈ 1037</td></tr><tr><td>NaF</td><td>≈ 923</td></tr><tr><td>NaCl</td><td>≈ 787</td></tr><tr><td>KCl</td><td>≈ 715</td></tr><tr><td>MgCl₂</td><td>≈ 2526</td></tr><tr><td>CaO</td><td>≈ 3401</td></tr><tr><td>MgO</td><td>≈ 3791</td></tr></table>
+<small style="color:var(--mute)">Reference values are for illustration (you don't need to memorise them). The comparer ranks by q₁q₂/(r₊ + r₋) using typical ionic radii.</small></div>
+
+<div class="card noprint"><b>3 · Boiling points of hydrides (hydrogen-bond anomaly)</b>
+<div class="row" style="margin-top:6px" id="hgroups"></div>
+<svg id="hsvg" viewBox="0 0 680 360" width="100%" style="max-width:780px;margin-top:8px" role="img" aria-label="Boiling points of group hydrides"></svg>
+<small style="color:var(--mute)">Normally boiling point rises down a group (more mass). NH₃, H₂O and HF are abnormally high because of intermolecular hydrogen bonding; the group 14 hydrides (no H-bonding) follow the trend.</small></div>
+
+<div class="card noprint"><b>4 · Predict the bond type and behaviour</b>
+<div class="row" style="margin-top:6px"><label>Substance <select id="pbsel"></select></label></div>
+<div class="res" id="pbout" style="margin-top:8px"></div></div>
+<div class="printonly">Interactive tools are on the web version.</div>
+</section>
+<section id="cards">
+<h2>Flashcards</h2>
+<div class="noprint">
+<div class="row"><button class="ghost" onclick="fcPrev()">← Prev</button><span id="fcn"></span><button class="ghost" onclick="fcNext()">Next →</button><button class="ghost" onclick="fcShuf()">Shuffle</button></div>
+<div class="fc" id="fc" onclick="this.classList.toggle('flip')"><div class="in"><div class="f" id="fcf"></div><div class="b" id="fcb"></div></div></div>
+<small style="color:var(--mute)">Click the card to flip it.</small>
+</div>
+<div class="printonly" id="fcprint"></div>
+</section><section id="quiz">
+<h2>Practice quiz</h2>
+<div class="noprint">
+<div class="row"><button onclick="resetQuiz()">Restart</button><span id="score"></span></div>
+<div id="qbox"></div>
+</div>
+<div class="printonly" id="quizprint"></div>
+</section>
+<section id="cheat">
+<h2>Cheat sheet</h2>
+<div class="card"><div class="grid2"><div>
+<b>PE curve:</b> x = internuclear distance, y = PE, zero line = free atoms; minimum = bond formed (attraction = repulsion); r₀ = bond length; depth = bond energy; left = repulsive, right = attractive. Formation exothermic, breaking endothermic.<br>
+<b>Ionic:</b> metal + non-metal; low IE, high EA; lattice energy ↑ with charge ↑ and size ↓ (q₁q₂/r²); solid, high mp, brittle; water-soluble, not in CCl₄/benzene; conducts molten/aqueous only. NH₄⁺ and SO₄²⁻ etc. act as ions.
+</div><div>
+<b>Covalent:</b> non-metals, unpaired electrons, opposite spins; σ (head-on) &gt; π (sidewise); gas/liquid/soft; low mp; non-conductor (lone pair ≠ free electron).<br>
+<b>Coordinate:</b> both electrons from one atom (donor → acceptor): NH₄⁺, H₃O⁺, NH₃→BF₃.<br>
+<b>Metallic:</b> cations in a sea of delocalised electrons; conducts; ductile/malleable (rearrangement); luster; photoelectric effect.<br>
+<b>H-bond:</b> H on F/O/N + lone pair of another molecule, dotted line, directional; inter → high bp; intra → no effect; ice floats (open hexagonal cage).
+</div></div></div>
+</section>
+
+</main>
+</div>
+<script>
+
+const $=id=>document.getElementById(id);
+const sup=n=>String(n).replace(/[0-9]/g,d=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[d]).replace('-','⁻');
+const fx=(x,p=3)=>{if(x===0)return '0';const [m,e]=x.toExponential(p-1).split('e');return +e===0?m:m+'×10'+sup(+e)};
+function toggleTheme(){const r=document.documentElement;const d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'}
+const links=[...document.querySelectorAll('#nav a[href^="#"]')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-20% 0px -70% 0px'});
+document.querySelectorAll('section').forEach(s=>io.observe(s));
+let fi=0;
+function fcShow(){if(typeof cards==='undefined'||!$('fcf'))return;$('fcf').innerHTML=cards[fi][0];$('fcb').innerHTML=cards[fi][1];$('fc').classList.remove('flip');$('fcn').textContent=(fi+1)+' / '+cards.length}
+function fcNext(){fi=(fi+1)%cards.length;fcShow()}function fcPrev(){fi=(fi-1+cards.length)%cards.length;fcShow()}
+function fcShuf(){for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]]}fi=0;fcShow()}
+function renderQuiz(list,boxId,scoreId,opts){opts=opts||{};const b=$(boxId);b.innerHTML='';let ans=0,done=0;
+ const upd=()=>{if($(scoreId))$(scoreId).textContent=`Score ${ans} / ${done} (of ${list.length})`;if(opts.onUpdate)opts.onUpdate(ans,done,list.length)};
+ list.forEach((q,i)=>{const d=document.createElement('div');d.className='card q';d.innerHTML=`<b>${i+1}. ${q.q}</b>${q.tag?`<span class="pill">${q.tag}</span>`:''}`;
+  const ex=document.createElement('div');ex.className='exp';ex.innerHTML=q.e||'';
+  if(q.t==='num'){const w=document.createElement('div');w.className='row';w.style.marginTop='8px';w.innerHTML=`<input type="text" placeholder="answer" style="width:120px"> <span>${q.u||''}</span>`;const bt=document.createElement('button');bt.textContent='Check';
+   bt.onclick=()=>{if(d.dataset.done)return;const v=parseFloat(w.querySelector('input').value.replace('−','-').replace(',','.'));if(isNaN(v))return;d.dataset.done=1;done++;const ok=Math.abs(v-q.a)<=Math.abs(q.a)*(q.tol||0.03);if(ok)ans++;w.querySelector('input').style.borderColor=ok?'var(--ok)':'var(--bad)';ex.innerHTML=(ok?'<b style="color:var(--ok)">Correct.</b> ':'<b style="color:var(--bad)">Not quite (answer ≈ '+q.a+' '+(q.u||'')+').</b> ')+(q.e||'');ex.classList.add('show');upd()};w.appendChild(bt);d.appendChild(w)}
+  else if(q.t==='short'){const bt=document.createElement('button');bt.className='ghost';bt.style.marginTop='8px';bt.textContent='Show answer';const w=document.createElement('div');w.className='row';w.style.marginTop='8px';
+   bt.onclick=()=>{ex.innerHTML='<b>Answer:</b> '+q.a+(q.e?'<br>'+q.e:'');ex.classList.add('show');bt.style.display='none';const y=document.createElement('button');y.textContent='I got it';const n=document.createElement('button');n.className='ghost';n.textContent='Missed';
+     y.onclick=()=>{if(d.dataset.done)return;d.dataset.done=1;done++;ans++;y.remove();n.remove();upd()};n.onclick=()=>{if(d.dataset.done)return;d.dataset.done=1;done++;y.remove();n.remove();upd()};w.appendChild(y);w.appendChild(n)};
+   d.appendChild(bt);d.appendChild(w)}
+  else{q.o.forEach((o,j)=>{const bt=document.createElement('button');bt.className='opt';bt.innerHTML=o;bt.onclick=()=>{if(d.dataset.done)return;d.dataset.done=1;done++;[...d.querySelectorAll('.opt')].forEach((x,k)=>{if(k===q.a)x.classList.add('ok')});if(j===q.a)ans++;else bt.classList.add('bad');ex.classList.add('show');upd()};d.appendChild(bt)})}
+  d.appendChild(ex);b.appendChild(d)});upd();
+ return{reveal(){list.forEach((q,i)=>{const c=b.children[i];if(!c.dataset.done){c.dataset.done=1;done++;[...c.querySelectorAll('.opt')].forEach((x,k)=>{if(k===q.a)x.classList.add('ok')});const ex=c.querySelector('.exp');if(q.t==='num'||q.t==='short'){ex.innerHTML='<b>Answer:</b> '+q.a+(q.u?' '+q.u:'')+(q.e?'<br>'+q.e:'')}ex.classList.add('show');}});upd()}}}
+function printQuiz(list,id){if(!$(id))return;$(id).innerHTML='<ol>'+list.map(q=>q.t==='num'?`<li>${q.q} <i>Answer ≈ ${q.a} ${q.u||''}. ${q.e||''}</i></li>`:q.t==='short'?`<li>${q.q} <i>Answer: ${q.a}</i></li>`:`<li>${q.q}<br>${q.o.map((o,j)=>String.fromCharCode(65+j)+') '+o).join(' &nbsp; ')}<br><i>Answer: ${String.fromCharCode(65+q.a)}. ${q.e||''}</i></li>`).join('')+'</ol>'}
+
+const cards=[["Why do atoms form bonds?", "To lower their potential energy and reach a stable outer shell (octet; duplet for H, He)."], ["Bond PE curve: x-axis, y-axis?", "x: internuclear distance; y: potential energy (zero line = free atoms)."], ["Where is the bond formed on the curve?", "At the minimum, where attraction = repulsion; PE lowest, most stable."], ["Bond length vs bond energy on the curve?", "Length: distance at the minimum (optimum, not minimum). Energy: depth below zero."], ["Repulsive and attractive regions?", "Left of the minimum (short r, positive PE): repulsive. Right of the minimum: attractive."], ["Bond formation / breaking?", "Formation: exothermic (energy released). Breaking: endothermic (energy supplied)."], ["Draw-and-label question: what must you mark?", "Axes with zero line, most stable point, bond length, bond energy, attractive and repulsive regions."], ["Ionic bond?", "Electrostatic attraction between cations and anions formed by electron transfer; metal + non-metal."], ["Conditions for ionic bond (slide)?", "Metal with 1–3 and non-metal with 5–7 valence electrons; net energy lowering (low IE, high EA, high lattice energy); EN difference ≥ 2."], ["IE and EA for ions?", "Low ionization energy (cation) and high electron affinity (anion) favour ionic bond formation. Non-metals: IE high, EA high; metals: IE low, EA low."], ["Lattice energy?", "Energy released when 1 mole of ionic compound forms from its gaseous ions; larger = stronger ionic bond."], ["What determines lattice energy?", "Charge of the ions (higher = more) and size (smaller = more): F ∝ q₁q₂/r²."], ["NaCl vs MgCl₂, and NaF vs NaCl (lattice energy)?", "Compared in pairs in class: MgCl₂ > NaCl (Mg²⁺ has higher charge and is smaller); NaF > NaCl (F⁻ is smaller than Cl⁻). If all three appear, charge counts most: MgCl₂ (≈2526 kJ/mol) > NaF (≈923) > NaCl (≈787)."], ["MgCl₂ vs AlCl₃?", "AlCl₃ higher: charge 3 and 3 vs 2 and 2, and smaller Al³⁺."], ["Which terms not to use when comparing lattice energies?", "Electron affinity/electronegativity; the ions already exist."], ["Why are ionic compounds solid with high mp?", "Strong electrostatic forces in a 3D crystal lattice; ions need much energy to move."], ["Why are ionic crystals hard but brittle?", "Force shifts a layer, like charges come face to face and repel; the crystal cleaves."], ["Why do ionic compounds dissolve in water but not in CCl₄ or benzene?", "Polar water attracts and pulls ions from the lattice; CCl₄ (polar bonds cancel) and benzene are non-polar."], ["When do ionic compounds conduct?", "Molten or in aqueous solution (mobile ions); not as a solid (ions fixed)."], ["How to recognise an ionic compound?", "Metal + non-metal, or a polyatomic ion (NH₄⁺, SO₄²⁻, CO₃²⁻, PO₄³⁻, NO₃⁻) with an oppositely charged ion; NH₄Cl is ionic; SO₂Cl₂ is covalent."], ["Covalent bond?", "Sharing of an electron pair between non-metals; each atom contributes an unpaired electron; spins opposite."], ["Properties of covalent compounds?", "Gases/liquids/soft solids; low or variable mp/bp; no crystal of ions; little effect under force; non-conductors; slide: soluble in organic solvents, slow molecular reactions, isomerism."], ["Why do covalent compounds not conduct?", "No ions, no free electrons (lone pairs aren't free)."], ["Lone pair vs free electron?", "Lone pair: localised in a specific orbital of one atom. Free/delocalised: belongs to no atom, moves in vacant orbitals."], ["Sigma vs pi bond?", "Sigma: head-on (axial) overlap, stronger (s–s, s–p, p–p). Pi: sidewise overlap perpendicular to the axis."], ["Polar covalent bond?", "Unequal sharing; partial charges δ⁺, δ⁻; greater EN difference = more polar."], ["Coordinate (dative) covalent bond?", "Both shared electrons come from one atom's lone pair (donor → acceptor, shown with an arrow); NH₄⁺, H₃O⁺, NH₃→BF₃, BF₄⁻."], ["Why does BF₃ accept a lone pair?", "Octet deficiency (3 valence electrons, 6 in the molecule): electron-seeking (electrophile)."], ["Metallic bond?", "Attraction between cations and delocalised electrons (electron sea) in a 3D lattice; electrons move in vacant orbitals around neighbours."], ["Metallic properties?", "Luster, electrical and thermal conductivity, ductility and malleability, electron emission (photoelectric effect)."], ["Why do metals not break under force?", "Electrons rearrange quickly; like charges don't come together; deformation only."], ["Force applied to MgCl₂ crystal, HCl, Mg strip?", "MgCl₂ breaks (like charges repel); HCl (gas/liquid) little change; Mg deforms but doesn't break."], ["How does heat/electricity pass in a metal?", "Electrons pass the energy to their neighbours; they do not run the whole length."], ["Hydrogen bond definition?", "Weak, directional attraction between H (bonded to F, O or N) and a lone pair of F, O or N on another molecule."], ["Conditions for H-bonding?", "H bonded to a highly electronegative and small atom (F, O, N)."], ["Intermolecular vs intramolecular H-bond?", "Between different molecules vs within one molecule (salicylaldehyde, 2-nitrophenol)."], ["Effect of each on mp/bp?", "Intermolecular: abnormally high; intramolecular: no effect (also viscosity, solubility)."], ["Why is water's boiling point abnormal?", "Intermolecular hydrogen bonding must be broken (H₂S, H₂Se, H₂Te cannot H-bond)."], ["Why does ice float?", "Hydrogen bonds form an open hexagonal cage with vacant space: volume ↑, density ↓. Liquid water: random H-bonds."], ["What do students mistake for the hydrogen bond in a drawing?", "The solid covalent line; the hydrogen bond is the dotted line."], ["How should you answer true/false statements?", "Read the whole statement; if half is false, the whole is false."]];
+fcShow();
+if($('fcprint'))$('fcprint').innerHTML='<table><tr><th>Question</th><th>Answer</th></tr>'+cards.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td></tr>`).join('')+'</table>';
+const QL=[{"t": "mcq", "q": "Atoms form bonds mainly to", "o": ["Raise their potential energy", "Lower their potential energy and reach a stable (octet/duplet) configuration", "Lose all electrons", "Become radioactive"], "a": 1, "e": "Lower potential energy = higher stability; the outer shell becomes an octet (or duplet for H, He).", "tag": "L8"}, {"t": "mcq", "q": "A duplet (doublet) is the stable configuration of", "o": ["Ne", "H and He", "Na", "Cl"], "a": 1, "e": "H and He (and the first few elements near hydrogen) reach 2 electrons; the rest reach 8.", "tag": "L8"}, {"t": "mcq", "q": "Free atoms at a very large internuclear distance have potential energy", "o": ["Maximum positive", "Zero", "Minimum negative", "Infinite"], "a": 1, "e": "No interaction: PE = 0 at infinite separation.", "tag": "L8"}, {"t": "mcq", "q": "On the potential energy vs internuclear distance graph, the bond is formed at", "o": ["Zero PE", "The minimum of the curve, where attraction = repulsion", "The highest point", "Infinite distance"], "a": 1, "e": "The most stable state: net force zero.", "tag": "L8"}, {"t": "mcq", "q": "The internuclear distance at the minimum of the curve is called the", "o": ["Bond energy", "Bond length", "Bond angle", "Activation energy"], "a": 1, "e": "It is an optimum (not minimum) distance.", "tag": "L8"}, {"t": "mcq", "q": "The depth of the energy minimum below zero is the", "o": ["Bond length", "Bond energy", "Activation energy", "Lattice energy"], "a": 1, "e": "Energy released on forming the bond (= energy needed to break it).", "tag": "L8"}, {"t": "mcq", "q": "Bond formation is", "o": ["Endothermic", "Exothermic", "Thermoneutral", "Always spontaneous only for ionic"], "a": 1, "e": "Energy is released as PE falls below zero.", "tag": "L8"}, {"t": "mcq", "q": "Bond breaking is", "o": ["Exothermic", "Endothermic: energy must be supplied", "Neither", "Releases the bond energy"], "a": 1, "e": "The graph goes back up to zero.", "tag": "L8"}, {"t": "mcq", "q": "At distances shorter than the bond length, the dominant force is", "o": ["Attraction", "Repulsion (electron clouds and nuclei)", "Gravity", "None"], "a": 1, "e": "The curve rises steeply on the positive (repulsive) side.", "tag": "L8"}, {"t": "mcq", "q": "The region to the right of the minimum (larger r) is the", "o": ["Repulsive region", "Attractive region", "Nuclear region", "Ionic region"], "a": 1, "e": "Attractive force dominates there.", "tag": "L8"}, {"t": "mcq", "q": "An ionic bond is formed by", "o": ["Sharing electrons", "Transfer of electrons and electrostatic attraction between cation and anion", "Delocalised electrons", "A lone pair donation"], "a": 1, "e": "Metals form cations, non-metals form anions.", "tag": "L8"}, {"t": "mcq", "q": "Which conditions favour an ionic bond?", "o": ["High IE of the metal, low EA of the non-metal", "Low IE of the metal, high EA of the non-metal, high lattice energy", "Equal electronegativity", "Both atoms non-metals"], "a": 1, "e": "Low ionization energy, high electron affinity, high lattice energy.", "tag": "L8"}, {"t": "mcq", "q": "Lattice energy is", "o": ["Energy to remove an electron", "Energy released when one mole of an ionic compound forms from its gaseous ions", "Energy absorbed by water", "Bond length"], "a": 1, "e": "The greater it is, the stronger the ionic bond.", "tag": "L8"}, {"t": "mcq", "q": "Lattice energy depends on", "o": ["Charge and size of the ions", "Only the colour", "Only temperature", "Number of neutrons"], "a": 0, "e": "Higher charge and smaller size → greater force of attraction (Coulomb's law, q₁q₂/r²).", "tag": "L8"}, {"t": "mcq", "q": "Which has the higher lattice energy?", "o": ["NaCl", "MgCl₂", "They are equal", "Cannot say"], "a": 1, "e": "Mg²⁺ has the higher charge (higher Z_eff) and a smaller radius than Na⁺.", "tag": "L8"}, {"t": "mcq", "q": "Which has the higher lattice energy?", "o": ["NaF", "NaCl", "Same", "Depends on EA"], "a": 0, "e": "F⁻ is smaller than Cl⁻ (after ions form, electron affinity no longer matters).", "tag": "L8"}, {"t": "mcq", "q": "Which has the higher lattice energy?", "o": ["MgCl₂", "AlCl₃", "Same", "Neither"], "a": 1, "e": "Al³⁺ has the larger charge and the smaller radius.", "tag": "L8"}, {"t": "mcq", "q": "When comparing lattice energies, which term should you NOT use as the explanation?", "o": ["Ionic charge", "Ionic size", "Electron affinity of the original atoms", "Coulomb force q₁q₂/r²"], "a": 2, "e": "The ions already exist; compare charge and size. Electronegativity/EA isn't the reason.", "tag": "L8"}, {"t": "mcq", "q": "Why are ionic compounds solids at room temperature?", "o": ["They are small", "Strong electrostatic forces lock ions in a crystal lattice (3D arrangement)", "They are covalent", "They have lone pairs"], "a": 1, "e": "They form a 3D crystal lattice.", "tag": "L8"}, {"t": "mcq", "q": "Ionic compounds have high melting points because", "o": ["Ions must gain enough kinetic energy to overcome strong attractions in the lattice", "They are molecular", "They are light", "They are gases"], "a": 0, "e": "Many ions are held in a lattice; much heat is needed to separate them.", "tag": "L8"}, {"t": "mcq", "q": "Ionic crystals are brittle because", "o": ["Layers shift so like charges face each other and repel, and the crystal cleaves", "They are soft", "Electrons move freely", "They are covalent"], "a": 0, "e": "Hard but brittle.", "tag": "L8"}, {"t": "mcq", "q": "Ionic compounds dissolve in water because", "o": ["Polar water molecules attract the ions and pull them out of the lattice", "Water is non-polar", "They are covalent", "Water has free electrons"], "a": 0, "e": "'Like dissolves like': a polar solvent for ionic solutes.", "tag": "L8"}, {"t": "mcq", "q": "Which solvent will NOT dissolve NaCl?", "o": ["Water", "CCl₄", "Both", "Neither"], "a": 1, "e": "CCl₄ is non-polar (the polar bonds cancel); polar solutes don't dissolve in non-polar solvents.", "tag": "L8"}, {"t": "mcq", "q": "True or false: NaCl dissolves in CCl₄.", "o": ["True", "False"], "a": 1, "e": "False. CCl₄ is non-polar (also benzene).", "tag": "L8"}, {"t": "mcq", "q": "Solid NaCl conducts electricity", "o": ["Yes, via free electrons", "No: the ions are fixed in the crystal", "Yes, via lone pairs", "Only in air"], "a": 1, "e": "It conducts when molten or dissolved in water (mobile ions).", "tag": "L8"}, {"t": "mcq", "q": "Ammonium chloride crystal conducts electricity when", "o": ["Solid", "Molten or in aqueous solution", "Never", "Only under force"], "a": 1, "e": "Free-moving ions are needed. NH₄Cl is ionic.", "tag": "L8"}, {"t": "mcq", "q": "Which is an ionic compound?", "o": ["SO₂Cl₂", "NH₄Cl", "HCl", "CCl₄"], "a": 1, "e": "NH₄⁺ behaves as a metal-like cation (a radical) and Cl⁻ as an anion. SO₂Cl₂ is covalent.", "tag": "L8"}, {"t": "mcq", "q": "Which is covalent?", "o": ["Sulfuryl chloride (SO₂Cl₂)", "NH₄Cl", "Na₂SO₄", "CaCO₃"], "a": 0, "e": "All atoms are non-metals bonded separately; no ions.", "tag": "L8"}, {"t": "mcq", "q": "Common polyatomic ions (radicals) mentioned in class", "o": ["Sulfate, carbonate, phosphate, nitrate, ammonium", "Only sulfate", "Oxygen and nitrogen", "None"], "a": 0, "e": "They behave like single ions (nothing uncommon will be asked).", "tag": "L8"}, {"t": "mcq", "q": "A covalent bond is formed by", "o": ["Transfer of electrons", "Sharing of electrons by atoms that have unpaired electrons", "Delocalised electrons", "Dipoles"], "a": 1, "e": "Each atom contributes an unpaired electron; the spins are opposite.", "tag": "L8"}, {"t": "mcq", "q": "The spins of the two electrons forming a covalent bond are", "o": ["Same", "Opposite", "Irrelevant", "Zero"], "a": 1, "e": "Opposite spins (Pauli); one up, one down.", "tag": "L8"}, {"t": "mcq", "q": "Covalent compounds", "o": ["Form crystal lattices of ions", "Are gases, liquids or soft solids with low or variable melting points", "Always conduct electricity", "Are always hard and brittle"], "a": 1, "e": "Molecules are held by weak intermolecular forces.", "tag": "L8"}, {"t": "mcq", "q": "If force is applied to a covalent compound (liquid/gas/soft solid), compared with an ionic crystal there is", "o": ["The same breaking", "Not much change", "A shattering", "A conductor"], "a": 1, "e": "No layers of ions; little change.", "tag": "L8"}, {"t": "mcq", "q": "Covalent compounds do not conduct electricity because", "o": ["They have no ions and no free electrons", "They are metals", "They are solid", "They have high IE"], "a": 0, "e": "Lone-pair electrons are NOT free electrons.", "tag": "L8"}, {"t": "mcq", "q": "A lone pair of electrons is", "o": ["A delocalised free electron", "Localised in a specific orbital of an atom", "The same as a free electron", "A cation"], "a": 1, "e": "Free (delocalised) electrons belong to no single atom.", "tag": "L8"}, {"t": "mcq", "q": "A sigma (σ) bond is formed by", "o": ["Sideways overlap", "End-to-end (head-on, axial) overlap along the internuclear axis", "Ionic attraction", "Delocalisation"], "a": 1, "e": "s–s (H₂), s–p (HF, HCl), p–p (F₂, Cl₂).", "tag": "L8"}, {"t": "mcq", "q": "A pi (π) bond is formed by", "o": ["Head-on overlap", "Sidewise (lateral) overlap of half-filled orbitals perpendicular to the axis", "Electron transfer", "Hydrogen"], "a": 1, "e": "A sigma bond is stronger than a pi bond.", "tag": "L8"}, {"t": "mcq", "q": "In a polar covalent bond", "o": ["Electrons are shared equally", "Electrons are shared unequally, giving partial charges δ⁺ and δ⁻", "Electrons are transferred completely", "There is no bond"], "a": 1, "e": "The greater the electronegativity difference, the greater the polarity.", "tag": "L8"}, {"t": "mcq", "q": "A coordinate (dative) covalent bond is one in which", "o": ["Each atom contributes one electron", "Both shared electrons come from one atom (a lone pair)", "Electrons are delocalised", "There is hydrogen"], "a": 1, "e": "Donor (lone pair) → acceptor, shown by an arrow.", "tag": "L8"}, {"t": "mcq", "q": "Which contains a coordinate covalent bond?", "o": ["NH₄⁺", "NaCl", "Mg", "H₂"], "a": 0, "e": "NH₃ donates a lone pair to H⁺ (also H₃O⁺, BF₄⁻, NH₃→BF₃).", "tag": "L8"}, {"t": "mcq", "q": "Why does BF₃ accept a lone pair from NH₃?", "o": ["Boron has only 6 electrons (octet deficiency) and is attracted to electrons (electrophile)", "B has a full octet", "NH₃ is ionic", "BF₃ is a metal"], "a": 0, "e": "Boron has three valence electrons in BF₃: an incomplete octet.", "tag": "L8"}, {"t": "mcq", "q": "After formation, a coordinate bond", "o": ["Differs clearly from a normal covalent bond", "Behaves just like a covalent bond; the origin of the electrons can't be told", "Is ionic", "Is metallic"], "a": 1, "e": "The two electrons are shared like any covalent pair.", "tag": "L8"}, {"t": "mcq", "q": "The four types of bond studied (strong, atom-to-atom) are", "o": ["Ionic, covalent, metallic, coordinate covalent", "Ionic, hydrogen, van der Waals, metallic", "Sigma, pi, delta, hydrogen", "Covalent, hydrogen, ionic, ionic"], "a": 0, "e": "The hydrogen bond is a weaker molecule-to-molecule interaction.", "tag": "L8"}, {"t": "mcq", "q": "The metallic bond is best described as", "o": ["Cations in a sea of delocalised electrons", "Anions in a sea of protons", "Shared lone pairs", "Hydrogen bridges"], "a": 0, "e": "Electrons roam the vacant orbitals of the surrounding metal ions.", "tag": "L8"}, {"t": "mcq", "q": "Metals conduct electricity and heat because", "o": ["They have free (delocalised) electrons that pass energy along", "They have ions that move", "They have lone pairs", "They are brittle"], "a": 0, "e": "Electrons pass the energy from one to the next rather than travelling the whole wire.", "tag": "L8"}, {"t": "mcq", "q": "Metals are ductile and malleable because", "o": ["Electrons rearrange quickly when layers slide, so like charges don't meet and the lattice doesn't break", "They are brittle", "They are molecular", "They have lone pairs"], "a": 0, "e": "Deformation happens, but the metal doesn't break (unlike an ionic crystal).", "tag": "L8"}, {"t": "mcq", "q": "When force is applied to MgCl₂ crystal, HCl, and a Mg strip, respectively", "o": ["Breaks; little change (gas/liquid); deforms without breaking", "All break", "Deforms; breaks; nothing", "Nothing; nothing; breaks"], "a": 0, "e": "Ionic: like charges repel and the crystal cleaves. Covalent: not much. Metallic: deformation only.", "tag": "L8"}, {"t": "mcq", "q": "The photoelectric effect (Einstein, Nobel Prize) is linked to which metallic property?", "o": ["Electron emission", "Brittleness", "Insolubility", "Low melting point"], "a": 0, "e": "Light of enough energy ejects an electron from a metal.", "tag": "L8"}, {"t": "mcq", "q": "A hydrogen bond is formed between", "o": ["H bonded to F, O or N and a lone pair on a nearby molecule's F, O or N", "Two metal atoms", "Two nonpolar molecules", "Cation and anion"], "a": 0, "e": "It is a weak, directional interaction between molecules; drawn with a dotted line.", "tag": "L8"}, {"t": "mcq", "q": "Which condition is required for hydrogen bonding?", "o": ["H bonded to a small, highly electronegative atom (F, O, N)", "H bonded to carbon", "Metal present", "Ionic bonds"], "a": 0, "e": "High electronegativity and small size.", "tag": "L8"}, {"t": "mcq", "q": "Which does NOT form hydrogen bonds?", "o": ["H₂O", "NH₃", "HF", "H₂S"], "a": 3, "e": "S is too large/less electronegative.", "tag": "L8"}, {"t": "mcq", "q": "N and Cl both have electronegativity 3.0, but hydrogen bonding is more effective in NH₃ than in HCl because", "o": ["N is smaller", "N has more protons", "Cl is a metal", "NH₃ is ionic"], "a": 0, "e": "A smaller atom attracts the bonded pair more strongly.", "tag": "L8"}, {"t": "mcq", "q": "In the drawing of hydrogen-bonded HF, the solid line between H and F is the", "o": ["Hydrogen bond", "Covalent bond (the dotted line is the hydrogen bond)", "Ionic bond", "Metallic bond"], "a": 1, "e": "A common exam mistake.", "tag": "L8"}, {"t": "mcq", "q": "Hydrogen bonding between two different molecules is", "o": ["Intramolecular", "Intermolecular", "Metallic", "Ionic"], "a": 1, "e": "Within one molecule (e.g. salicylaldehyde, 2-nitrophenol) it is intramolecular.", "tag": "L8"}, {"t": "mcq", "q": "Intermolecular hydrogen bonding causes", "o": ["Abnormally high melting and boiling points", "Lower melting points", "No effect on any property", "Metallic behaviour"], "a": 0, "e": "Extra energy is needed to break the interactions between molecules.", "tag": "L8"}, {"t": "mcq", "q": "Intramolecular hydrogen bonding", "o": ["Greatly raises the boiling point", "Has no effect on melting/boiling point, viscosity, solubility", "Makes it ionic", "Is the same as intermolecular"], "a": 1, "e": "Slide: no effect on these physical properties.", "tag": "L8"}, {"t": "mcq", "q": "Water boils at a much higher temperature than H₂S, H₂Se and H₂Te because of", "o": ["Larger molar mass", "Intermolecular hydrogen bonding", "Ionic bonds", "Metallic bonding"], "a": 1, "e": "Down the group boiling point should rise with mass; water is abnormal.", "tag": "L8"}, {"t": "mcq", "q": "Ice floats on liquid water because", "o": ["Ice is heavier", "In ice, hydrogen bonds create an open hexagonal cage with empty space, so the volume increases and the density decreases", "Ice is ionic", "Liquid water has no hydrogen bonds"], "a": 1, "e": "Write the term 'intermolecular hydrogen bonding'. Liquid water has random H-bonds with no open structure.", "tag": "L8"}, {"t": "mcq", "q": "In ice each water molecule is bonded to", "o": ["Two others", "Four others (two covalent, two hydrogen bonds), in a tetrahedral arrangement", "Six others", "None"], "a": 1, "e": "This builds the hexagonal open-cage lattice.", "tag": "L8"}, {"t": "mcq", "q": "True or false: given a molecular structure, you can tell intermolecular vs intramolecular hydrogen bonding by seeing whether the + and − parts are within the same molecule.", "o": ["True", "False"], "a": 0, "e": "True: no need to memorise structures.", "tag": "L8"}, {"t": "mcq", "q": "Hydrogen bonds are", "o": ["Non-directional", "Directional (like covalent bonds)", "Always stronger than covalent bonds", "Between metals"], "a": 1, "e": "Hydrogen can bond only from specific directions.", "tag": "L8"}, {"t": "mcq", "q": "Why are NH₃ and CH₃OH very soluble in water?", "o": ["Hydrogen bonding with water", "They are ionic", "They are metals", "They are non-polar"], "a": 0, "e": "Slide: high solubility of some covalent compounds containing O, N, F.", "tag": "L8"}];
+function resetQuiz(){renderQuiz(QL,'qbox','score')}
+resetQuiz();printQuiz(QL,'quizprint');
+
+/* bond curve */
+function bset(a,b){$('bre').value=a;$('bde').value=b;bc()}
+function bc(){const re=parseFloat($('bre').value),De=parseFloat($('bde').value);const svg=$('bsvg');if(!(re>0&&De>0)){return}
+ const W=680,H=400,L=70,Rr=20,T=20,B=40;const xmin=0.55,xmax=3.4;const ymax=De*2.3,ymin=-De*1.25;
+ const sx=x=>L+(x-xmin)/(xmax-xmin)*(W-L-Rr),sy=v=>T+(ymax-v)/(ymax-ymin)*(H-T-B);
+ const V=x=>De*(Math.pow(1-Math.exp(-2.2*(x-1)),2)-1);
+ let s=`<line x1="${L}" x2="${W-Rr}" y1="${sy(0)}" y2="${sy(0)}" stroke="currentColor" stroke-width="1.5"/><line x1="${L}" x2="${L}" y1="${T}" y2="${H-B+10}" stroke="currentColor"/>`;
+ // fill regions
+ const xm=sx(1);s+=`<rect x="${L}" y="${T}" width="${xm-L}" height="${H-T-B+10}" fill="var(--badbg)" opacity=".55"/><rect x="${xm}" y="${T}" width="${W-Rr-xm}" height="${H-T-B+10}" fill="var(--okbg)" opacity=".55"/>`;
+ s+=`<line x1="${L}" x2="${W-Rr}" y1="${sy(0)}" y2="${sy(0)}" stroke="currentColor" stroke-width="1.5"/>`;
+ let p='',first=true;for(let i=0;i<=300;i++){const x=xmin+(xmax-xmin)*i/300;const v=Math.min(V(x),ymax);p+=(first?'M':'L')+sx(x).toFixed(1)+' '+sy(v).toFixed(1);first=false}
+ s+=`<path d="${p}" fill="none" stroke="var(--curve)" stroke-width="3"/>`;
+ // min marker, bond length, bond energy
+ s+=`<circle cx="${sx(1)}" cy="${sy(-De)}" r="5" fill="var(--tan)"/><text x="${sx(1)+10}" y="${sy(-De)+16}" font-size="13" style="fill:var(--tan)">most stable (minimum): attraction = repulsion</text>`;
+ s+=`<line x1="${sx(1)}" x2="${sx(1)}" y1="${sy(0)}" y2="${sy(-De)}" stroke="#7a3fc4" stroke-width="2"/><text x="${sx(1)+8}" y="${(sy(0)+sy(-De))/2}" font-size="13" style="fill:#7a3fc4">bond energy ≈ ${+De.toPrecision(3)} kJ/mol (released)</text>`;
+ s+=`<line x1="${sx(1)}" x2="${sx(1)}" y1="${sy(-De)}" y2="${H-B+10}" stroke="var(--mute)" stroke-dasharray="4 4"/><text x="${sx(1)}" y="${H-B+26}" text-anchor="middle" font-size="13">bond length r₀ ≈ ${re} pm</text>`;
+ s+=`<text x="${L+8}" y="${T+16}" font-size="13" style="fill:var(--bad)">repulsive region (r &lt; r₀)</text><text x="${W-Rr-8}" y="${sy(0)+Math.abs(sy(-De*0.35)-sy(0))*0.25+22}" text-anchor="end" font-size="13" style="fill:var(--ok)">attractive region (r &gt; r₀)</text>`;
+ s+=`<text x="${W-Rr-6}" y="${sy(0)-6}" text-anchor="end" font-size="12">PE = 0: free atoms at large r</text><text x="${(L+W)/2}" y="${H-4}" text-anchor="middle" font-size="13">Internuclear distance, r →</text><text x="14" y="${sy(0)}" font-size="13" transform="rotate(-90 14 ${sy(0)})" text-anchor="middle">Potential energy (+ above, − below)</text>`;
+ svg.innerHTML=s}
+['bre','bde'].forEach(i=>$(i).addEventListener('input',bc));bc();
+
+/* lattice energy */
+const CAT=[['Li⁺',1,76],['Na⁺',1,102],['K⁺',1,138],['Mg²⁺',2,72],['Ca²⁺',2,100],['Al³⁺',3,54]],AN=[['F⁻',1,133],['Cl⁻',1,181],['Br⁻',1,196],['O²⁻',2,140]];
+function gcd(a,b){return b?gcd(b,a%b):a}
+function formula(c,a){const l=c[1]*a[1]/gcd(c[1],a[1]);const nc=l/c[1],na=l/a[1];const sub=n=>n===1?'':sup(n).replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g,d=>'₀₁₂₃₄₅₆₇₈₉'['⁰¹²³⁴⁵⁶⁷⁸⁹'.indexOf(d)]);return c[0].replace(/[⁺²³]+$/,'')+sub(nc)+a[0].replace(/[⁻²]+$/,'')+sub(na)}
+(function(){['la_c','lb_c'].forEach((id,j)=>{CAT.forEach((c,i)=>{const o=document.createElement('option');o.value=i;o.textContent=c[0];$(id).appendChild(o)});$(id).value=j?3:1});
+ ['la_a','lb_a'].forEach(id=>{AN.forEach((a,i)=>{const o=document.createElement('option');o.value=i;o.textContent=a[0];$(id).appendChild(o)});$(id).value=1});['la_c','la_a','lb_c','lb_a'].forEach(i=>$(i).addEventListener('input',lat));lat()})();
+function lat(){const A=[CAT[$('la_c').value],AN[$('la_a').value]],B=[CAT[$('lb_c').value],AN[$('lb_a').value]];
+ const sc=p=>p[0][1]*p[1][1]/(p[0][2]+p[1][2]);const fa=formula(...A),fb=formula(...B);const sa=sc(A),sb=sc(B);
+ const qa=A[0][1]*A[1][1],qb=B[0][1]*B[1][1],da=A[0][2]+A[1][2],db=B[0][2]+B[1][2];let why='';
+ if(qa!==qb)why=`${qa>qb?fa:fb} has the higher ionic charges (q₁q₂ = ${Math.max(qa,qb)} vs ${Math.min(qa,qb)}), so the attraction and the lattice energy are greater.`;
+ else if(da!==db)why=`The charges are the same (q₁q₂ = ${qa}), but ${da<db?fa:fb} has smaller ions (r₊ + r₋ = ${Math.min(da,db)} pm vs ${Math.max(da,db)} pm), so the force is greater.`;
+ else why='The same charges and the same size: equal.';
+ $('lout').innerHTML=`<b>${fa}</b>: q₁q₂/(r₊+r₋) = ${qa}/${da} = ${(sa*1000).toFixed(2)} (relative) · <b>${fb}</b>: ${qb}/${db} = ${(sb*1000).toFixed(2)}<br>Higher lattice energy: <b>${sa===sb?'equal':sa>sb?fa:fb}</b>.<br>${why}<br><small>Use charge or size in the exam answer, not electronegativity or electron affinity.</small>`}
+
+/* hydride bp chart */
+const HY={'Group 14 (CH₄…SnH₄)':{c:'#2f9d57',d:[-161.5,-111.9,-88.5,-52],n:['CH₄','SiH₄','GeH₄','SnH₄']},'Group 15 (NH₃…SbH₃)':{c:'#2f5fd0',d:[-33.3,-87.7,-62.5,-17],n:['NH₃','PH₃','AsH₃','SbH₃']},'Group 16 (H₂O…H₂Te)':{c:'#d6452f',d:[100,-60.3,-41.3,-2],n:['H₂O','H₂S','H₂Se','H₂Te']},'Group 17 (HF…HI)':{c:'#7a3fc4',d:[19.5,-85,-66.8,-35.4],n:['HF','HCl','HBr','HI']}};
+(function(){const b=$('hgroups');Object.keys(HY).forEach(k=>{const l=document.createElement('label');l.innerHTML=`<input type="checkbox" value="${k}" checked> <span style="color:${HY[k].c};font-weight:600">${k}</span>`;b.appendChild(l)});b.addEventListener('input',hc);hc()})();
+function hc(){const on=[...document.querySelectorAll('#hgroups input:checked')].map(i=>i.value);const W=680,H=360,L=60,Rr=20,T=14,B=44;const sx=i=>L+i*(W-L-Rr)/3.2+20,sy=v=>T+(115-v)/(115+175)*(H-T-B);
+ let s='';for(let v=-150;v<=100;v+=50)s+=`<line x1="${L}" x2="${W-Rr}" y1="${sy(v)}" y2="${sy(v)}" stroke="var(--grid)"/><text x="${L-6}" y="${sy(v)+4}" text-anchor="end" font-size="11">${v}</text>`;
+ s+=`<line x1="${L}" x2="${L}" y1="${T}" y2="${H-B}" stroke="currentColor"/><line x1="${L}" x2="${W-Rr}" y1="${sy(-175)}" y2="${sy(-175)}" stroke="currentColor"/>`;
+ ['period 2','period 3','period 4','period 5'].forEach((t,i)=>s+=`<text x="${sx(i)}" y="${H-B+16}" text-anchor="middle" font-size="12">${t}</text>`);
+ s+=`<text x="${(L+W)/2}" y="${H-6}" text-anchor="middle" font-size="12">Period of the central atom (molar mass increases →)</text><text x="14" y="${(T+H-B)/2}" font-size="12" transform="rotate(-90 14 ${(T+H-B)/2})" text-anchor="middle">Boiling point (°C)</text>`;
+ on.forEach(k=>{const g=HY[k];let p='';g.d.forEach((v,i)=>p+=(i?'L':'M')+sx(i)+' '+sy(v));s+=`<path d="${p}" fill="none" stroke="${g.c}" stroke-width="2.5"/>`;g.d.forEach((v,i)=>s+=`<circle cx="${sx(i)}" cy="${sy(v)}" r="4" fill="${g.c}"/><text x="${sx(i)+7}" y="${sy(v)-6}" font-size="11" style="fill:${g.c}">${g.n[i]}</text>`)});
+ $('hsvg').innerHTML=s}
+
+/* bond-type predictor */
+const PB=[['NaCl','ionic','Metal + non-metal.'],['MgCl₂','ionic','Metal + non-metal (Mg²⁺ has a higher charge than Na⁺: higher lattice energy than NaCl).'],['NaF','ionic','Metal + non-metal (F⁻ smaller than Cl⁻: higher lattice energy than NaCl).'],['NH₄Cl','ionic','NH₄⁺ acts like a metal cation (radical); all atoms are non-metals but the NH₄⁺ and Cl⁻ ions attract.'],['Na₂SO₄','ionic','Na⁺ with sulfate (SO₄²⁻, a radical).'],['CaCO₃','ionic','Ca²⁺ with carbonate.'],['SO₂Cl₂ (sulfuryl chloride)','covalent','S, O, Cl are all non-metals bonded separately: no ions.'],['HCl','covalent','Polar covalent; gas.'],['H₂O','covalent','Polar covalent with hydrogen bonding; a poor conductor (very low dissociation).'],['CCl₄','covalent','Non-polar solvent (polar bonds cancel).'],['CH₄','covalent','Non-metals sharing electrons.'],['Mg strip','metallic','Only metal atoms.'],['Aluminium foil','metallic','Only metal atoms.'],['Copper wire','metallic','Only metal atoms (free electrons carry current).']];
+const PR={ionic:{state:'Crystalline solid (3D lattice) at room temperature; high mp/bp.',force:'<b>Breaks (brittle):</b> a layer shifts so like charges come face to face and repel; the crystal cleaves.',cond:'Solid: <b>no</b> (ions fixed). Molten or aqueous: <b>yes</b> (mobile ions).',sol:'Soluble in water (polar solvent pulls ions out); <b>not</b> in non-polar solvents (CCl₄, benzene).'},
+ covalent:{state:'Gas, liquid or soft solid; low or variable mp/bp; no ionic lattice.',force:'<b>Little change</b> (weak forces between molecules; layers slip, no ion repulsion).',cond:'<b>No</b> in any state (no ions, no free electrons; lone pairs are not free).',sol:'Polar molecules in polar solvents, non-polar in non-polar (organic) solvents; slide: generally soluble in organic solvents.'},
+ metallic:{state:'Solid crystal of cations and delocalised electrons (Hg is liquid).',force:'<b>Deforms but does not break</b> (ductile, malleable): electrons rearrange quickly so like charges never meet.',cond:'<b>Yes</b> as a solid (free electrons pass the energy along); also good heat conductors.',sol:'Insoluble in ordinary solvents; shows luster.'}};
+(function(){PB.forEach((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent=p[0];$('pbsel').appendChild(o)});$('pbsel').addEventListener('input',pb);pb()})();
+function pb(){const p=PB[$('pbsel').value],r=PR[p[1]];$('pbout').innerHTML=`<b>${p[0]}: ${p[1]} bonding.</b> ${p[2]}<br><b>State:</b> ${r.state}<br><b>If force is applied:</b> ${r.force}<br><b>Conductivity:</b> ${r.cond}<br><b>Solubility:</b> ${r.sol}`}
+
+</script>
+</body>
+</html>

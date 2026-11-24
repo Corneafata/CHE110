@@ -9,16 +9,18 @@
 @media(prefers-color-scheme:dark){:root{--bg:#12141a;--card:#1b1e27;--ink:#e8eaf0;--mute:#9aa3b5;--line:#2c3040;--acc:#7da2ff;--accbg:#1f2a4a;--warn:#f5c15a;--warnbg:#3a2e12}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Roboto,sans-serif}
-main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+main{max-width:980px;margin:0 auto;padding:28px 16px 60px}
 h1{margin:0 0 4px;font-size:30px}
 p.sub{color:var(--mute);margin-top:0}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
 @media(max-width:700px){.grid{grid-template-columns:1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
-.card h2{margin:0 0 6px;font-size:20px}
+.card h2{margin:0 0 6px;font-size:19px}
+.card .n{display:inline-block;background:var(--accbg);color:var(--acc);border-radius:8px;padding:0 9px;margin-right:8px;font-weight:700}
 .card a.btn{display:inline-block;margin:8px 8px 0 0;background:var(--acc);color:#fff;text-decoration:none;padding:7px 14px;border-radius:8px;font-size:15px}
 .card a.ghost{background:var(--accbg);color:var(--acc)}
 ul{padding-left:20px;margin:6px 0}li{margin:2px 0;font-size:15px}
+.big{grid-column:1/-1;border:2px solid var(--acc)}
 .note{background:var(--warnbg);color:var(--warn);border-radius:10px;padding:10px 14px;margin:16px 0;font-size:15px}
 table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:8px}
 th,td{border:1px solid var(--line);padding:6px 10px;text-align:left}
@@ -28,48 +30,63 @@ th{background:var(--accbg)}
 <body>
 <main>
 <h1>CHE110: Principles of Chemistry</h1>
-<p class="sub">Interactive study guides built from the recorded lectures and the slides: notes, calculators, flashcards and quizzes. Updated for Quiz 2 (16 November).</p>
+<p class="sub">Interactive study guides built from the recorded lectures and the slides: one guide per lecture (1–8) and a midterm prep page. Each has notes, tools, flashcards and a quiz.</p>
 
 <div class="grid">
-<div class="card" style="grid-column:1/-1;border-color:var(--acc)">
-<h2>Quiz 2 preparation <span style="font-size:14px;font-weight:400">(Mon 16 Nov · 10 marks · 15 min)</span></h2>
-<p style="margin:4px 0;font-size:15px">Covers Lecture 4, Lecture 5–6 (slide 23 to the end) and Lecture 7. Start with the prep page: format, checklist, traps, model answers, and a timed mock quiz.</p>
-<a class="btn" href="CHE110_Quiz2_Prep.html">Quiz 2 prep</a>
-<a class="btn ghost" href="CHE110_L4_Periodicity_Guide.html">Lecture 4: Periodicity</a>
-<a class="btn ghost" href="CHE110_L5-6_Kinetics_Guide.html">Lecture 5–6: rate law &amp; order</a>
-<a class="btn ghost" href="CHE110_L7_Mechanism_Guide.html">Lecture 7: mechanism &amp; Arrhenius</a>
+<div class="card big">
+<h2>★ Midterm prep <span style="font-size:14px;font-weight:400">(20 marks · 1 hour · Lectures 1–8)</span></h2>
+<p style="margin:4px 0;font-size:15px">Format (5 true/false, 5 MCQ, 5 short, 2 of 4 writing questions), must-know facts for all eight lectures, the quiz questions she reviewed, drawings to practise, a bank of 16 writing questions with model answers, a timed mock midterm and a revision plan.</p>
+<a class="btn" href="CHE110_Midterm_Prep.html">Open midterm prep</a><a class="btn ghost" href="CHE110_Midterm_Prep.pdf">PDF</a>
 </div>
 
-<div class="card">
-<h2>Lecture 1</h2>
-<ul><li>Nucleus and forces, Rutherford, Bohr</li><li>Energy packets, ΔE = hc/λ, Rydberg formula</li><li>Spectrum and the five series</li><li>Slides: Dalton, isotopes, Thomson</li></ul>
-<a class="btn" href="CHE110_L1_Study_Guide.html">Open guide</a><a class="btn ghost" href="CHE110_L1_Study_Guide.pdf">PDF</a>
-</div>
-<div class="card">
-<h2>Lecture 2 (midterm syllabus)</h2>
-<ul><li>Max / min wavelength of every series</li><li>de Broglie, Heisenberg, Schrödinger</li><li>Nodes and quantum numbers</li><li>Electron configuration (atoms 1–30)</li></ul>
-<a class="btn" href="CHE110_L2_Study_Guide.html">Open guide</a><a class="btn ghost" href="CHE110_L2_Study_Guide.pdf">PDF</a>
-</div>
-<div class="card" style="grid-column:1/-1">
-<h2>Tutorial 1 (Wednesday 4 November)</h2>
-<ul><li>Rate of reaction from concentration–time graphs (Slide 16 type)</li><li>Average rate, instantaneous rate (tangent), coefficients and relations</li><li>Interactive grapher, practice-sheet solutions, factors affecting rate</li><li>Also: Lecture 5–6 rate law, order and Arrhenius (beyond the tutorial)</li></ul>
-<a class="btn" href="CHE110_Tutorial_Guide.html">Open guide</a><a class="btn ghost" href="CHE110_Tutorial_Guide.pdf">PDF</a>
-</div>
+<div class="card"><h2><span class="n">1</span>Atomic models</h2>
+<ul><li>Nucleus forces, Rutherford, Bohr</li><li>Energy packets, Rydberg formula, series</li><li>Slides: Dalton, isotopes, Thomson</li></ul>
+<a class="btn" href="CHE110_L1_Study_Guide.html">Open</a><a class="btn ghost" href="CHE110_L1_Study_Guide.pdf">PDF</a></div>
+
+<div class="card"><h2><span class="n">2</span>Bohr follow-ups &amp; quantum ideas</h2>
+<ul><li>Max / min wavelength of each series</li><li>de Broglie, Heisenberg, Schrödinger</li><li>Orbitals and nodes</li></ul>
+<a class="btn" href="CHE110_L2_Study_Guide.html">Open</a><a class="btn ghost" href="CHE110_L2_Study_Guide.pdf">PDF</a></div>
+
+<div class="card"><h2><span class="n">3</span>Quantum numbers &amp; configuration</h2>
+<ul><li>n, l, mₗ, mₛ; valid sets</li><li>Aufbau, Pauli, Hund</li><li>Configurations of atoms 1–30</li></ul>
+<a class="btn" href="CHE110_L3_Guide.html">Open</a><a class="btn ghost" href="CHE110_L3_Guide.pdf">PDF</a></div>
+
+<div class="card"><h2><span class="n">4</span>Periodicity</h2>
+<ul><li>Z<sub>eff</sub> and shielding; radius, IE, EA, EN</li><li>Exceptions, diagonal relationship</li><li>Trend charts and tools</li></ul>
+<a class="btn" href="CHE110_L4_Periodicity_Guide.html">Open</a><a class="btn ghost" href="CHE110_L4_Periodicity_Guide.pdf">PDF</a></div>
+
+<div class="card"><h2><span class="n">5</span>Rate of reaction</h2>
+<ul><li>Initial / average / instantaneous rate</li><li>Rate relations with coefficients</li><li>Factors, activation energy; the tutorial</li></ul>
+<a class="btn" href="CHE110_L5_Rate_Guide.html">Open</a><a class="btn ghost" href="CHE110_L5_Rate_Guide.pdf">PDF</a></div>
+
+<div class="card"><h2><span class="n">6</span>Rate law &amp; order</h2>
+<ul><li>Writing rate laws; order; unit of k</li><li>Zero, first, second order; half-life</li><li>Order from experimental data</li></ul>
+<a class="btn" href="CHE110_L6_Kinetics_Guide.html">Open</a><a class="btn ghost" href="CHE110_L6_Kinetics_Guide.pdf">PDF</a></div>
+
+<div class="card"><h2><span class="n">7</span>Mechanism &amp; Arrhenius</h2>
+<ul><li>Elementary vs composite; molecularity</li><li>RDS, PE diagrams, collision theory</li><li>Arrhenius equation and maths</li></ul>
+<a class="btn" href="CHE110_L7_Mechanism_Guide.html">Open</a><a class="btn ghost" href="CHE110_L7_Mechanism_Guide.pdf">PDF</a></div>
+
+<div class="card"><h2><span class="n">8</span>Chemical bonding</h2>
+<ul><li>Bond PE curve, ionic, covalent, coordinate</li><li>Metallic and hydrogen bonds</li><li>Lattice-energy and bond-type tools</li></ul>
+<a class="btn" href="CHE110_L8_Bonding_Guide.html">Open</a><a class="btn ghost" href="CHE110_L8_Bonding_Guide.pdf">PDF</a></div>
 </div>
 
-<div class="note"><b>What the lecturer said about exams:</b> constants (R<sub>H</sub>, h, c) are given with units, but formulas are not; derivations are not needed; always write units; lower level goes first in the Rydberg formula; follow the class, not every line of the slides.</div>
+<div class="note"><b>What the lecturer said about exams:</b> questions come only from what was taught in class; constants (R<sub>H</sub>, h, c, R) are given with units but formulas are not; derivations are not needed; always write units; answer briefly with a one-line reason; read the whole true/false statement.</div>
 
 <div class="card">
 <h2>Quick formula list</h2>
 <table>
 <tr><th>Topic</th><th>Formula</th></tr>
-<tr><td>Bohr angular momentum</td><td>mvr = nh/2π</td></tr>
-<tr><td>Photon energy</td><td>ΔE = E₂ − E₁ = hc/λ</td></tr>
-<tr><td>Rydberg</td><td>1/λ = R<sub>H</sub>(1/n₁² − 1/n₂²), n₂ &gt; n₁</td></tr>
-<tr><td>de Broglie</td><td>λ = h/mv</td></tr>
-<tr><td>Heisenberg</td><td>Δx·Δp ≥ h/4π</td></tr>
+<tr><td>Bohr</td><td>mvr = nh/2π</td></tr>
+<tr><td>Photon / Rydberg</td><td>ΔE = hc/λ · 1/λ = R<sub>H</sub>(1/n₁² − 1/n₂²), n₂ &gt; n₁</td></tr>
+<tr><td>de Broglie / Heisenberg</td><td>λ = h/mv · Δx·Δp ≥ h/4π</td></tr>
 <tr><td>Nodes</td><td>radial n − l − 1 · angular l · total n − 1</td></tr>
-<tr><td>Quantum numbers</td><td>l: 0…n−1 · mₗ: −l…+l · mₛ: ±½</td></tr>
+<tr><td>Rate law</td><td>rate = k[A]<sup>x</sup>[B]<sup>y</sup>; unit of k = M<sup>1−n</sup> s⁻¹</td></tr>
+<tr><td>First order</td><td>ln([A]₀/[A]) = kt; t½ = 0.693/k</td></tr>
+<tr><td>Arrhenius</td><td>ln(k₂/k₁) = (E<sub>a</sub>/R)(1/T₁ − 1/T₂); slope of ln k vs 1/T = −E<sub>a</sub>/R</td></tr>
+<tr><td>PE diagram</td><td>E<sub>a</sub> = TS − reactant; ΔH = product − reactant</td></tr>
+<tr><td>Lattice energy</td><td>F ∝ q₁q₂/r²</td></tr>
 </table>
 </div>
 </main>
